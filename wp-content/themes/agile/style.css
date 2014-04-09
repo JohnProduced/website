@@ -3209,7 +3209,7 @@ ul.image-grid.rounded li.fourcol.showcase-item {
   .admin-bar #header.sticky {
     top: 32px; }
   #header.sticky #site-logo, #header.sticky #primary-menu {
-    top: 0;
+    top: 30px;
     display: inline-block !important; }
 
 #site-logo {
@@ -3217,7 +3217,7 @@ ul.image-grid.rounded li.fourcol.showcase-item {
   display: inline-block;
   float: left;
   left: 0;
-  top: 30px;
+  top: 0;
   line-height: 0;
   margin: 0 30px 0 0; }
   @media only screen and (max-width: 1024px) {
@@ -4451,9 +4451,9 @@ img.replacer, img.hideOnHover {
     font-weight: 700;
     color: #fe5000; }
   .slogan1.big {
-    font-size: 72px;
-    line-height: 80px;
-    font-weight: 300; }
+    font-size: 40px;
+    line-height: 60px;
+    font-weight: 200; }
   @media only screen and (max-width: 767px) {
     .slogan1 {
       font-size: 36px;
