@@ -1,6 +1,18 @@
 <?php
 
-/* Shortcode for source code formatting */
+/* Team Shortcode -
+
+Displays a list of team members entered by creating Team custom post types in the Team Profiles tab of the WordPress Admin.
+Usage:
+
+[team department="marketing,sales"]
+
+Parameters -
+
+department - The comma separated slugs of the department(s) for which the team needs to be displayed. Helps to limit the team members displayed to one or more departments. (optional).
+
+*/
+
 function mo_team_shortcode($atts, $content = null, $shortcode_name = "") {
 
     extract(shortcode_atts(array(
@@ -114,7 +126,18 @@ function mo_team_shortcode($atts, $content = null, $shortcode_name = "") {
 add_shortcode('team', 'mo_team_shortcode');
 
 
-/* Shortcode for source code formatting */
+/* Team Slider Shortcode -
+
+Displays a team slider for the team members entered by creating Team custom post types in the Team Profiles tab of the WordPress Admin.
+Usage:
+
+[team_slider department="marketing,sales"]
+
+Parameters -
+
+department - The comma separated slugs of the department(s) for which the team slider needs to be created. Helps to limit the team members displayed to one or more departments. (optional).
+
+*/
 function mo_team_slider_shortcode($atts, $content = null, $shortcode_name = "") {
 
     extract(shortcode_atts(array(

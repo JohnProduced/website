@@ -41,6 +41,17 @@ function cs_validate_email($email) {
 $post = (!empty($_POST)) ? true : false;
 
 if ($post) {
+
+    //Check for bots which fill out website fields hidden to humans
+
+    $website = trim($_POST['website']);
+
+    if (!empty($website)) {
+        echo __('It appears you are a bot and hence exiting!', 'mo_theme');
+
+        return;
+    }
+
     $name = stripslashes($_POST['contact_name']);
     $contact_url = trim($_POST['contact_url']);
     $subject = $name;
@@ -49,12 +60,13 @@ if ($post) {
     else
         $subject .= __(' tried to reach you from ', 'mo_theme') . $contact_url;
     $email = trim($_POST['contact_email']);
-    $to = trim($_POST['mail_to']);
+
+    $to = trim(get_option('mo_cf_email_recipient'));
 
     $message = '';
 
 
-    if (!empty($contact_reason))
+    if (!empty($name))
         $message .= "\n" . __('Name: ', 'mo_theme') . $name;
     $phone_number = trim($_POST['contact_phone']);
     if (!empty($phone_number))
@@ -96,7 +108,7 @@ if ($post) {
     if (!$error) // send email
     {
         $headers = 'From: ' . $name . ' <' . $email . '>' . "\n" . 'Reply-To: ' . $name . ' <' . $email . '>';
-        $mail_sent = wp_mail($to, $subject, $message, $headers);
+        $mail_sent = wp_mail($to, 'Hello', $message, $headers);
 
     }
 }

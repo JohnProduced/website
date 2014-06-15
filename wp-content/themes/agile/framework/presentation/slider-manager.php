@@ -27,8 +27,15 @@ if (!class_exists('MO_Slider_Manager')) {
          */
         public static function getInstance() {
             if (!isset(self::$instance)) {
-                $c = __CLASS__;
-                self::$instance = new $c;
+                // Check if this is at least PHP 5.3 version
+                if (version_compare(PHP_VERSION, '5.3.0') >= 0) {
+                    $class = get_called_class();
+                    self::$instance = new $class;
+                }
+                else {
+                    $c = __CLASS__;
+                    self::$instance = new $c;
+                }
             }
             return self::$instance;
         }

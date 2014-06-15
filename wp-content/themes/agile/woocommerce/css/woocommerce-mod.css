@@ -2082,7 +2082,9 @@ p.demo_store {
   border: none;
   text-transform: uppercase;
   position: absolute; }
-.woocommerce-site #primary-menu {
+.woocommerce-site #sidebar-header .social-list {
+  right: 70px; }
+.woocommerce-site #primary-menu, .woocommerce-site #header.sticky #primary-menu {
   margin-right: 50px;
   right: 0; }
 .woocommerce-site .cart-contents {

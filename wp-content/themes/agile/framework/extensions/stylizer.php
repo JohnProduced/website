@@ -399,13 +399,6 @@ if (!function_exists('mo_custom_css')) {
         /* -------------- Animations for in page elements -------------------- */
 
         if (mo_browser_supports_css3_animations()) {
-            $disable_smooth_page_load = mo_get_theme_option('mo_disable_smooth_page_load');
-
-            if (empty($disable_smooth_page_load)) {
-                $output .= "\n" . '#title-area .inner, #custom-title-area .inner, ' . "\n";
-                $output .= "\n" . '#content, .sidebar-right-nav, .sidebar-left-nav ' . "\n";
-                $output .= '{ opacity: 0; }';
-            }
 
             $disable_animations_on_page = mo_get_theme_option('mo_disable_animations_on_page');
             if (empty($disable_animations_on_page)) {

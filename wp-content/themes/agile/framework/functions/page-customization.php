@@ -154,7 +154,6 @@ if (!function_exists('mo_is_home_page_layout')) {
     }
 }
 
-
 if (!function_exists('mo_get_entry_layout_options')) {
 
     function mo_get_entry_layout_options() {

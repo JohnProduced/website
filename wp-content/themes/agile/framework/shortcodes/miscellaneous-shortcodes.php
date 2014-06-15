@@ -53,6 +53,34 @@ function mo_service_box2_shortcode($atts, $content = null, $shortcode_name = "")
 
 add_shortcode('service_box2', 'mo_service_box2_shortcode');
 
+/* Stats Shortcode -
+
+Wraps an animated percentage stats list.
+
+Usage:
+
+[skills]
+
+[skill_bar title="Web Design 87%" value="87"]
+
+[skill_bar title="Logo Design 60%" value="60"]
+
+[skill_bar title="Brand Marketing 70%" value="70"]
+
+[/skill_bar][skill_bar title="SEO Services 67%" value="67"]
+
+[skill_bar title="Print Collateral 40%" value="40"]
+
+[/skills]
+
+
+Parameters -
+
+None
+
+
+*/
+
 
 function mo_skills($atts, $content) {
     extract(shortcode_atts(array(),
@@ -62,7 +90,32 @@ function mo_skills($atts, $content) {
 
 add_shortcode('skills', 'mo_skills');
 
+/* Stats Bar Shortcode -
 
+Displays an animated percentage stats bar. The bar animates to indicate the percentage.
+
+Usage:
+
+[skills]
+
+[skill_bar title="Web Design 87%" value="87"][/skill_bar]
+
+[skill_bar title="Logo Design 60%" value="60"][/skill_bar]
+
+[skill_bar title="Brand Marketing 70%" value="70"][/skill_bar]
+
+[skill_bar title="SEO Services 67%" value="67"][/skill_bar]
+
+[skill_bar title="Print Collateral 40%" value="40"][/skill_bar]
+
+[/skills]
+
+Parameters -
+
+title - The title indicating the stats title.
+value - The percentage value for the percentage stats to be displayed.
+
+*/
 function mo_skill_bar($atts, $content) {
     extract(shortcode_atts(array(
         'title' => 'Web Development 85%',
@@ -81,6 +134,32 @@ function mo_animate_numbers($atts, $content) {
 
 add_shortcode('animate-numbers', 'mo_animate_numbers');
 
+/* Animating numbers shortcode -
+
+Displays a number to indicate a statistic. The element animates from a start value to display the end number when the user scrolls to the stats section.
+
+Usage:
+
+[animate-numbers]
+
+[animate-number icon="icon-lab4" title="Pixels Pushed" start_value="87"]26492[/animate-number]
+
+[animate-number icon="icon-java" title="Coffees Consumed" start_value="60"]613[/animate-number]
+
+[animate-number icon="icon-heart11" title="Wide-Grip Pushups" start_value="70"]1277[/animate-number]
+
+[animate-number icon="icon-clock10" title="Hours Worked" start_value="67"]458[/animate-number]
+
+[/animate-numbers]
+
+
+Parameters -
+
+title - The title indicating the stats title.
+start_value - The starting value for the animation which displays a counter that animates to the end value specified as the content of the [animate-number] shortcode.
+icon - The font icon to be displayed for the statistic being displayed, chosen from the list of icons listed at http://portfoliotheme.org/support/faqs/how-to-use-1500-icons-bundled-with-the-agile-theme/
+
+*/
 
 function mo_animate_number($atts, $content) {
     extract(shortcode_atts(array(
@@ -94,6 +173,25 @@ function mo_animate_number($atts, $content) {
 }
 
 add_shortcode('animate-number', 'mo_animate_number');
+
+/* Piechart Shortcode -
+
+Displays a piechart for a percentage statistic with a title in the middle of the piechart displayed.
+While the piechart animates to indicate the percentage specified, a textual representation of the statistic is also displayed in the center of the piechart.
+
+Usage:
+
+[piechart percent=70 title="Repeat Customers"]
+
+[piechart percent=92 title="Referral Work"]
+
+Parameters -
+
+title - The title indicating the stats title.
+value - The percentage value for the percentage stats.
+
+
+*/
 
 
 function mo_piechart($atts, $content) {

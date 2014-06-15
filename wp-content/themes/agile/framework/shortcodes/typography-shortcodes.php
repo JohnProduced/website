@@ -1,5 +1,24 @@
 <?php
 
+/* Code Shortcode -
+
+Usage: Wraps the content in HTML tag pre with required class name to enable custom theme styling for source code.
+
+[code]
+
+[one_half]Content[/one_half]
+
+[one_half_last]Another content[/one_half_last]
+
+[/code]
+
+Parameters -
+
+None
+
+
+*/
+
 /* Shortcode for source code formatting */
 function mo_sourcecode_shortcode($atts, $content = null, $shortcode_name = "") {
     return '<pre class="code">' . $content . '</pre>';
@@ -7,6 +26,18 @@ function mo_sourcecode_shortcode($atts, $content = null, $shortcode_name = "") {
 
 add_shortcode('code', 'mo_sourcecode_shortcode');
 
+/* Pullquote Shortcodes -
+
+Usage:
+
+[pullquote align="right"]Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.[/pullquote]
+
+Parameters -
+
+align - Can be left, right, center or none. The default is none. (optional).
+author - A string indicating author information. (optional)
+
+*/
 
 /* Shortcode for pull quotes with optional alignment = left or right or none */
 function mo_pullquote_shortcode($atts, $content = null, $shortcode_name = "") {
@@ -21,11 +52,33 @@ function mo_pullquote_shortcode($atts, $content = null, $shortcode_name = "") {
 
 add_shortcode('pullquote', 'mo_pullquote_shortcode');
 
+/* Blockquote Shortcode -
+
+Usage:
+
+[blockquote align="right" author="Tom Bodett"]They say a person needs just three things to be truly happy in this world: someone to love, something to do, and something to hope for.[/blockquote]
+
+Parameters -
+
+align - Can be left, right, center or none. The default is none. (optional).
+id - The element id to be set for the blockquote element created (optional).
+style - Inline CSS styling applied for the blockquote element created (optional)
+class - Custom CSS class name to be set for the blockquote element created (optional)
+author - A string value indicating the author of the quote.
+affiliation - The entity to which the author of the quote belongs to.
+affiliation_url - The URL of the entity to which this quote is attributed to.
+
+*/
+
 /* Shortcode for blockquotes with optional alignment = left or right and citation attributes*/
 function mo_blockquote_shortcode($atts, $content = null, $shortcode_name = "") {
 
-    extract(shortcode_atts(array('align' => 'none', 'author' => false, 'affiliation' => false, 'affiliation_url' => false, 'style' => ''), $atts));
+    extract(shortcode_atts(array('align' => 'none', 'author' => false, 'affiliation' => false, 'affiliation_url' => false, 'id' => '', 'class' => '', 'style' => ''), $atts));
 
+    if (!empty($id))
+        $id = ' id="' . $id . '"';
+    if (!empty($class))
+        $class = ' ' . $class;
     if (!empty($style))
         $style = ' style="' . $style . '"';
 
@@ -38,18 +91,35 @@ function mo_blockquote_shortcode($atts, $content = null, $shortcode_name = "") {
         if ($affiliation && $affiliation_url)
             $author_info .= '<a href="' . $affiliation_url . '" title="' . $affiliation . '">' . $affiliation . '</a>';
         elseif ($affiliation)
-            $author_info .= ', ' . $affiliation;
+            $author_info .= $affiliation;
 
         $author_info .= '</p>';
     }
 
-    $output = '<blockquote class="align' . $align . '"' . $style . '>' . $content . $author_info . '</blockquote>';
+    $output = '<blockquote ' . $id . ' class="align' . $align . $class . '"' . $style . '>' . $content . $author_info . '</blockquote>';
 
     return $output;
 
 }
 
 add_shortcode('blockquote', 'mo_blockquote_shortcode');
+
+/* Highlight Shortcodes -
+
+Highlights the text wrapped by the shortcode. Useful for highlighting text. Has two variations - highlight1 and highlight2.
+
+Usage:
+
+[highlight1]Lorem ipsum dolor sit amet, consetetur[/highlight1]
+
+[highlight2]Lorem ipsum dolor sit amet, consetetur[/highlight2]
+
+Parameters -
+
+None
+
+
+*/
 
 /* Shortcode for highlighting text within the content */
 function mo_highlight_shortcode($atts, $content = null, $shortcode_name = "") {
@@ -62,6 +132,27 @@ function mo_highlight_shortcode($atts, $content = null, $shortcode_name = "") {
 
 add_shortcode('highlight1', 'mo_highlight_shortcode');
 add_shortcode('highlight2', 'mo_highlight_shortcode');
+
+/* List Shortcode -
+
+A shortcode to create a styled unordered list element UL.
+
+Usage:
+
+[list]
+
+<li>Item 1</li>
+<li>Item 2</li>
+
+[/list]
+
+Parameters -
+
+style - Inline CSS styling applied for the UL element created (optional)
+type - Custom CSS class name to be set for the UL element created (optional). Possible values are from list1, list2, list3 to list10. Default is list1.
+
+
+*/
 
 function mo_list_shortcode($atts, $content = null) {
     extract(shortcode_atts(array('style' => '', 'type' => 'list1'), $atts));
@@ -81,6 +172,24 @@ function mo_list_shortcode($atts, $content = null) {
 
 add_shortcode('list', 'mo_list_shortcode');
 
+/* Heading Shortcodes -
+
+Heading shortcodes are used across all pages in the theme as introductory texts/titles to the page sections.
+
+Usage:
+
+[heading2
+title="Connect with us on our <strong>blog</strong>"
+pitch_text="Lorem ipsum dolor sit amet, consectetuer elit. Aenean leo ligula, porttitor eu, consequat vitae. Sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat"]
+Parameters -
+
+style - Inline CSS styling applied for the div element created (optional)
+class - Custom CSS class name to be set for the div element created (optional)
+title - A string value indicating the title of the heading.
+pitch_text - The text displayed below the heading title.
+
+
+*/
 
 function mo_heading2_shortcode($atts) {
     extract(shortcode_atts(array('style' => '',
@@ -110,6 +219,26 @@ function mo_heading2_shortcode($atts) {
 
 add_shortcode('heading2', 'mo_heading2_shortcode');
 
+/* Segment Shortcode -
+
+Usage:
+
+[segment]
+
+[one_half]Content[/one_half]
+
+[one_half_last]Another content[/one_half_last]
+
+[/segment]
+
+Parameters -
+
+id - The element id to be set for the div element created (optional).
+style - Inline CSS styling applied for the div element created (optional)
+class - Custom CSS class name to be set for the div element created (optional)
+
+
+*/
 function mo_segment_shortcode($atts, $content = null) {
     extract(shortcode_atts(array(
             'id' => '',
@@ -157,6 +286,41 @@ function mo_segment_shortcode($atts, $content = null) {
 
 add_shortcode('segment', 'mo_segment_shortcode');
 
+/* Wrap Shortcodes -
+
+This shortcode is used to create a DIV wrapper elements for other shortcodes.
+
+Helps to display these elements in the visual editor of WordPress. The regular DIV elements entered in the HTML tab are not visible in the visual editor which leads to mistakes and lost/malformed elements.
+
+Usage:
+
+[ancestor_wrap class="marketing-ancestor"]
+
+[parent_wrap id="marketing-parent"]
+
+[wrap class="marketing-section"]
+
+[one_half]Content[/one_half]
+
+[one_half_last]Another content[/one_half_last]
+
+[/wrap]
+
+[/parent_wrap]
+
+[/ancestor_wrap]
+
+Each of the wrapper shortcodes accept the following parameters
+
+Parameters -
+
+id - The element id to be set for the DIV element created (optional).
+style - Inline CSS styling applied for the DIV element created (optional)
+class - Custom CSS class name to be set for the DIV element created (optional)
+
+
+*/
+
 /* Shortcode for wrapping markup as visible in the visual editor. */
 function mo_wrap_shortcode($atts, $content = null, $shortcode_name = "") {
 
@@ -174,6 +338,24 @@ add_shortcode('wrap', 'mo_wrap_shortcode');
 add_shortcode('parent_wrap', 'mo_wrap_shortcode');
 add_shortcode('ancestor_wrap', 'mo_wrap_shortcode');
 
+/* Icon Shortcode -
+
+Shortcode to display one of the font icons, chosen from the list of icons listed at http://portfoliotheme.org/support/faqs/how-to-use-1500-icons-bundled-with-the-agile-theme/
+
+Usage:
+
+[icon class="icon-cart" style="font-size:32px;"]
+
+[icon class="icon-thumbnails style="font-size:48px;"]
+
+Parameters -
+
+style - Inline CSS styling applied for the icon element created (optional). Useful if you want to specify font-size, color etc. for the icon inline.
+class - Custom CSS class name to be set for the icon element created (optional)
+
+
+*/
+
 /* Shortcode for wrapping markup as visible in the visual editor. */
 function mo_icon_shortcode($atts, $content = null, $shortcode_name = "") {
 
@@ -186,6 +368,26 @@ function mo_icon_shortcode($atts, $content = null, $shortcode_name = "") {
 }
 
 add_shortcode('icon', 'mo_icon_shortcode');
+
+
+/* Wrap Shortcodes -
+
+This shortcode is used to create a DIV wrapper elements for other shortcodes.
+
+Helps to display these elements in the visual editor of WordPress. The regular DIV elements entered in the HTML tab are not visible in the visual editor which leads to mistakes and lost/malformed elements.
+
+Usage:
+
+Each of the wrapper shortcodes accept the following parameters
+
+Parameters -
+
+id - The element id to be set for the DIV element created (optional).
+style - Inline CSS styling applied for the DIV element created (optional)
+class - Custom CSS class name to be set for the DIV element created (optional)
+
+
+*/
 
 /* Shortcode for wrapping markup as visible for the dumb visual editor. */
 function mo_dummy_shortcode($atts, $content = null, $shortcode_name = "") {
@@ -202,3 +404,53 @@ function mo_dummy_shortcode($atts, $content = null, $shortcode_name = "") {
 }
 
 add_shortcode('pricing_table', 'mo_dummy_shortcode');
+
+/* Action Call Shortcode -
+
+Useful to create action call segments which typically display a text urging the user to take action and a button which leads to the action.
+
+Usage:
+
+[action_call text="Ready to get started <strong>on your project?</strong></h3>" button_url="http://themeforest.net/user/LiveMesh" button_text="Purchase Now"]
+
+[/code]
+
+Parameters -
+
+text - Text to be displayed urging for an action call.
+button_text - The title to be displayed for the button.
+button_color - The color of the button. Available colors are black, blue, cyan, green, orange, pink, red, teal, theme and trans.
+button_url - The URL to which the button links to. The user navigates to this URL when the button is clicked.
+
+*/
+/* Shortcode for wrapping markup as visible for the dumb visual editor. */
+function mo_action_call_shortcode($atts, $content = null, $shortcode_name = "") {
+
+    extract(
+        shortcode_atts(
+            array('text' => false,
+                'button_text' => false,
+                'button_url' => '',
+                'button_color' => 'theme'),
+            $atts));
+
+    $output = '<div class="action-call">';
+
+    $output .= '<div class="eightcol">';
+
+    $output .= '<h3>' . htmlspecialchars_decode($text) . '</h3>';
+
+    $output .= '</div>';
+
+    $output .= '<div class="fourcol last">';
+
+    $output .= '<a class="button ' . $button_color . '" href="' . $button_url . '" target="_self">' . $button_text . '</a>';
+
+    $output .= '</div>';
+
+    $output .= '</div>';
+
+    return $output;
+}
+
+add_shortcode('action_call', 'mo_action_call_shortcode');

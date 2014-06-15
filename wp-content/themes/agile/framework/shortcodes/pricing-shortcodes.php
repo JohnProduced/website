@@ -106,6 +106,22 @@ if (!function_exists('mo_get_pricing')) {
  * [pricing post_count="1" orderby="none" pricing_id=""]
  */
 
+/* Pricing Table Shortcode -
+
+Displays the pricing table with the columns drawn from the pricing information provided by creating a custom post type named pricing.
+
+Usage:
+
+[pricing_plans post_count=4 pricing_ids="234,235,236"]
+
+Parameters -
+
+post_count - The number of pricing columns to be displayed. By default displays all of the custom posts entered as pricing in the Pricing Plan tab of WordPress admin (optional).
+pricing_ids - A comma separated post ids of the pricing custom post types created in the Pricing Plan tab of WordPress admin. Helps to filter the pricing plans for display (optional).
+
+*/
+
+
 if (!function_exists('mo_pricing_shortcode')) {
     function mo_pricing_shortcode($atts) {
         extract(shortcode_atts(array(

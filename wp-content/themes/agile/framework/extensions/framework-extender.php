@@ -26,8 +26,15 @@ if (!class_exists('MO_Framework_Extender')) {
          */
         public static function getInstance() {
             if (!isset(self::$instance)) {
-                $c = __CLASS__;
-                self::$instance = new $c;
+                // Check if this is at least PHP 5.3 version
+                if (version_compare(PHP_VERSION, '5.3.0') >= 0) {
+                    $class = get_called_class();
+                    self::$instance = new $class;
+                }
+                else {
+                    $c = __CLASS__;
+                    self::$instance = new $c;
+                }
             }
             return self::$instance;
         }
@@ -69,6 +76,8 @@ if (!class_exists('MO_Framework_Extender')) {
 
             // Make prettyPhoto work
             add_filter('the_content', array(&$this, 'mo_add_lightbox_hook'), 12);
+
+            add_action('pre_get_posts', array(&$this, 'change_posts_per_page'));
 
             mo_woocommerce_init();
 
@@ -231,6 +240,31 @@ if (!class_exists('MO_Framework_Extender')) {
             $html = "&nbsp;[&middot;&middot;&middot;]";
             return $html;
         }
+
+        /**
+         * Change Posts Per Page for Event Archive
+         *
+         * @author Bill Erickson
+         * @link http://www.billerickson.net/customize-the-wordpress-query/
+         * @param object $query data
+         *
+         */
+		function change_posts_per_page($query) {
+
+			if ($query->is_main_query() && !is_admin()) {
+
+				if (is_post_type_archive('portfolio') || is_tax('portfolio_category')) {
+					$post_count = intval(mo_get_theme_option('mo_portfolio_post_count', 6));
+				}
+				elseif (is_post_type_archive('gallery_item') || is_tax('gallery_category')) {
+					$post_count = intval(mo_get_theme_option('mo_gallery_post_count', 6));
+				}
+
+				if (isset($post_count))
+					$query->set('posts_per_page', $post_count);
+			}
+
+		}
 
         /**
          * Extend the user profile page to handle social network information for individual authors

@@ -27,6 +27,8 @@ a.more-link:hover { color: {$skin_color}; }
 a.comment-reply-link, a.comment-edit-link { background-color: {$skin_color}; }
 a.comment-reply-link:visited, a.comment-edit-link:visited { background-color: {$skin_color}; }
 button, .button, input[type=button], input[type="submit"], input[type="reset"] { background-color: {$skin_color}; border-color: {$skin_color};}
+.button.theme:hover { background: {$skin_color} !important; }
+.button.theme { border-color: {$skin_color} !important; }
 
 .segment .flex-control-nav li a:hover, .segment .flex-control-nav li a.flex-active { background-color: {$skin_color}; }
 

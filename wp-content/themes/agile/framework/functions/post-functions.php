@@ -110,6 +110,75 @@ if (!function_exists('mo_entry_terms_text')) {
     }
 }
 
+
+if (!function_exists('mo_display_related_posts')) {
+    function mo_display_related_posts($taxonomy) {
+
+        ?>
+
+        <div class="related-posts">
+
+            <?php
+
+            $args = array('posts_per_page' => 3);
+
+            $posts = mo_related_posts_by_taxonomy(get_the_ID(), $taxonomy, $args);
+
+            foreach ($posts as $post) {
+
+                $post_id = $post->ID;
+
+                echo '<div class="related-post">';
+
+                mo_thumbnail(array('post_id' => $post_id, 'image_size' => 'small', 'wrapper' => false, 'image_alt' => get_the_title($post_id), 'size' => 'full'));
+
+                echo '<h3 class="entry-title"><a href="' . get_permalink($post_id) . '" title="' . get_the_title($post_id) . '" rel="bookmark">' . get_the_title($post_id) . '</a></h3>';
+
+                echo '</div>';
+            }
+
+            wp_reset_postdata();
+
+            ?>
+
+        </div><!-- .related-classes -->
+
+    <?php
+    }
+}
+
+if (!function_exists('mo_related_posts_by_taxonomy')) {
+
+    function mo_related_posts_by_taxonomy($post_id, $taxonomy, $args = array()) {
+        $terms = wp_get_object_terms($post_id, $taxonomy);
+
+        //Pluck out the IDs to get an array of IDS
+        $term_ids = wp_list_pluck($terms, 'term_id');
+
+        //Query posts with tax_query. Choose in 'IN' if want to query posts with any of the terms
+        //Choose 'AND' if you want to query for posts with all terms
+        $args = wp_parse_args($args, array(
+            'post_type' => get_post_type($post_id),
+            'tax_query' => array(
+                array(
+                    'taxonomy' => $taxonomy,
+                    'field' => 'id',
+                    'terms' => $term_ids,
+                    'operator' => 'IN' //Or 'AND' or 'NOT IN'
+                )),
+            'ignore_sticky_posts' => 1,
+            'orderby' => 'rand',
+            'post__not_in' => array($post_id)
+        ));
+
+        $posts = get_posts($args);
+
+        // Return our results in query form
+        return $posts;
+    }
+
+}
+
 if (!function_exists('mo_get_post_snippets')) {
 
 // Display grid style posts layout for portfolio or regular posts
@@ -354,8 +423,6 @@ if (!function_exists('mo_get_thumbnail_post_list')) {
 
             $css_class = $image_size . '-size';
 
-            $image_size = mo_get_post_image_size($image_size);
-
             $style = ($style ? ' ' . $style : '');
 
             $output = '<ul class="post-list' . $style . ' ' . $css_class . '">';
@@ -454,6 +521,8 @@ if (!function_exists('mo_get_post_snippets_layout')) {
             $display_title = mo_to_boolean($display_title);
 
             $show_meta = mo_to_boolean($show_meta);
+
+            $show_excerpt = mo_to_boolean($show_excerpt);
 
             $display_summary = mo_to_boolean($display_summary);
 

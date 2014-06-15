@@ -1,12 +1,35 @@
 <?php
 
-/**
- * Shortcode to display testimonials
- *
- * This functions is attached to the 'testimonial' action hook.
- *
- * [testimonial post_count="1" testimonial_ids=""]
- */
+/* Testimonial Slider Shortcode -
+
+Displays a slider of testimonials. These testimonials are entered by creating Testimonial custom post types in the Testimonials tab of the WordPress Admin.
+Usage:
+
+[responsive_slider type="testimonials2" animation="slide" control_nav="true" direction_nav=false pause_on_hover="true" slideshow_speed=4500]
+
+[testimonials post_count=4 testimonial_ids="234,235,236"]
+
+[/responsive_slider]
+
+and
+
+[responsive_slider type="testimonials2" animation="slide" control_nav="true" direction_nav=false pause_on_hover="true" slideshow_speed=4500]
+
+[testimonials2 post_count=4 testimonial_ids="234,235,236"]
+
+[/responsive_slider]
+
+The testimonial shortcode need to be wrapped inside [responsive_slider] shortcode to enable slider function. By default, the [testimonials] and [testimonials2] shortcode
+displays a unordered list (UL element) of testimonial elements which can be styled differently if a slider is not desired. Separating out the slider part also helps control
+the slider properties like animation speed, slider controls, pause on hover etc. as explained in the documentation for [responsive_slider] shortcode.
+
+Parameters -
+
+post_count - The number of testimonials to be displayed. By default displays all of the custom posts entered as testimonial in the Testimonials tab of the WordPress Admin (optional).
+testimonial_ids - A comma separated post ids of the Testimonial custom post types created in the Testimonials tab of the WordPress Admin. Helps to filter the testimonials for display (optional).
+
+*/
+
 if (!function_exists('mo_testimonials_shortcode')) {
     function mo_testimonials_shortcode($atts, $content = null, $code) {
         extract(shortcode_atts(array(

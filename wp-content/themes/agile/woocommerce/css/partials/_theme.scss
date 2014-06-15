@@ -5,7 +5,10 @@
     text-transform: uppercase;
     position: absolute;
     }
-  #primary-menu {
+  #sidebar-header .social-list {
+    right: 70px;
+    }
+  #primary-menu, #header.sticky #primary-menu {
     margin-right: 50px;
     right: 0;
     }

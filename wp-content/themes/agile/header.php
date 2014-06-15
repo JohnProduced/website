@@ -37,6 +37,16 @@
 
 <body <?php body_class(); ?>>
 
+<?php
+
+$disable_smooth_page_load = mo_get_theme_option('mo_disable_smooth_page_load');
+
+if (empty($disable_smooth_page_load)) {
+    echo '<div id="page-loading"></div>';
+}
+
+?>
+
 <?php mo_exec_action('start_body'); ?>
 
 <?php echo '<a id="mobile-menu-toggle" href="#"><i class="icon-th-menu"></i>&nbsp;</a>'; ?>

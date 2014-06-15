@@ -7,12 +7,12 @@
  */
 class MO_Framework {
 
-    private $theme_options;
-    private $theme_extender;
-    private $layout_manager;
-    private $sidebar_manager;
-    private $context;
-    private $image_sizes;
+    protected $theme_options;
+    protected $theme_extender;
+    protected $layout_manager;
+    protected $sidebar_manager;
+    protected $context;
+    protected $image_sizes;
 
     /* Constructor for the class */
 
@@ -615,7 +615,7 @@ class MO_Framework {
     function admin_enqueue_scripts($hook) {
 
         if (($hook == 'post.php') || ($hook == 'post-new.php') || ($hook == 'page.php') || ($hook == 'page-new.php')) {
-            wp_enqueue_script('mo-admin-js', MO_SCRIPTS_URL . '/admin.js');
+            wp_enqueue_script('mo-admin-js', MO_SCRIPTS_URL . '/admin.js', array( 'jquery-ui-sortable', 'jquery-ui-draggable', 'jquery-ui-droppable' ), '1.0', true);
         }
     }
 

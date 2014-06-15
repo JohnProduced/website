@@ -40,6 +40,10 @@ class MO_Social_Networks_Widget extends MO_Widget {
         $youtube = $instance['youtube'];
         $flickr = $instance['flickr'];
         $googleplus = $instance['googleplus'];
+        $instagram = $instance['instagram'];
+        $pinterest = $instance['pinterest'];
+        $dribbble = $instance['dribbble'];
+        $vimeo = $instance['vimeo'];
         $rss = $instance['rss'];
 
         $title = apply_filters('widget_title', $instance['title']);
@@ -51,25 +55,35 @@ class MO_Social_Networks_Widget extends MO_Widget {
         if (trim($title) != '')
             echo $before_title . $title . $after_title;
 
-        echo '<ul class="social-list clearfix">';
+        $shortcode_text = '[social_list ';
 
         if (!empty($facebook))
-            echo '<li><a class="facebook" href="' . $facebook . '" target="_blank" title="Follow us on Facebook">Facebook</a></li>';
+            $shortcode_text .= 'facebook_url="' . $facebook . '" ';
         if (!empty($twitter))
-            echo '<li><a class="twitter" href="' . $twitter . '" target="_blank" title="Subscribe to our Twitter Feed">Twitter</a></li>';
+            $shortcode_text .= 'twitter_url="' . $twitter . '" ';
         if (!empty($flickr))
-            echo '<li><a class="flickr" href="' . $flickr . '" target="_blank" title="View Flickr Portfolio">Flickr</a></li>';
+            $shortcode_text .= 'flickr_url="' . $flickr . '" ';
         if (!empty($youtube))
-            echo '<li><a class="youtube" href="' . $youtube . '" target="_blank" title="Subscribe to our YouTube channel">YoutTube</a></li>';
+            $shortcode_text .= 'youtube_url="' . $youtube . '" ';
         if (!empty($linkedin))
-            echo '<li><a class="linkedin" href="' . $linkedin . '" target="_blank" title="View LinkedIn Profile">LinkedIn</a></li>';
+            $shortcode_text .= 'linkedin_url="' . $linkedin . '" ';
         if (!empty($googleplus))
-            echo '<li><a class="googleplus" href="' . $googleplus . '" target="_blank" title="Follow us on Google Plus">Google+</a></li>';
+            $shortcode_text .= 'googleplus_url="' . $googleplus . '" ';
+        if (!empty($instagram))
+            $shortcode_text .= 'instagram_url="' . $instagram . '" ';
+        if (!empty($pinterest))
+            $shortcode_text .= 'pinterest_url="' . $pinterest . '" ';
+        if (!empty($dribbble))
+            $shortcode_text .= 'dribbble_url="' . $dribbble . '" ';
+        if (!empty($vimeo))
+            $shortcode_text .= 'vimeo_url="' . $vimeo . '" ';
 
         if (!empty($rss))
-            echo '<li><a class="rss" href="' . $rss . '" target="_blank" title="Subscribe to our RSS Feed">RSS</a></li>';
+            $shortcode_text .= 'include_rss=true';
 
-        echo '</ul>';
+        $shortcode_text .= ']';
+
+        echo do_shortcode($shortcode_text);
 
         echo $after_widget;
     }
@@ -88,6 +102,10 @@ class MO_Social_Networks_Widget extends MO_Widget {
         $instance['flickr'] = $new_instance['flickr'];
         $instance['youtube'] = $new_instance['youtube'];
         $instance['googleplus'] = $new_instance['googleplus'];
+        $instance['instagram'] = $new_instance['instagram'];
+        $instance['pinterest'] = $new_instance['pinterest'];
+        $instance['dribbble'] = $new_instance['dribbble'];
+        $instance['vimeo'] = $new_instance['vimeo'];
 
         $instance['rss'] = $new_instance['rss'];
 
@@ -139,14 +157,34 @@ class MO_Social_Networks_Widget extends MO_Widget {
         <p>
             <label for="<?php echo $this->get_field_id('googleplus'); ?>"><?php _e('Google+ URL:', 'mo_theme'); ?></label>
             <input type="text" class="widefat" id="<?php echo $this->get_field_id('googleplus'); ?>" name="<?php echo $this->get_field_name('googleplus'); ?>" value="<?php echo $instance['googleplus']; ?>" />
-        </p>	
+        </p>
+
+        <p>
+            <label for="<?php echo $this->get_field_id('instagram'); ?>"><?php _e('Instagram URL:', 'mo_theme'); ?></label>
+            <input type="text" class="widefat" id="<?php echo $this->get_field_id('instagram'); ?>" name="<?php echo $this->get_field_name('instagram'); ?>" value="<?php echo $instance['instagram']; ?>" />
+        </p>
+
+        <p>
+            <label for="<?php echo $this->get_field_id('pinterest'); ?>"><?php _e('Pinterest URL:', 'mo_theme'); ?></label>
+            <input type="text" class="widefat" id="<?php echo $this->get_field_id('pinterest'); ?>" name="<?php echo $this->get_field_name('pinterest'); ?>" value="<?php echo $instance['pinterest']; ?>" />
+        </p>
+
+        <p>
+            <label for="<?php echo $this->get_field_id('dribbble'); ?>"><?php _e('Dribbble URL:', 'mo_theme'); ?></label>
+            <input type="text" class="widefat" id="<?php echo $this->get_field_id('dribbble'); ?>" name="<?php echo $this->get_field_name('dribbble'); ?>" value="<?php echo $instance['dribbble']; ?>" />
+        </p>
+
+        <p>
+            <label for="<?php echo $this->get_field_id('vimeo'); ?>"><?php _e('Vimeo URL:', 'mo_theme'); ?></label>
+            <input type="text" class="widefat" id="<?php echo $this->get_field_id('vimeo'); ?>" name="<?php echo $this->get_field_name('vimeo'); ?>" value="<?php echo $instance['vimeo']; ?>" />
+        </p>
 
         <p>
             <label for="<?php echo $this->get_field_id('rss'); ?>"><?php _e('RSS Feed URL <small>(leave blank to use default RSS feed URL)</small>:', 'mo_theme'); ?></label>
             <input type="text" class="widefat" id="<?php echo $this->get_field_id('rss'); ?>" name="<?php echo $this->get_field_name('rss'); ?>" value="<?php echo $instance['rss']; ?>" />
         </p>
 
-        <?php
+    <?php
     }
 
 }

@@ -1,6 +1,48 @@
 <?php
 
-/* ---------------- New 1140px flexible grid layout from cssgrid.net ------------------------- */
+/* ---------------- 1140px flexible grid layout ------------------------- */
+
+
+/* Column Shortcodes -
+
+Usage: Pls refer to http://portfoliotheme.org/austin/column-shortcodes/
+
+[six_col]One Half[six_col]
+[six_col_last]Second Half[six_col_last]
+
+[four_col]One Third[/four_col]
+[four_col]One Third[/four_col]
+[four_col_last]One Third Last[/four_col_last]
+
+[four_col]One Third[/four_col]
+[eight_col_last]Two Third Last[/eight_col_last]
+
+[three_col]One Fourth[/three_col]
+[three_col]One Fourth[/three_col]
+[three_col]One Fourth[/three_col]
+[three_col_last]One Fourth Last[/three_col_last]
+
+[three_col]One Fourth[/three_col]
+[nine_col_last]Three Fourth Last[/nine_col_last]
+
+[two_col]One Sixth[/two_col]
+[two_col]One Sixth[/two_col]
+[two_col]One Sixth[/two_col]
+[two_col]One Sixth[/two_col]
+[two_col]One Sixth[/two_col]
+[two_col_last]One Sixth Last[/two_col_last]
+
+[two_col]One Sixth[/two_col]
+[ten_col_last]Five Sixth Last[/ten_col_last]
+
+Parameters -
+
+id - The element id to be set for the div element created (optional).
+style - Inline CSS styling applied for the div element created (optional)
+class - Custom CSS class name to be set for the div element created (optional)
+
+
+*/
 
 
 if (!function_exists('mo_column_shortcode')) {

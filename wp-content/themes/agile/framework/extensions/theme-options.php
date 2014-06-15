@@ -714,7 +714,7 @@ if (!function_exists('mo_custom_theme_options')) {
                 array(
                     'id' => 'mo_disable_smooth_page_load',
                     'label' => 'Disable Smooth Page Load',
-                    'desc' => 'Disable the smooth fade animation for page load.',
+                'desc' => 'Disables the smooth fade animation for page load. Loads the page rightaway without loading animation.',
                     'std' => '',
                     'type' => 'checkbox',
                     'section' => 'general_default',
@@ -1241,7 +1241,7 @@ if (!function_exists('mo_custom_theme_options')) {
                 array(
                     'id' => 'mo_tagline_height',
                     'label' => 'Height of Top Title Header Area',
-                    'desc' => 'Specify the height of the title header area in pixel units displayed on top of each page and post, just below the header.',
+                'desc' => 'Specify the height of the title header area in pixel units displayed on top of each page and post, just below the header. Takes effect only if a background is specified above for the Title Header.',
                     'std' => '',
                     'type' => 'text',
                     'section' => 'mo_backgrounds_tab',
@@ -2478,10 +2478,21 @@ if (!function_exists('mo_custom_theme_options')) {
                     'type' => 'textarea-simple',
                     'section' => 'mo_miscellaneous_options',
                     'rows' => '10',
-                    'post_type' => '',
-                    'taxonomy' => '',
-                    'class' => ''
-                )
+					'post_type' => '',
+					'taxonomy' => '',
+					'class' => ''
+				),
+				array(
+					'id' => 'mo_contact_form_email',
+					'label' => 'Recipient Email for Contact Form',
+					'desc' => 'Specify the email address which is the recipient of the contact form submissions. Applicable to built-in contact form of the theme only. Plugins like Contact Form 7 must be configured separately.',
+					'std' => '',
+					'type' => 'text',
+					'section' => 'mo_miscellaneous_options',
+					'post_type' => '',
+					'taxonomy' => '',
+					'class' => ''
+				)
             )
         );
 

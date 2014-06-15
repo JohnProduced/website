@@ -1,5 +1,29 @@
 <?php
 
+/* Box Shortcodes -
+
+Usage:
+
+[success title = 'Congrats!']Your success message[/success]
+
+[success]Your success message without title[/success]
+
+[info]Your info message without title[/info]
+
+[attention]An attention message without title[/attention]
+
+[warning]Your warning message without title[/warning]
+
+[tip]Your tip message without title[/tip]
+
+[info]Your info message without title[/info]
+
+Parameters -
+
+style - Inline CSS styling (optional)
+title - Title displayed above the text in bold.
+
+*/
 if (!function_exists('mo_box_shortcode')) {
 
     function mo_box_shortcode($atts, $content = null, $shortcode_name = "") {
@@ -17,20 +41,38 @@ if (!function_exists('mo_box_shortcode')) {
     }
 }
 
+/* Box Frame Shortcode -
+
+Usage:
+
+[box_frame style="background: #FFF;" width="275px" class="pricing-box" align="center" title="Pet Care" inner_style="padding:20px;"]
+Any HTML content goes here - images, lists, text paragraphs, even sliders.
+[/box_frame]
+
+Parameters -
+
+style - Inline CSS styling (optional)
+class - Class name to be assigned for the box div element. Useful for custom styling.
+align - Can be aligned left, right or centered.
+title - Title for the box in bold.
+width - Custom width of the box. Include px suffix.
+inner_style - Inline CSS styling for the inner box (optional)
+
+*/
+
 if (!function_exists('mo_box_frame_shortcode')) {
     function mo_box_frame_shortcode($atts, $content = null, $shortcode_name = "") {
         extract(shortcode_atts(array(
-            'style' => false,
             'align' => 'center',
             'title' => null,
             'style' => null,
-            'type' => null,
+            'class' => null,
             'width' => null,
             'inner_style' => null
         ), $atts));
 
-        $type = $type ? ' ' . $type : '';
-        $output = '<div class="' . str_replace('_', '-', $shortcode_name) . ' align' . $align . $type . '"';
+        $class = $class ? ' ' . $class : '';
+        $output = '<div class="' . str_replace('_', '-', $shortcode_name) . ' align' . $align . $class . '"';
         if (isset($style) || isset($width)) {
             $output .= ' style = "';
             $output .= $width ? 'width:' . $width . ';' : '';

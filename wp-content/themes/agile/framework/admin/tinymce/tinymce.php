@@ -39,7 +39,7 @@ class Shortcode_Helper {
 
 
             if ( typeof(QTags) != 'undefined' && QTags.addButton )  {
-                QTags.addButton( 'segment', 'segment', '[segment id="" class="" style="" background_image="http://example.com/x.png" background_pattern="http://example.com/y.png" background_color="#333" fixed_background="true"]', '[/segment]');
+                QTags.addButton( 'segment', 'segment', '[segment id="" class="" style="" background_image="http://example.com/x.png" background_pattern="http://example.com/y.png" background_color="#eaeaea" parallax_background="true" background_speed="0.5"]', '[/segment]');
                 QTags.addButton( 'two_col', 'two-columns', '[one_half]Replace with your content[/one_half][one_half_last]Replace with your content[/one_half_last]', '');
                 QTags.addButton( 'three_col', 'three-columns', '[one_third]Replace with your content[/one_third][one_third]Replace with your content[/one_third][one_third_last]Replace with your content[/one_third_last]', '');
                 QTags.addButton( 'four_col', 'four-columns', '[one_fourth]Replace with your content[/one_fourth][one_fourth]Replace with your content[/one_fourth][one_fourth]Replace with your content[/one_fourth][one_fourth_last]Replace with your content[/one_fourth_last]', '');
@@ -76,9 +76,6 @@ class Shortcode_Helper {
         if (strstr($svr_uri, 'post.php') || strstr($svr_uri, 'post-new.php') || strstr($svr_uri, 'page.php') || strstr($svr_uri, 'page-new.php')) {
             $plugin_array[$this->pluginname] = $this->path . 'editor_plugin.js';
         }
-
-        //else  if (strstr($svr_uri, 'post.php') || strstr($svr_uri, 'post-new.php'))
-        //	$plugin_array[$this->pluginname] =  $this->path . 'editor_plugin_post.js';
 
         return $plugin_array;
     }

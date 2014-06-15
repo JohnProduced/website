@@ -1,6 +1,20 @@
 <?php
-/*
-* Contact shortcodes
+
+/* Contact Form Shortcode -
+
+Usage: Pls refer to http://portfoliotheme.org/austin/contact-form-shortcode/
+
+[contact_form mail_to="receipient@mydomain.com" phone=true web_url=true subject=true button_color="default"]
+
+Parameters -
+
+class - Custom CSS class name to be set for the div element created (optional)
+mail_to - A string field specifying the recipient email where all form submissions will be received.
+web_url - Can be true or false. A boolean indicating that the user should be requested for Web URL via an input field.
+phone - Can be true or false. Request for phone number of the user. A phone number field is displayed.
+subject - Can be true or false. A mail subject field is displayed if the value is set to true.
+button_color - Color of the submit button. Available colors are black, blue, cyan, green, orange, pink, red, teal, theme and trans.
+
 */
 
 if (!function_exists('mo_contact_form_shortcode')) {
@@ -12,7 +26,6 @@ if (!function_exists('mo_contact_form_shortcode')) {
             'web_url' => true,
             'phone' => true,
             'subject' => true,
-            'human_check' => false,
             'button_color' => 'default'
         ), $atts));
 
@@ -41,12 +54,15 @@ if (!function_exists('mo_contact_form_shortcode')) {
 
         $output .= '<p class="text-area"><label>' . __('Message *', 'mo_theme') . '</label><textarea name="message" placeholder="' . __("Message:", 'mo_theme') . '"  rows="6" cols="40"></textarea></p>';
 
-        if (mo_to_boolean($human_check))
-            $output .= '<p class="human-check"><label>' . __('* I am a human and 4 + 9 = ', 'mo_theme') . '</label><input type="text" name="human_check" class="text-input" size="5" style="width: 50px;"></p>';
+        $output .= '<p class="trap-field"><label for="website">' . __('Leave Empty', 'mo_theme') . '</label><input type="text" name="website" placeholder="' . __("Leave Blank:", 'mo_theme') . '" class="text-input"></p>';
 
         $output .= '<button type="submit" class="button large ' . $button_color . '">' . __('Send the message', 'mo_theme') . '</button>';
 
-        $output .= '<input type="hidden" name="mail_to" value="' . $mail_to . '"/>';
+        if (empty($mail_to)) {
+            $mail_to = mo_get_theme_option('mo_contact_form_email');
+        }
+
+        update_option('mo_cf_email_recipient' , $mail_to);
 
         $output .= '</fieldset>';
 
