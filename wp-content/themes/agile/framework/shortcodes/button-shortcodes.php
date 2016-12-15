@@ -37,7 +37,7 @@ if (!function_exists('mo_button_shortcode')) {
         $color = ' ' . $color;
         if (!empty($type))
             $type = ' ' . $type;
-        $button_text = trim($content);
+        $button_text = mo_remove_wpautop($content);
         $id = $id ? ' id ="' . $id . '"' : '';
         $style = $style ? ' style="' . $style . '"' : '';
 

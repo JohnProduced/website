@@ -43,11 +43,17 @@ if (!function_exists('mo_site_description')) {
 if (!function_exists('mo_populate_top_area')) {
 
     function mo_populate_top_area($post_id = NULL) {
-        $slider_manager = mo_get_slider_manager();
-        if (mo_is_home_page_layout()) {
+
+        $slider_type = get_post_meta(get_the_ID(), 'mo_slider_choice', true);
+        if (!is_search() && !is_archive() && !empty($slider_type) && $slider_type != 'None') {
+            $slider_manager = mo_get_slider_manager();
             $slider_manager->display_slider_area();
             return;
         }
+
+        $remove_title_header = get_post_meta(get_the_ID(), 'mo_remove_title_header', true);
+        if (!empty($remove_title_header))
+            return;
 
         if (is_home() && mo_get_theme_option('mo_remove_homepage_tagline'))
             return;
@@ -126,7 +132,7 @@ if (!function_exists('mo_populate_tagline')) {
 if (!function_exists('mo_get_custom_heading')) {
     function mo_get_custom_heading() {
         $output = '';
-        $custom_heading = __(get_post_meta(get_queried_object_id(), 'mo_custom_heading_content', true), 'mo_theme'); // For qtranslate
+        $custom_heading = get_post_meta(get_queried_object_id(), 'mo_custom_heading_content', true);
         if (!empty ($custom_heading)) {
             $output .= $custom_heading;
         }

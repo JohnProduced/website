@@ -49,20 +49,31 @@ function mo_responsive_slider_shortcode($atts, $content = null) {
             'slideshow' => 'true',
             'controls_container' => false,
             'manual_controls' => false,
-            'style' => ''),
+            'style' => '',
+              'id' => false),
         $atts));
 
     $output = '';
+    
+    if (empty($type))
+        $type = "flex";
 
     $slider_container = $type . '-slider-container';
 
+    if (!empty($id)) {
+        $slider_selector = '#' . esc_attr($id) . '.' . $slider_container;
+    }
+    else {
+        $slider_selector = '.' . $slider_container;
+    }
+
     if (empty($controls_container))
-        $controls_container = $slider_container;
+        $controls_container = $slider_selector;
     $namespace = 'flex';
 
     $output .= '<script type="text/javascript">' . "\n";
     $output .= 'jQuery(document).ready(function($) {';
-    $output .= 'jQuery(\'.' . $slider_container . ' .flexslider\'). flexslider({';
+    $output .= 'jQuery(\'' . $slider_selector . ' .flexslider\').flexslider({';
     $output .= 'animation: "' . $animation . '",';
     $output .= 'slideshowSpeed: ' . $slideshow_speed . ',';
     $output .= 'animationSpeed: ' . $animation_speed . ',';
@@ -77,9 +88,10 @@ function mo_responsive_slider_shortcode($atts, $content = null) {
     $output .= 'animationLoop: ' . $loop . ',';
     $output .= 'slideshow: ' . $slideshow . ',';
     $output .= 'easing: "' . $easing . '",';
-    if (!empty($manual_controls))
-        $output .= 'manualControls: "' . $manual_controls . '",';
-    $output .= 'controlsContainer: "' . $controls_container . '"';
+    if (!empty($manual_controls)) {
+        $output .= 'manualControls: "' . esc_attr($manual_controls) . '",';
+        $output .= 'controlsContainer: "' . esc_attr($controls_container) . '"';
+    }
     $output .= '})';
     $output .= '});' . "\n";
     $output .= '</script>' . "\n";
@@ -87,7 +99,7 @@ function mo_responsive_slider_shortcode($atts, $content = null) {
     if (!empty($style))
         $style = ' style="' . $style . '"';
 
-    $output .= '<div class="' . $slider_container . ($type == "flex" ? ' loading' : '') . '"' . $style . '>';
+    $output .= '<div ' . ($id ? 'id="' . esc_attr($id) . '"' : '') . ' class="' . $slider_container . ($type == "flex" ? ' loading' : '') . '"' . $style . '>';
 
     $output .= '<div class="flexslider">';
 
@@ -105,19 +117,74 @@ function mo_responsive_slider_shortcode($atts, $content = null) {
 
 add_shortcode('responsive_slider', 'mo_responsive_slider_shortcode');
 
-function mo_responsive_carousel_shortcode($atts, $content = null) {
+/*
+
+Responsive Carousel Shortcode -
+
+Use this shortcode to create a carousel out of any HTML content. All it requires is a set of DIV elements to show. Each of the DIV element is an item in the carousel.
+
+Usage:
+
+[post_snippets_carousel id="blog-carousel" post_type="post" navigation="true" items=3 post_count=6 image_size='medium' excerpt_count=85 display_title=true show_meta=true display_summary=true show_excerpt="true" hide_thumbnail="false" navigation="true" pagination="false"]
+
+[post_snippets_carousel id="trainer-carousel" post_type="trainer" navigation="true" items=4 post_count=6 image_size='square' excerpt_count=100 display_title=true show_meta=true display_summary=true show_excerpt="true" hide_thumbnail="false" navigation="true" pagination="false"]
+
+Parameters -
+
+id (string) - The element id to be set for the wrapper element created (optional)..
+pagination_speed - 800 (number). Pagination speed in milliseconds
+slide_speed - 200 (number). Slide speed in milliseconds.
+rewind_speed - 1000 (number). Rewind speed in milliseconds.
+stop_on_hover - true (boolean). Stop autoplay on mouse hover.
+auto_play - false (boolean/number) - Change to any integrer for example autoPlay : 5000 to play every 5 seconds. If you set autoPlay: true default speed will be 5 seconds.
+scroll_per_page - false (boolean) - Scroll per page not per item. This affect next/prev buttons and mouse/touch dragging.
+navigation - false (boolean) - Display "next" and "prev" buttons.
+pagination - true (boolean) - Show pagination.
+items - 5 (number) - This variable allows you to set the maximum amount of items displayed at a time with the widest browser width
+items_desktop - (number) This variable allows you to set the maximum amount of items displayed at a time with the desktop browser width (<1200px)
+items_desktop_small - (number) - This variable allows you to set the maximum amount of items displayed at a time with the smaller desktop browser width(<980px).
+items_tablet - (number) - This variable allows you to set the maximum amount of items displayed at a time with the tablet browser width(<769px).
+items_tablet_small  - (number) - This variable allows you to set the maximum amount of items displayed at a time with the smaller tablet browser width
+items_mobile  - (number) - This variable allows you to set the maximum amount of items displayed at a time with the smartphone mobile browser width(<480px).
+post_type - (string) The custom post type whose posts need to be displayed. Examples include post, gallery_item, trainer, feature, class etc.
+post_count - 4 (number) - Number of posts to display
+image_size - medium (string) - Can be mini, small, medium, large, full, square.
+layout_class - (string) The CSS class to be set for the wrapper div for the carousel. Useful if you need to do some custom styling of our own (rounded, hexagon images etc.) for the displayed items.
+display_title - false (boolean) - Specify if the title of the post or custom post type needs to be displayed below the featured image
+display_summary - false (boolean) - Specify if the excerpt or summary content of the post/custom post type needs to be displayed below the featured image thumbnail.
+show_excerpt - true (boolean) - Display excerpt for the post/custom post type. Has no effect if display_summary is set to false. If show_excerpt is set to false and display_summary is set to true, the content of the post is displayed truncated by the WordPress tag. If more tag is not specified, the entire post content is displayed.
+excerpt_count - 100 (number) - Applicable only to excerpts. The excerpt displayed is truncated to the number of characters specified with this parameter.
+hide_thumbnail false (boolean) - Display thumbnail image or hide the same.
+show_meta - false (boolean) Display meta information like the author, date of publishing and number of comments.
+excerpt_count - 100 (number) The total number of characters of excerpt to display.
+taxonomy - (string) Custom taxonomy to be used for filtering the posts/custom post types displayed.
+terms - (string) The terms of taxonomy specified.
+no_margin - false (boolean) - If set to true, no margins are maintained between the columns. Helps to achieve the popular packed layout.
+
+*/
+
+function mo_post_snippets_carousel($atts, $content = null) {
     $args = shortcode_atts(
-        array('slideshow_speed' => 3000,
-            'animation_speed' => 600,
-            'pauseOnHover' => 'true',
-            'easing' => 'swing',
-            'item_width' => 210,
-            'item_margin' => 30,
-            'max_items' => 5,
-            'min_items' => 2,
-            'post_type' => null,
-            'post_count' => 4,
-            'layout_class' => 'post-snippets',
+        array(
+            'id' => '',
+            'pagination_speed' => 800,
+            'slide_speed' => 200,
+            'rewind_speed' => 1000,
+            'stop_on_hover' => 'true',
+            'auto_play' => 'false',
+            'scroll_per_page' => 'true',
+            'navigation' => 'true',
+            'pagination' => 'false',
+            'items' => 3,
+            'items_desktop' => 3,
+            'items_desktop_small' => 2,
+            'items_tablet' => 2,
+            'items_tablet_small' => 1,
+            'items_mobile' => 1,
+            'post_type' => 'post',
+            'post_ids' => '',
+            'post_count' => 6,
+            'layout_class' => '',
             'display_title' => false,
             'display_summary' => false,
             'show_excerpt' => true,
@@ -126,7 +193,9 @@ function mo_responsive_carousel_shortcode($atts, $content = null) {
             'hide_thumbnail' => false,
             'image_size' => 'medium',
             'terms' => '',
-            'taxonomy' => ''),
+            'taxonomy' => 'category',
+            'posts_query' => ''
+        ),
         $atts);
 
     extract($args);
@@ -135,33 +204,52 @@ function mo_responsive_carousel_shortcode($atts, $content = null) {
 
     $controls_container = 'carousel-container';
 
+    if (!empty($id)) {
+        $selector = '#' . $id;
+        $id = 'id ="' . $id . '"';
+    }
+    else {
+        $selector = '.' . $controls_container;
+    }
+
     $output .= '<script type="text/javascript">' . "\n";
-    $output .= 'jQuery(document).ready(function($) {';
-    $output .= 'jQuery(\'.' . $controls_container . ' .slides\').bxSlider({';
-    $output .= 'mode: "horizontal",';
-    $output .= 'infiniteLoop: false,';
-    $output .= 'slideWidth: ' . $item_width . ',';
-    $output .= 'slideMargin: ' . $item_margin . ',';
-    $output .= 'maxSlides: ' . $max_items . ',';
-    $output .= 'minSlides: ' . $min_items . ',';
-    $output .= 'autoStart: false,';
-    $output .= 'moveSlides: ' . $min_items . ',';
-    $output .= 'pause: ' . $slideshow_speed . ',';
-    $output .= 'speed: ' . $animation_speed . ',';
-    $output .= 'easing: "' . $easing . '"';
+    $output .= 'jQuery(window).load(function($) {';
+    $output .= 'jQuery(\'' . $selector . ' .slides\').owlCarousel({';
+    $output .= 'navigation: ' . $navigation . ',';
+    $output .= 'navigationText: ["<i class=\"icon-uniF489\"></i>","<i class=\"icon-uniF488\"></i>"],';
+    $output .= 'scrollPerPage: ' . $scroll_per_page . ',';
+
+    $output .= 'items: ' . $items . ',';
+    if (!empty($items_desktop))
+        $output .= 'itemsDesktop: [1199,' . $items_desktop . '],';
+    if (!empty($items_desktop_small))
+        $output .= 'itemsDesktopSmall: [979,' . $items_desktop_small . '],';
+    if (!empty($items_tablet))
+        $output .= 'itemsTablet: [768,' . $items_tablet . '],';
+    if (!empty($items_tablet_small))
+        $output .= 'itemsTabletSmall: [640,' . $items_tablet_small . '],';
+    if (!empty($items_mobile))
+        $output .= 'itemsMobile: [479,' . $items_mobile . '],';
+
+    $output .= 'autoPlay: ' . $auto_play . ',';
+    $output .= 'stopOnHover: ' . $stop_on_hover . ',';
+    $output .= 'pagination: ' . $pagination . ',';
+    $output .= 'rewindSpeed: ' . $rewind_speed . ',';
+    $output .= 'slideSpeed: ' . $slide_speed . ',';
+    $output .= 'paginationSpeed: "' . $pagination_speed . '"';
     $output .= '})';
     $output .= '});' . "\n";
     $output .= '</script>' . "\n";
 
-    $output .= '<div class="carousel-wrap loading">';
+    $output .= '<div class="carousel-wrap">';
 
-    $output .= '<div class="' . $controls_container . '">';
+    $output .= '<div ' . $id . ' class="' . $controls_container . '">';
 
-    $styled_list = '<ul class="slides image-grid ' . $layout_class . '">';
+    $output .= '<div class="slides image-grid post-snippets ' . $layout_class . ' owl-carousel">';
 
-    $slider_content = mo_get_post_snippets_list($args);
+    $output .= mo_get_post_snippets_list($args);
 
-    $output .= str_replace('<ul>', $styled_list, $slider_content);
+    $output .= '</div>';
 
     $output .= '</div><!-- ' . $controls_container . ' -->';
 
@@ -170,13 +258,137 @@ function mo_responsive_carousel_shortcode($atts, $content = null) {
     return $output;
 }
 
-add_shortcode('responsive_carousel', 'mo_responsive_carousel_shortcode');
+add_shortcode('post_snippets_carousel', 'mo_post_snippets_carousel');
+
+/*
+
+Responsive Carousel Shortcode -
+
+Use this shortcode to create a carousel out of any HTML content. All it requires is a set of DIV elements to show. Each of the DIV element is an item in the carousel.
+
+Usage:
+
+[responsive_carousel id="stats-carousel" navigation="false" pagination="true" items=3 items_tablet=2 items_tablet_small=1 items_desktop_small=3 items_desktop=3]
+
+[wrap]Slide 1 content goes here.[/wrap]
+
+[wrap]Slide 2 content goes here.[/wrap]
+
+[wrap]Slide 3 content goes here.[/wrap]
+
+[/responsive_carousel]
+
+
+Parameters -
+
+id (string) - The element id to be set for the wrapper element created (optional)..
+pagination_speed - 800 (number). Pagination speed in milliseconds
+slide_speed - 200 (number). Slide speed in milliseconds.
+rewind_speed - 1000 (number). Rewind speed in milliseconds.
+stop_on_hover - true (boolean). Stop autoplay on mouse hover.
+auto_play - false (boolean/number) - Change to any integrer for example autoPlay : 5000 to play every 5 seconds. If you set autoPlay: true default speed will be 5 seconds.
+scroll_per_page - false (boolean) - Scroll per page not per item. This affect next/prev buttons and mouse/touch dragging.
+navigation - false (boolean) - Display "next" and "prev" buttons.
+pagination - true (boolean) - Show pagination.
+items - 5 (number) - This variable allows you to set the maximum amount of items displayed at a time with the widest browser width
+items_desktop - (number) This variable allows you to set the maximum amount of items displayed at a time with the desktop browser width (<1200px)
+items_desktop_small - (number) - This variable allows you to set the maximum amount of items displayed at a time with the smaller desktop browser width(<980px).
+items_tablet - (number) - This variable allows you to set the maximum amount of items displayed at a time with the tablet browser width(<769px).
+items_tablet_small  - (number) - This variable allows you to set the maximum amount of items displayed at a time with the smaller tablet browser width
+items_mobile  - (number) - This variable allows you to set the maximum amount of items displayed at a time with the smartphone mobile browser width(<480px).
+layout_class - (string) The CSS class to be set for the wrapper div for the carousel. Useful if you need to do some custom styling of our own (rounded, hexagon images etc.) for the displayed items.
+
+*/
+
+function mo_responsive_carousel($atts, $content = null) {
+    $args = shortcode_atts(
+        array(
+            'id' => '',
+            'pagination_speed' => 800,
+            'slide_speed' => 200,
+            'rewind_speed' => 1000,
+            'stop_on_hover' => 'true',
+            'auto_play' => 'false',
+            'scroll_per_page' => 'false',
+            'navigation' => 'false',
+            'pagination' => 'true',
+            'items' => 5,
+            'items_desktop' => false,
+            'items_desktop_small' => false,
+            'items_tablet' => false,
+            'items_tablet_small' => false,
+            'items_mobile' => false,
+            'layout_class' => '',
+        ),
+        $atts);
+
+    extract($args);
+
+    $output = '';
+
+    $controls_container = 'carousel-container';
+
+    if (!empty($id)) {
+        $selector = '#' . $id;
+        $id = 'id ="' . $id . '"';
+    }
+    else {
+        $selector = '.' . $controls_container;
+    }
+
+    $output .= '<script type="text/javascript">' . "\n";
+    $output .= 'jQuery(window).load(function($) {';
+    $output .= 'jQuery(\'' . $selector . ' .slides\').owlCarousel({';
+    $output .= 'navigation: ' . $navigation . ',';
+    $output .= 'navigationText: ["<i class=\"icon-uniF489\"></i>","<i class=\"icon-uniF488\"></i>"],';
+    $output .= 'scrollPerPage: ' . $scroll_per_page . ',';
+
+    $output .= 'items: ' . $items . ',';
+    if (!empty($items_desktop))
+        $output .= 'itemsDesktop: [1199,' . $items_desktop . '],';
+    if (!empty($items_desktop_small))
+        $output .= 'itemsDesktopSmall: [979,' . $items_desktop_small . '],';
+    if (!empty($items_tablet))
+        $output .= 'itemsTablet: [768,' . $items_tablet . '],';
+    if (!empty($items_tablet_small))
+        $output .= 'itemsTabletSmall: [640,' . $items_tablet_small . '],';
+    if (!empty($items_mobile))
+        $output .= 'itemsMobile: [479,' . $items_mobile . '],';
+
+    $output .= 'autoPlay: ' . $auto_play . ',';
+    $output .= 'stopOnHover: ' . $stop_on_hover . ',';
+    $output .= 'pagination: ' . $pagination . ',';
+    $output .= 'rewindSpeed: ' . $rewind_speed . ',';
+    $output .= 'slideSpeed: ' . $slide_speed . ',';
+    $output .= 'paginationSpeed: "' . $pagination_speed . '"';
+    $output .= '})';
+    $output .= '});' . "\n";
+    $output .= '</script>' . "\n";
+
+    $output .= '<div class="carousel-wrap">';
+
+    $output .= '<div ' . $id . ' class="' . $controls_container . '">';
+
+    $output .= '<div class="slides image-grid ' . $layout_class . ' owl-carousel">';
+
+    $output .= mo_remove_wpautop($content);
+
+    $output .= '</div><!-- .slides -->';
+
+    $output .= '</div><!-- ' . $controls_container . ' -->';
+
+    $output .= '</div><!-- carousel-wrap -->';
+
+    return $output;
+}
+
+add_shortcode('responsive_carousel', 'mo_responsive_carousel');
 
 /* Device Slider Shortcode -
 
 Use this shortcode to create a image slider part of a container that looks like a browser, smartphone, tablet or a desktop. Possible sliders are
 
-[browser_slider], [imac_slider], [macbook_slider], [ipad_slider], [iphone_slider], [galaxys4_slider], [htcone_slider].
+[device_slider], [browser_slider], [imac_slider], [macbook_slider], [ipad_slider], [iphone_slider], [galaxys4_slider], [htcone_slider].
 
 The image URLs are provided via a comma separated list of URLs pointing to the images.
 
@@ -229,14 +441,28 @@ function mo_device_slider_shortcode($atts) {
             'loop' => 'true',
             'style' => '',
             'image_urls' => '',
-            'browser_url' => ''),
+            'image_ids' => '',
+            'browser_url' => '',
+              'id' => false,),
         $atts));
 
     $output = '';
 
-    // Check if one or more image URLs are specified, else no point continuing
-    if (empty($image_urls))
+    // Check if one or more image URLs are specified, if none specified - no point continuing
+    if (!empty($image_ids)) {
+        $image_urls = array();
+        $image_ids = explode(',', $image_ids);
+        foreach ($image_ids as $image_id) {
+            $image_urls[] = wp_get_attachment_url($image_id);
+        }
+    }
+    elseif (!empty($image_urls)) {
+        $image_urls = explode(',', $image_urls);
+    }
+    else {
         return $output;
+    }
+
 
     if (!empty($style))
         $style = ' style="' . $style . '"';
@@ -250,6 +476,7 @@ function mo_device_slider_shortcode($atts) {
 
     /* Start: Construct the slider */
     $slider = '[responsive_slider ';
+    $slider .= 'id="' . esc_attr($id) . '" ';
     $slider .= 'direction_nav=' . $direction_nav . ' ';
     $slider .= 'control_nav=' . $control_nav . ' ';
     $slider .= 'animation=' . $animation . ' ';
@@ -262,7 +489,7 @@ function mo_device_slider_shortcode($atts) {
     $slider .= 'easing=' . $easing . ' ';
     $slider .= ']';
     $slider .= '<ul>';
-    $image_urls = explode(',', $image_urls);
+
     foreach ($image_urls as $image_url) {
         $slider .= '<li><div class="img-wrap"><img alt="App Slide" src="';
         $slider .= $image_url;
@@ -325,3 +552,4 @@ add_shortcode('browser_slider', 'mo_browser_slider_shortcode');
 
 add_shortcode('smartphone_slider', 'mo_device_slider_shortcode');
 
+add_shortcode('device_slider', 'mo_device_slider_shortcode');

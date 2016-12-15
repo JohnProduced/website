@@ -17,6 +17,8 @@ function mo_team_shortcode($atts, $content = null, $shortcode_name = "") {
 
     extract(shortcode_atts(array(
         'department' => '',
+        'post_count' => '-1',
+        'team_member_ids' => '',
     ), $atts));
 
 
@@ -24,17 +26,29 @@ function mo_team_shortcode($atts, $content = null, $shortcode_name = "") {
 
     $query = array(
         'post_type' => 'team',
-        'posts_per_page' => 50, // Unlimited posts
-        'orderby' => 'menu_order', // Order by menu order
-        'order' => 'ASC', // Start with 'A'
+        'posts_per_page' => (int)$post_count,
+        // Unlimited posts
+        'orderby' => 'menu_order',
+        // Order by menu order
+        'order' => 'ASC',
+        // Start with 'A'
     );
 
-    if (!empty($department)) {
-        $query = array_merge($query, array('tax_query' => array(array(
-            'taxonomy' => 'department',
-            'field' => 'slug',
-            'terms' => explode(',', $department)
-        ))));
+    if (!empty($team_member_ids)) {
+        $query = array_merge($query, array(
+            'post__in' => explode(',', $team_member_ids)
+        ));
+    }
+    elseif (!empty($department)) {
+        $query = array_merge($query, array(
+            'tax_query' => array(
+                array(
+                    'taxonomy' => 'department',
+                    'field' => 'slug',
+                    'terms' => explode(',', $department)
+                )
+            )
+        ));
     }
 
 
@@ -69,7 +83,15 @@ function mo_team_shortcode($atts, $content = null, $shortcode_name = "") {
                         <div class="profile-header">
                             <?php
                             $image_alt = $member_name . $position;
-                            mo_thumbnail(array('image_size' => 'square', 'image_class' => 'img-circle', 'wrapper' => true, 'before_html' => '<span>', 'after_html' => '</span>', 'image_alt' => $image_alt, 'size' => 'full'));
+                            mo_thumbnail(array(
+                                'image_size' => 'square',
+                                'image_class' => 'img-circle',
+                                'wrapper' => true,
+                                'before_html' => '<span>',
+                                'after_html' => '</span>',
+                                'image_alt' => $image_alt,
+                                'size' => 'full'
+                            ));
                             ?>
 
                             <div class="socials">
@@ -131,17 +153,21 @@ add_shortcode('team', 'mo_team_shortcode');
 Displays a team slider for the team members entered by creating Team custom post types in the Team Profiles tab of the WordPress Admin.
 Usage:
 
-[team_slider department="marketing,sales"]
+[team_slider id="team1" department="marketing,sales"]
 
 Parameters -
 
+id  - The element id of the wrapper element for the slider. Useful if you need to have multiple team sliders in a single page
 department - The comma separated slugs of the department(s) for which the team slider needs to be created. Helps to limit the team members displayed to one or more departments. (optional).
 
 */
 function mo_team_slider_shortcode($atts, $content = null, $shortcode_name = "") {
 
     extract(shortcode_atts(array(
+        'id' => '',
         'department' => '',
+        'post_count' => '-1',
+        'team_member_ids' => '',
     ), $atts));
 
 
@@ -149,19 +175,41 @@ function mo_team_slider_shortcode($atts, $content = null, $shortcode_name = "") 
 
     $query = array(
         'post_type' => 'team',
-        'posts_per_page' => 50, // Unlimited posts
-        'orderby' => 'menu_order', // Order by menu order
-        'order' => 'ASC', // Start with 'A'
+        'posts_per_page' => (int)$post_count,
+        // Unlimited posts
+        'orderby' => 'menu_order',
+        // Order by menu order
+        'order' => 'ASC',
+        // Start with 'A'
     );
 
-    if (!empty($department)) {
-        $query = array_merge($query, array('tax_query' => array(array(
-            'taxonomy' => 'department',
-            'field' => 'slug',
-            'terms' => explode(',', $department)
-        ))));
+    if (!empty($team_member_ids)) {
+        $query = array_merge($query, array(
+            'post__in' => explode(',', $team_member_ids)
+        ));
+    }
+    elseif (!empty($department)) {
+        $query = array_merge($query, array(
+            'tax_query' => array(
+                array(
+                    'taxonomy' => 'department',
+                    'field' => 'slug',
+                    'terms' => explode(',', $department)
+                )
+            )
+        ));
     }
 
+    if (!empty($id)) {
+        $id_attribute = 'id="' . $id . '"';
+        $id_selector = '#' . $id;
+        $member_id_prefix = $id . '-' . 'slider-member';
+    }
+    else {
+        $id_attribute = '';
+        $id_selector = '';
+        $member_id_prefix = 'slider-member';
+    }
 
     // Get 'team' posts
     $team_posts = get_posts($query);
@@ -199,7 +247,7 @@ function mo_team_slider_shortcode($atts, $content = null, $shortcode_name = "") 
 
                     ?>
 
-                    <li id="<?php echo 'slider-member' . ++$member_count ?>">
+                    <li id="<?php echo $member_id_prefix . ++$member_count ?>">
 
                         <div class="sixcol">
 
@@ -208,7 +256,15 @@ function mo_team_slider_shortcode($atts, $content = null, $shortcode_name = "") 
                                 <div class="team-member">
 
                                     <div class="img-wrap">
-                                        <?php mo_thumbnail(array('before_html' => '<p>', 'after_html' => '</p>', 'image_size' => 'square', 'image_class' => 'alignleft img-circle', 'wrapper' => false, 'image_alt' => 'Testimonial', 'size' => 'full')); ?>
+                                        <?php mo_thumbnail(array(
+                                            'before_html' => '<p>',
+                                            'after_html' => '</p>',
+                                            'image_size' => 'square',
+                                            'image_class' => 'alignleft img-circle',
+                                            'wrapper' => false,
+                                            'image_alt' => 'Testimonial',
+                                            'size' => 'full'
+                                        )); ?>
                                     </div>
 
                                     <h3><?php echo $member_name; ?> </h3>
@@ -263,33 +319,40 @@ function mo_team_slider_shortcode($atts, $content = null, $shortcode_name = "") 
         </div>
         <script type="text/javascript">
             jQuery(document).ready(function ($) {
-                jQuery('.team-slider-profiles').flexslider({
+                jQuery('<?php echo $id_selector; ?> .team-slider-profiles').flexslider({
                     animation: 'slide',
-                    controlsContainer: ".member-list",
+                    controlsContainer: "<?php echo $id_selector; ?> .member-list",
                     controlNav: true,
                     directionNav: false,
                     animationLoop: false,
                     slideshow: false,
-                    manualControls: ".member-list li a"
+                    manualControls: "<?php echo $id_selector; ?> .member-list li a"
                 });
             });
         </script>
 
         <?php
 
+        // Save output
+        $buffer_output = ob_get_contents();
+        ob_end_clean();
+
+
+        $output = '<div ' . $id_attribute . ' class="team-slider">';
+
         $member_count = 0;
 
-        $output = '<ul class="member-list">';
+        $output .= '<ul class="member-list">';
 
         foreach ($member_names as $name) {
-            $output .= '<li><a href="#slider-member' . ++$member_count . '">' . $name . '</a></li>';
+            $output .= '<li><a href="#' . $member_id_prefix . ++$member_count . '">' . $name . '</a></li>';
         }
 
         $output .= '</ul>';
 
-        // Save output
-        $output .= ob_get_contents();
-        ob_end_clean();
+        $output .= $buffer_output;
+
+        $output .= ' </div><!-- .team-slider -->';
 
     endif; // end if $team_posts
 

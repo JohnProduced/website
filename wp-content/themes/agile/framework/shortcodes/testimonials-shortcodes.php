@@ -140,3 +140,36 @@ add_shortcode('testimonials', 'mo_testimonials_shortcode');
 
 add_shortcode('testimonials2', 'mo_testimonials_shortcode');
 
+if (!function_exists('mo_testimonials_slider_shortcode')) {
+    function mo_testimonials_slider_shortcode($atts, $content = null, $code) {
+        extract(shortcode_atts(array(
+            'post_count' => '-1',
+            'testimonial_ids' => '',
+            'type' => 'testimonials2',
+            'slideshow_speed' => 5000,
+            'animation_speed' => 600,
+            'animation' => 'slide',
+            'pause_on_action' => 'false',
+            'pause_on_hover' => 'true',
+            'direction_nav' => 'false',
+            'control_nav' => 'true',
+            'easing' => 'swing'
+        ), $atts));
+
+        $slider_content = '[responsive_slider type="' . $type . '" animation="' . $animation . '" control_nav="' . $control_nav . '" direction_nav="' . $direction_nav . '" slideshow_speed=' . $slideshow_speed . ' animation_speed=' . $animation_speed . ' pause_on_hover="' . $pause_on_hover . '" pause_on_action="' . $pause_on_action . '" easing="' . $easing . '" loop="true" slideshow="true"]';
+        if ($code === 'testimonials_slider')
+            $slider_content .= '[testimonials post_count=' . $post_count . ' testimonial_ids="' . $testimonial_ids . '"]';
+        elseif ($code === 'testimonials_slider2')
+            $slider_content .= '[testimonials2 post_count=' . $post_count . ' testimonial_ids="' . $testimonial_ids . '"]';
+        $slider_content .= '[/responsive_slider]';
+
+        $output = do_shortcode($slider_content);
+
+        return $output;
+    }
+}
+
+add_shortcode('testimonials_slider', 'mo_testimonials_slider_shortcode');
+
+add_shortcode('testimonials_slider2', 'mo_testimonials_slider_shortcode');
+

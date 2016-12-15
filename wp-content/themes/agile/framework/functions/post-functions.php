@@ -130,7 +130,13 @@ if (!function_exists('mo_display_related_posts')) {
 
                 echo '<div class="related-post">';
 
-                mo_thumbnail(array('post_id' => $post_id, 'image_size' => 'small', 'wrapper' => false, 'image_alt' => get_the_title($post_id), 'size' => 'full'));
+                mo_thumbnail(array(
+                    'post_id' => $post_id,
+                    'image_size' => 'small',
+                    'wrapper' => false,
+                    'image_alt' => get_the_title($post_id),
+                    'size' => 'full'
+                ));
 
                 echo '<h3 class="entry-title"><a href="' . get_permalink($post_id) . '" title="' . get_the_title($post_id) . '" rel="bookmark">' . get_the_title($post_id) . '</a></h3>';
 
@@ -164,8 +170,10 @@ if (!function_exists('mo_related_posts_by_taxonomy')) {
                     'taxonomy' => $taxonomy,
                     'field' => 'id',
                     'terms' => $term_ids,
-                    'operator' => 'IN' //Or 'AND' or 'NOT IN'
-                )),
+                    'operator' => 'IN'
+                    //Or 'AND' or 'NOT IN'
+                )
+            ),
             'ignore_sticky_posts' => 1,
             'orderby' => 'rand',
             'post__not_in' => array($post_id)
@@ -204,26 +212,57 @@ if (!function_exists('mo_get_post_snippets_list')) {
         /* Extract the array to allow easy use of variables. */
         extract($args);
 
-        if ($post_type == 'portfolio')
-            $taxonamy = 'portfolio_category';
-        elseif ($post_type == 'gallery_item')
-            $taxonamy = 'gallery_category';
+        if (!empty($posts_query) && function_exists('siteorigin_widget_post_selector_process_query')) {
+            $posts_query = siteorigin_widget_post_selector_process_query($posts_query);
+            $loop = new WP_Query($posts_query);
 
-        if (empty($post_type))
-            $loop = new WP_Query(array('ignore_sticky_posts' => 1, 'posts_per_page' => $post_count));
-        elseif (empty($taxonamy) || empty($terms))
-            $loop = new WP_Query(array('post_type' => $post_type, 'posts_per_page' => $post_count));
-        else
-            $loop = new WP_Query(array('post_type' => $post_type, 'posts_per_page' => $post_count,
-                'tax_query' => array(array(
-                    'taxonomy' => $taxonamy,
-                    'field' => 'slug',
-                    'terms' => explode(',', $terms)
-                ))));
+            if (array_key_exists('post_type' , $posts_query)) {
+                $post_type = $posts_query['post_type'][0];
+                $taxonomy = mo_get_taxonomy($post_type);
+            }
+        }
+        else {
+
+            $taxonomy = mo_get_taxonomy($post_type);
+
+            if (empty($post_type))
+                $loop = new WP_Query(array(
+                    'ignore_sticky_posts' => 1,
+                    'posts_per_page' => $post_count
+                ));
+            elseif (!empty($post_ids))
+                $loop = new WP_Query(array(
+                    'post_type' => $post_type,
+                    'posts_per_page' => $post_count,
+                    'post__in' => explode(',', $post_ids)
+                ));
+            elseif (empty($taxonomy) || empty($terms))
+                $loop = new WP_Query(array(
+                    'ignore_sticky_posts' => 1,
+                    'post_type' => $post_type,
+                    'posts_per_page' => $post_count
+                ));
+            else
+                $loop = new WP_Query(array(
+                    'post_type' => $post_type,
+                    'posts_per_page' => $post_count,
+                    'tax_query' => array(
+                        array(
+                            'taxonomy' => $taxonomy,
+                            'field' => 'slug',
+                            'terms' => explode(',', $terms)
+                        )
+                    )
+                ));
+        }
 
         $output = '';
 
         if ($loop->have_posts()) :
+
+            global $mo_theme;
+
+            $mo_theme->set_context('loop', $post_type);
 
             $hide_thumbnail = mo_to_boolean($hide_thumbnail);
 
@@ -233,18 +272,17 @@ if (!function_exists('mo_get_post_snippets_list')) {
 
             $display_summary = mo_to_boolean($display_summary);
 
-            $output .= '<ul>';
-
             while ($loop->have_posts()) : $loop->the_post();
 
                 $thumbnail_exists = false;
 
-                $output .= "\n" . '<li>';
-
                 $output .= '<article class="' . join(' ', get_post_class()) . '">';
 
                 if (!$hide_thumbnail) {
-                    $thumbnail_url = mo_get_thumbnail(array('show_image_info' => true, 'image_size' => $image_size));
+                    $thumbnail_url = mo_get_thumbnail(array(
+                        'show_image_info' => true,
+                        'image_size' => $image_size
+                    ));
                     if (!empty($thumbnail_url)) {
                         $thumbnail_exists = true;
                         $output .= $thumbnail_url;
@@ -283,12 +321,10 @@ if (!function_exists('mo_get_post_snippets_list')) {
 
                 $output .= '</article><!-- .hentry -->';
 
-                $output .= '</li>';
-
 
             endwhile;
 
-            $output .= '</ul>';
+            $mo_theme->set_context('loop', null); //reset it
 
         endif;
 
@@ -346,7 +382,11 @@ if (!function_exists('mo_display_post_nuggets_grid_style')) {
 
                 echo '<article class="' . join(' ', get_post_class()) . ($first_row ? ' first' : '') . '">';
 
-                $thumbnail_exists = mo_thumbnail(array('image_size' => $image_size, 'wrapper' => true, 'size' => 'full'));
+                $thumbnail_exists = mo_thumbnail(array(
+                    'image_size' => $image_size,
+                    'wrapper' => true,
+                    'size' => 'full'
+                ));
 
                 echo '<div class="entry-text-wrap' . ($thumbnail_exists ? '' : ' nothumbnail') . '">';
 
@@ -409,6 +449,8 @@ if (!function_exists('mo_get_thumbnail_post_list')) {
             'excerpt_count' => 120,
             'hide_thumbnail' => false
         );
+
+        $output = '';
 
         /* Merge the input arguments and the defaults. */
         $args = wp_parse_args($args, $defaults);
@@ -490,22 +532,62 @@ if (!function_exists('mo_get_post_snippets_layout')) {
         /* Extract the array to allow easy use of variables. */
         extract($args);
 
-        if ($post_type == 'portfolio')
-            $taxonamy = 'portfolio_category';
-        elseif ($post_type == 'gallery_item')
-            $taxonamy = 'gallery_category';
+        if (!empty($posts_query) && function_exists('siteorigin_widget_post_selector_process_query')) {
+            $posts_query = siteorigin_widget_post_selector_process_query($posts_query);
+            $loop = new WP_Query($posts_query);
 
-        if (empty($post_type))
-            $loop = new WP_Query(array('ignore_sticky_posts' => 1, 'posts_per_page' => $post_count));
-        elseif (empty($taxonamy) || empty($terms))
-            $loop = new WP_Query(array('post_type' => $post_type, 'posts_per_page' => $post_count));
-        else
-            $loop = new WP_Query(array('post_type' => $post_type, 'posts_per_page' => $post_count,
-                'tax_query' => array(array(
-                    'taxonomy' => $taxonamy,
-                    'field' => 'slug',
-                    'terms' => explode(',', $terms)
-                ))));
+            if (array_key_exists('post_type' , $posts_query)) {
+                $post_type = $posts_query['post_type'][0];
+                $taxonomy = mo_get_taxonomy($post_type);
+            }
+        }
+        else {
+
+            if (empty($taxonamy))
+                $taxonomy = mo_get_taxonomy($post_type);
+            else
+                $taxonomy = $taxonamy; /* TODO: Remove later. For backwards compatibility */
+
+            if (empty($post_type))
+                $query_args = array(
+                    'ignore_sticky_posts' => 1,
+                    'posts_per_page' => $post_count
+                );
+            elseif (!empty($post_ids))
+                $query_args = array(
+                    'post_type' => $post_type,
+                    'posts_per_page' => $post_count,
+                    'post__in' => explode(',', $post_ids)
+                );
+            elseif (empty($taxonomy) || empty($terms))
+                $query_args = array(
+                    'ignore_sticky_posts' => 1,
+                    'post_type' => $post_type,
+                    'posts_per_page' => $post_count
+                );
+            else
+                $query_args = array(
+                    'post_type' => $post_type,
+                    'posts_per_page' => $post_count,
+                    'tax_query' => array(
+                        array(
+                            'taxonomy' => $taxonomy,
+                            'field' => 'slug',
+                            'terms' => explode(',', $terms)
+                        )
+                    )
+                );
+
+            if (isset($enable_sorting) && $enable_sorting) {
+                $query_args['orderby'] = 'menu_order';
+                $query_args['order'] = 'ASC';
+            }
+
+            if (!empty($post_parent))
+                $query_args['post_parent'] = $post_parent;
+
+            $loop = new WP_Query($query_args);
+        }
 
         $output = '';
 
@@ -541,9 +623,12 @@ if (!function_exists('mo_get_post_snippets_layout')) {
 
                 if (!$hide_thumbnail) {
                     if ($post_type == 'post')
-                        $thumbnail_output = mo_get_blog_thumbnail($image_size, $taxonamy);
+                        $thumbnail_output = mo_get_blog_thumbnail($image_size, $taxonomy);
                     else
-                        $thumbnail_output = mo_get_thumbnail(array('image_size' => $image_size, 'taxonamy' => $taxonamy));
+                        $thumbnail_output = mo_get_thumbnail(array(
+                            'image_size' => $image_size,
+                            'taxonomy' => $taxonomy
+                        ));
                     if (!empty($thumbnail_output)) {
                         $thumbnail_exists = true;
                         $output .= $thumbnail_output;
@@ -591,6 +676,37 @@ if (!function_exists('mo_get_post_snippets_layout')) {
         wp_reset_postdata();
 
         return $output;
+    }
+}
+
+
+if (!function_exists('mo_is_context')) {
+    function mo_is_context($context) {
+
+        global $mo_theme;
+
+        $current = $mo_theme->get_context('loop');
+
+        if ($current == $context)
+            return true;
+
+        return false;
+    }
+}
+
+if (!function_exists('mo_get_taxonomy')) {
+    function mo_get_taxonomy($post_type) {
+
+        $taxonomy = 'category';
+
+        if ($post_type == 'portfolio')
+            $taxonomy = 'portfolio_category';
+        elseif ($post_type == 'gallery_item')
+            $taxonomy = 'gallery_category';
+        elseif ($post_type == 'post')
+            $taxonomy = 'category';
+
+        return $taxonomy;
     }
 }
 

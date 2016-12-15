@@ -7,43 +7,54 @@
  * possibly be using.  Instead, they can simply build pagination right into their themes.
  *
  * This program is free software; you can redistribute it and/or modify it under the terms of the GNU
- * General Public License version 2, as published by the Free Software Foundation.  You may NOT assume
- * that you can use any other version of the GPL.
+ * General Public License as published by the Free Software Foundation; either version 2 of the License,
+ * or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without
  * even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * @package LoopPagination
- * @version 0.1.3
- * @author Justin Tadlock <justin@justintadlock.com>
- * @copyright Copyright (c) 2010 - 2011, Justin Tadlock
- * @link http://devpress.com/blog/loop-pagination-for-theme-developers
- * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * @package   LoopPagination
+ * @version   0.3.0
+ * @author    Justin Tadlock <justin@justintadlock.com>
+ * @copyright Copyright (c) 2010 - 2013, Justin Tadlock
+ * @link      http://themehybrid.com/docs/tutorials/loop-pagination
+ * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
 /**
  * Loop pagination function for paginating loops with multiple posts.  This should be used on archive, blog, and
  * search pages.  It is not for singular views.
  *
- * @since 0.0
+ * @since 0.1.0
+ * @access public
  * @uses paginate_links() Creates a string of paginated links based on the arguments given.
  * @param array $args Arguments to customize how the page links are output.
+ * @return string $page_links
  */
 
 if (!function_exists('mo_loop_pagination')) {
 
-    function mo_loop_pagination($args = array()) {
-        global $wp_rewrite, $wp_query, $post;
+    function mo_loop_pagination($args = array(), $query = null) {
+
+        global $wp_rewrite, $wp_query;
+
+        // If custom WP_Query query is not specified, take the global $wp_query.
+        if (!$query) {
+            $query = $wp_query;
+        }
 
         /* If there's not more than one page, return nothing. */
-        if (1 >= $wp_query->max_num_pages)
+        if (1 >= $query->max_num_pages)
             return;
 
         /* Get the current page. */
         $current = (get_query_var('paged') ? absint(get_query_var('paged')) : 1);
 
         /* Get the max number of pages. */
-        $max_num_pages = intval($wp_query->max_num_pages);
+        $max_num_pages = intval($query->max_num_pages);
+
+        /* Get the pagination base. */
+        $pagination_base = $wp_rewrite->pagination_base;
 
         /* Set up some default arguments for the paginate_links() function. */
         $defaults = array(
@@ -52,21 +63,23 @@ if (!function_exists('mo_loop_pagination')) {
             'total' => $max_num_pages,
             'current' => $current,
             'prev_next' => true,
-            //'prev_text' => __( '&laquo; Previous' ), // This is the WordPress default.
-            //'next_text' => __( 'Next &raquo;' ), // This is the WordPress default.
+            //'prev_text'  => esc_html__( '&laquo; Previous' ), // This is the WordPress default.
+            //'next_text'  => esc_html__( 'Next &raquo;' ), // This is the WordPress default.
             'show_all' => false,
             'end_size' => 1,
             'mid_size' => 1,
             'add_fragment' => '',
             'type' => 'plain',
-            'before' => '<div class="pagination loop-pagination">', // Begin loop_pagination() arguments.
+
+            // Begin loop_pagination() arguments.
+            'before' => '<div class="pagination loop-pagination">',
             'after' => '</div>',
             'echo' => true,
         );
 
         /* Add the $base argument to the array if the user is using permalinks. */
-        if ($wp_rewrite->using_permalinks())
-            $defaults['base'] = user_trailingslashit(trailingslashit(get_pagenum_link()) . 'page/%#%');
+        if ($wp_rewrite->using_permalinks() && !is_search())
+            $defaults['base'] = user_trailingslashit(trailingslashit(get_pagenum_link()) . "{$pagination_base}/%#%");
 
         /* If we're on a search results page, we need to change this up a bit. */
         if (is_search()) {
@@ -89,7 +102,20 @@ if (!function_exists('mo_loop_pagination')) {
         $page_links = paginate_links($args);
 
         /* Remove 'page/1' from the entire output since it's not needed. */
-        $page_links = str_replace(array('&#038;paged=1\'', '/page/1\'', '/page/1/\''), '\'', $page_links);
+        $page_links = preg_replace(
+            array(
+                "#(href=['\"].*?){$pagination_base}/1(['\"])#",
+                // 'page/1'
+                "#(href=['\"].*?){$pagination_base}/1/(['\"])#",
+                // 'page/1/'
+                "#(href=['\"].*?)\?paged=1(['\"])#",
+                // '?paged=1'
+                "#(href=['\"].*?)&\#038;paged=1(['\"])#"
+                // '&#038;paged=1'
+            ),
+            '$1$2',
+            $page_links
+        );
 
         /* Wrap the paginated links with the $before and $after elements. */
         $page_links = $args['before'] . $page_links . $args['after'];
@@ -99,9 +125,9 @@ if (!function_exists('mo_loop_pagination')) {
 
         /* Return the paginated links for use in themes. */
         if ($args['echo'])
-            echo $page_links;
+            echo wp_kses_post($page_links);
         else
-            return $page_liks;
+            return $page_links;
     }
 }
 

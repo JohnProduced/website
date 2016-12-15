@@ -8,24 +8,26 @@ function mo_ytp_video_header_shortcode($atts, $content = null, $shortcode_name =
             'class' => '',
             'video_url' => '',
             'mute' => 'true',
-            'showControls' => 'false',
+            'show_controls' => 'false',
             'containment' => 'self',
             'quality' => 'highres',
-            'optimizeDisplay' => 'true',
+            'optimize_display' => 'true',
             'loop' => 'true',
             'autoplay' => 'true',
             'vol' => '50',
             'ratio' => '16/9',
-            'startAt' => '0',
+            'start_at' => '0',
             'opacity' => '1',
             'placeholder_url' => '',
+            'placeholder_image_id' => '',
             'title' => '',
             'text' => '',
             'button_text' => '',
             'button_url' => '',
             'overlay_color' => '',
             'overlay_opacity' => '0.7',
-            'overlay_pattern' => ''),
+            'overlay_pattern' => '',
+            'overlay_pattern_id' => ''),
         $atts));
 
     $output = '';
@@ -51,7 +53,7 @@ function mo_ytp_video_header_shortcode($atts, $content = null, $shortcode_name =
 
                     <?php if (!mo_to_boolean($autoplay)): ?>
 
-                        <a class="play-btn" onclick="jQuery('#video').playYTP()"><i class="icon-play"></i></a>
+                        <a class="play-btn" onclick="jQuery('#video').YTPPlay()"><i class="icon-play"></i></a>
 
                     <?php endif; ?>
 
@@ -60,9 +62,16 @@ function mo_ytp_video_header_shortcode($atts, $content = null, $shortcode_name =
                 <div class="media">
                     <div class="video-bg">
 
-                        <?php echo '<div id="ytp-video" class="ytp-player" data-property="{' . 'videoURL:\'' . $video_url . '\',' . 'mute:' . $mute . ',' . 'showControls:' . $showControls . ',' . 'containment:\'' . $containment . '\'}"></div>'; ?>
+                        <?php echo '<div id="ytp-video" class="ytp-player" data-property="{' . 'videoURL:\'' . $video_url . '\',' . 'mute:' . $mute . ',' . 'loop:' . $loop . ',' . 'vol:' . $vol . ',' . 'ratio:' . $ratio . ',' . 'optimizeDisplay:' . $optimize_display . ',' . 'opacity:' . $opacity . ',' . 'autoPlay:' . $autoplay . ',' . 'quality:\'' . $quality . '\',' . 'showControls:' . $show_controls . ',' . 'containment:\'' . $containment . '\'}"></div>'; ?>
 
                     </div>
+
+                    <?php
+                    if (!empty($placeholder_image_id))
+                        $placeholder_url = wp_get_attachment_url($placeholder_image_id);
+                    if (!empty($overlay_pattern_id))
+                        $overlay_pattern = wp_get_attachment_url($overlay_pattern_id);
+                    ?>
 
                     <div class="img-bg">
                         <img alt="Video Poster" class="video-placeholder"
@@ -91,9 +100,9 @@ function mo_ytp_video_header_shortcode($atts, $content = null, $shortcode_name =
                 </div>
 
                 <div class="video-controls">
-                    <button class="small-play-btn" onclick="jQuery('#ytp-video').playYTP()"><i class="icon-play"></i>
+                    <button class="small-play-btn" onclick="jQuery('#ytp-video').YTPPlay()"><i class="icon-play"></i>
                     </button>
-                    <button class="small-pause-btn" onclick="jQuery('#ytp-video').pauseYTP()"><i class="icon-pause"></i>
+                    <button class="small-pause-btn" onclick="jQuery('#ytp-video').YTPPause()"><i class="icon-pause"></i>
                     </button>
                     <button class="small-mute-btn" onclick="jQuery('#ytp-video').toggleVolume()"><i
                             class="icon-volumemute2"></i></button>
@@ -135,10 +144,10 @@ id (string) - The id of the DIV element created to wrap the YouTube video (optio
 class (string) - The CSS class of the DIV element created to wrap the YouTube video (optional).
 video_url (link) - The YouTube URL of the video (ex: http://www.youtube.com/watch?v=PzjwAAskt4o).
 mute - false (boolean). A boolean value indicating if the video needs to be started muted. Default is false. The user can mute the video if required with the help of mute/unmute button.
-showControls - false (boolean). Show or hide the controls bar at the bottom of the page.
+show_controls - false (boolean). Show or hide the controls bar at the bottom of the page.
 containment - self (string). The CSS selector of the DOM element where you want the video background; if not specified it takes the “body”; if set to “self” the player will be instanced on that element.
 quality- highres (string). Values are ‘default’ or “small”, “medium”, “large”, “hd720”, “hd1080”, “highres”.
-optimizeDisplay: true (boolean). Will fit the video size into the window size optimizing the view.
+optimize_display: true (boolean). Will fit the video size into the window size optimizing the view.
 loop: true. true (boolean) or false loops the movie once ended.
 startAt: 0 (number). Set the seconds the video should start at.
 opacity: 1 (number). 0 to 1 - define the opacity of the video.
@@ -183,10 +192,10 @@ id (string) - The id of the DIV element created to wrap the YouTube video (optio
 class (string) - The CSS class of the DIV element created to wrap the YouTube video (optional).
 video_url (link) - The YouTube URL of the video (ex: http://www.youtube.com/watch?v=PzjwAAskt4o).
 mute - true (boolean). A boolean value indicating if the video needs to be started muted. Default is true. The user can unmute the video if required with the help of mute/unmute button.
-showControls - false (boolean). Show or hide the controls bar at the bottom of the page.
+show_controls - false (boolean). Show or hide the controls bar at the bottom of the page.
 containment - self (string). The CSS selector of the DOM element where you want the video background; if not specified it takes the “body”; if set to “self” the player will be instanced on that element.
 quality- highres (string). Values are ‘default’ or “small”, “medium”, “large”, “hd720”, “hd1080”, “highres”.
-optimizeDisplay: true (boolean). Will fit the video size into the window size optimizing the view.
+optimize_display: true (boolean). Will fit the video size into the window size optimizing the view.
 loop: true. true (boolean) or false loops the movie once ended.
 startAt: 0 (number). Set the seconds the video should start at.
 opacity: 1 (number). 0 to 1 - define the opacity of the video.
@@ -218,13 +227,15 @@ function mo_video_header_shortcode($atts, $content = null, $shortcode_name = "")
             'muted' => 'true',
             'preload' => 'auto',
             'placeholder_url' => '',
+            'placeholder_image_id' => '',
             'title' => '',
             'text' => '',
             'button_text' => '',
             'button_url' => '',
             'overlay_color' => '',
             'overlay_opacity' => '0.7',
-            'overlay_pattern' => ''),
+            'overlay_pattern' => '',
+            'overlay_pattern_id' => ''),
         $atts));
 
     $output = '';
@@ -262,6 +273,14 @@ function mo_video_header_shortcode($atts, $content = null, $shortcode_name = "")
                             <source src="<?php echo esc_url($webm_url); ?>" type="video/webm">
                         </video>
                     </div>
+
+                    <?php
+                    if (!empty($placeholder_image_id))
+                        $placeholder_url = wp_get_attachment_url($placeholder_image_id);
+                    if (!empty($overlay_pattern_id))
+                        $overlay_pattern = wp_get_attachment_url($overlay_pattern_id);
+                    ?>
+
                     <div class="img-bg">
                         <img alt="Video Poster" class="video-placeholder"
                              src="<?php echo esc_url($placeholder_url); ?>"/>

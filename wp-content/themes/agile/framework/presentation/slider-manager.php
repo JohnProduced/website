@@ -61,22 +61,14 @@ if (!class_exists('MO_Slider_Manager')) {
 
         function display_slider_area() {
 
-            $slider_type = mo_get_theme_option('mo_slider_choice', 'Nivo');
+            $slider_type = get_post_meta(get_the_ID(), 'mo_slider_choice', true);
 
-            $disable_slider_section_for_entry = mo_get_theme_option('mo_disable_slider_section');
-
-            if ($disable_slider_section_for_entry)
+            if (empty($slider_type) || $slider_type == 'None')
                 return;
 
             echo '<div id="slider-area" class="clearfix">';
 
-            $disable_sliders = mo_get_theme_option('mo_disable_sliders');
-
-            // Show the slider area widget area if sliders are disabled
-            if ($disable_sliders)
-                mo_display_sidebar('slider-area-home');
-            else
-                $this->display_slider($slider_type);
+            $this->display_slider($slider_type);
 
             echo '</div> <!-- #slider-area -->';
         }
@@ -105,7 +97,7 @@ if (!class_exists('MO_Slider_Manager')) {
                 echo do_shortcode($shortcode);
             }
             else {
-                echo do_shortcode('[segment id="slider-error"]' . __('Revolution Slider Plugin Not Installed/Deactivated or No Revolution Slider entries created. Prepare the Revolution Slider or choose a different slider type in theme options', 'mo_theme') . '[/segment]');
+                echo do_shortcode('[segment id="slider-error"]' . __('Revolution Slider Plugin Not Installed/Deactivated or No Revolution Slider entries created. Prepare the Revolution Slider or choose a different slider type in page edit window.', 'mo_theme') . '[/segment]');
             }
         }
 
@@ -139,13 +131,7 @@ if (!class_exists('MO_Slider_Manager')) {
                     $before_html = '<a title="' . $title . '" href="' . $slide_link . '">';
                     $after_html = '</a>';
 
-                    $slider_size = array('width' => 1920, 'height' => 600);
-
-                    $slider_height = mo_get_theme_option('mo_nivo_slider_height');
-                    if ($slider_height)
-                        $slider_size = array('width' => 1920, 'height' => intval($slider_height));
-
-                    $args = array('image_size' => $slider_size,
+                    $args = array('image_size' => 'full',
                         'size' => 'full',
                         'before_html' => $before_html,
                         'after_html' => $after_html,
@@ -240,15 +226,9 @@ if (!class_exists('MO_Slider_Manager')) {
                             $before_html = '<a title="' . $title . '" href="' . $slide_link . '">';
                             $after_html = '</a>';
 
-                            $slider_size = array('width' => 1920, 'height' => 600);
-
-                            $slider_height = mo_get_theme_option('mo_flex_slider_height');
-                            if ($slider_height)
-                                $slider_size = array('width' => 1920, 'height' => intval($slider_height));
-
                             // Make sure you use the slide caption as image alt attribute (in this case post title).
                             // Also, let the image size be same as that of Nivo, helps when WP generates thumbnails
-                            $args = array('image_size' => $slider_size,
+                            $args = array('image_size' => 'full',
                                 'size' => 'full',
                                 'before_html' => $before_html,
                                 'after_html' => $after_html,

@@ -53,6 +53,63 @@ function mo_service_box2_shortcode($atts, $content = null, $shortcode_name = "")
 
 add_shortcode('service_box2', 'mo_service_box2_shortcode');
 
+/* Service Item Shortcode -
+
+Display a service item with an image or a font icon specified by the user on the top, followed by title and description below the image/icon.
+
+Usage:
+
+[service_item image_url="http://portfoliotheme.org/invent/wp-content/uploads/2014/05/muscles.png" title="Personal Training" description="Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut."]
+
+Parameters -
+
+title - The title displayed below the image or font icon, above the description.
+image_url - The URL of the image displayed at the top of the box displaying the marketing offer.
+icon_class - The class name for the icon font as documented in the http://portfoliotheme.org/support/faqs/how-to-use-1500-icons-bundled-with-the-agile-theme/.
+If an image_url has been specified, this font icon parameter is ignored.
+description - The textual description to be displayed below the title.
+
+
+*/
+function mo_service_item_shortcode($atts, $content) {
+
+    extract(shortcode_atts(array(
+        'image_url' => '',
+        'image_id' => '',
+        'icon' => '',
+        'title' => '',
+        'description' => ''
+    ), $atts));
+
+    $output = '<div class="service-item">';
+
+    if (!empty($image_id)) {
+
+        $output .= '<img src="' . wp_get_attachment_url($image_id) . '" alt="' . $title . '"/>';
+    }
+    elseif (!empty($image_url)) {
+
+        $output .= '<img src="' . $image_url . '" alt="' . $title . '"/>';
+    }
+    elseif (!empty($icon)) {
+        $output .= '<i class="' . $icon . '"></i>';
+    }
+
+    $output .= '<h3>' . $title . '</h3>';
+
+    $output .= '<p class="description">';
+
+    $output .= $description;
+
+    $output .= '</p>';
+
+    $output .= '</div>';
+
+    return $output;
+}
+
+add_shortcode('service_item', 'mo_service_item_shortcode');
+
 /* Stats Shortcode -
 
 Wraps an animated percentage stats list.
@@ -85,7 +142,7 @@ None
 function mo_skills($atts, $content) {
     extract(shortcode_atts(array(),
         $atts));
-    return '<div id="skill-bars">' . do_shortcode($content) . '</div>';
+    return '<div class="skill-bars">' . do_shortcode($content) . '</div>';
 }
 
 add_shortcode('skills', 'mo_skills');
@@ -125,6 +182,16 @@ function mo_skill_bar($atts, $content) {
 }
 
 add_shortcode('skill_bar', 'mo_skill_bar');
+
+function mo_animating_skills_bar($atts, $content) {
+    extract(shortcode_atts(array(
+        'title' => 'Web Development 85%',
+        'value' => '83'
+    ), $atts));
+    return '<div class="skill-bar"><div class="skill-title">' . $title . '</div><div class="skill-bar-content" data-perc="' . $value . '"></div></div>';
+}
+
+add_shortcode('animating_skills_bar', 'mo_animating_skills_bar');
 
 function mo_animate_numbers($atts, $content) {
     extract(shortcode_atts(array(),
@@ -173,6 +240,31 @@ function mo_animate_number($atts, $content) {
 }
 
 add_shortcode('animate-number', 'mo_animate_number');
+
+
+function mo_animate_single_number($atts, $content) {
+    extract(shortcode_atts(array(
+        'title' => 'Hours Burnt',
+        'start_value' => '0',
+        'end_value' => '0',
+        'icon' => false,
+        'icon_image_id' => false
+    ), $atts));
+
+    $font_icon = '';
+    $image_element = '';
+
+    if (!empty ($icon_image_id)) {
+        $image_element = '<img src="' . wp_get_attachment_url($icon_image_id) . '"/>';
+    }
+    else if (!empty ($icon)) {
+        $font_icon = '<i class="' . $icon . '"></i>';
+    }
+
+    return '<div class="stats"><div class="number" data-stop="' . $end_value . '">' . $start_value . '</div><div class="stats-title">' . $font_icon . $image_element . $title . '</div></div>';
+}
+
+add_shortcode('animate_number', 'mo_animate_single_number');
 
 /* Piechart Shortcode -
 

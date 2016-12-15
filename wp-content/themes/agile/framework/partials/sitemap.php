@@ -79,7 +79,7 @@ if (!function_exists('mo_sitemap_template')) {
 
             echo '<ul class="list1">';
 
-            $loop = new WP_Query(array('post_type' => 'portfolio'));
+            $loop = new WP_Query(array('post_type' => 'portfolio', 'posts_per_page' => '-1'));
 
             while ($loop->have_posts()) {
 

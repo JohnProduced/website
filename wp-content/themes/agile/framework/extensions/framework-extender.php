@@ -115,6 +115,43 @@ if (!class_exists('MO_Framework_Extender')) {
                     'external_url' => '', // If set, overrides default API URL and points to an external URL
                 ),
                 array(
+                    'name' => 'Page Builder by SiteOrigin',
+                    'slug' => 'siteorigin-panels',
+                    'required' => true,
+                ),
+                array(
+                    'name' => 'SiteOrigin Widgets Bundle',
+                    'slug' => 'so-widgets-bundle',
+                    'required' => true,
+                ),
+                array(
+                    'name' => 'Livemesh SiteOrigin Widgets',
+                    'slug' => 'livemesh-siteorigin-widgets',
+                    'required' => true,
+                ),
+                // This is an example of how to include a plugin pre-packaged with a theme
+                array(
+                    'name' => 'Visual Composer',
+                    'slug' => 'js_composer',
+                    'source' => get_template_directory() . '/framework/plugins/js_composer.zip',
+                    'required' => true,
+                    'version' => '4.7.4',
+                    'force_activation' => false,
+                    'force_deactivation' => false,
+                    'external_url' => '',
+                ),
+                // This is an example of how to include a plugin pre-packaged with a theme
+                array(
+                    'name' => 'Templatera for Visual Composer',
+                    'slug' => 'templatera',
+                    'source' => get_template_directory() . '/framework/plugins/templatera.zip',
+                    'required' => false,
+                    'version' => '1.0.5',
+                    'force_activation' => false,
+                    'force_deactivation' => false,
+                    'external_url' => '',
+                ),
+                array(
                     'name' => 'WooCommerce',
                     'slug' => 'woocommerce',
                     'required' => false,

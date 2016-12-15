@@ -99,5 +99,6 @@ add_shortcode('success', 'mo_box_shortcode');
 add_shortcode('warning', 'mo_box_shortcode');
 add_shortcode('tip', 'mo_box_shortcode');
 add_shortcode('errors', 'mo_box_shortcode');
+
 add_shortcode('box_frame', 'mo_box_frame_shortcode');
 

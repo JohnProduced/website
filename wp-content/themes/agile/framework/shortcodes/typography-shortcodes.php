@@ -192,7 +192,8 @@ pitch_text - The text displayed below the heading title.
 */
 
 function mo_heading2_shortcode($atts) {
-    extract(shortcode_atts(array('style' => '',
+    extract(shortcode_atts(array(
+            'style' => '',
             'class' => '',
             'title' => '',
             'subtitle' => false,

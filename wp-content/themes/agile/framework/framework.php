@@ -22,11 +22,197 @@ class MO_Framework {
 
         $this->init_option_tree();
 
+        $this->init_siteorigin_pagebuilder();
+
+        if(function_exists('vc_map')) {
+            $this->init_vc_composer();
+        }
+
         add_action('after_setup_theme', array(&$this, 'i18n'), 9);
 
         add_action('after_setup_theme', array(&$this, 'load_functions'), 10);
 
         add_action('after_setup_theme', array(&$this, 'initialize_theme'), 11);
+    }
+
+
+    function init_siteorigin_pagebuilder() {
+
+
+        add_filter('siteorigin_widgets_widget_folders', array($this, 'add_widgets_collection'));
+
+        add_filter('siteorigin_panels_widget_dialog_tabs', array($this, 'add_widget_tabs'), 20);
+
+        add_filter('siteorigin_panels_widgets', array($this, 'add_bundle_groups'), 11);
+
+        add_filter('siteorigin_panels_row_style_fields', array($this, 'row_style_fields'));
+
+        add_filter('siteorigin_panels_row_style_attributes', array($this, 'row_style_attributes'), 10, 2);
+
+        // Filtering specific attributes
+        add_filter('siteorigin_panels_css_cell_margin_bottom', array($this, 'filter_cell_bottom_margin'), 10, 2);
+
+        add_filter('siteorigin_widgets_default_active', array($this, 'activate_theme_widgets'));
+
+    }
+
+    function add_widgets_collection($folders) {
+        $folders[] = MO_FRAMEWORK_DIR . '/siteorigin/widgets/';
+        return $folders;
+    }
+
+
+    // Placing all widgets under the 'SiteOrigin Widgets' Tab
+    function add_widget_tabs($tabs) {
+        $tabs[] = array(
+            'title' => __('Livemesh Theme Widgets', 'mo_theme'),
+            'filter' => array(
+                'groups' => array('livemesh-widgets')
+            )
+        );
+        return $tabs;
+    }
+
+
+    // Adding group for all Widgets
+    function add_bundle_groups($widgets) {
+        foreach ($widgets as $class => &$widget) {
+            if (preg_match('/MO_(.*)_Widget/', $class, $matches)) {
+                $widget['groups'] = array('livemesh-widgets');
+            }
+        }
+        return $widgets;
+    }
+
+    function row_style_fields($fields) {
+        // Add the attribute fields
+
+        $fields['row_id'] = array(
+            'name' => __('Row ID for styling', 'mo_theme'),
+            'type' => 'text',
+            'group' => 'attributes',
+            'description' => __('An ID for the row for styling purposes.', 'mo_theme'),
+            'priority' => 4,
+        );
+
+        return $fields;
+    }
+
+    function row_style_attributes($attributes, $args) {
+
+        // Do not set id if already set. Hope to get rid of this in future when page builder has this function
+        if (!empty($args['row_id']) && empty($attributes['id'])) {
+            $attributes['id'] = $args['row_id'];
+        }
+
+        return $attributes;
+    }
+
+    /* Set the bottom margin same as that specified for container row - typically 0px for all Livemesh themes content */
+    function filter_cell_bottom_margin($margin, $grid) {
+        if (!empty($grid['style']['bottom_margin'])) {
+            $margin = $grid['style']['bottom_margin'];
+        }
+        return $margin;
+    }
+
+
+
+    function activate_theme_widgets($default_widgets) {
+
+        $theme_widgets = array(
+
+            "heading-widget" => true,
+            "action-call-widget" => true,
+            "button-widget" => true,
+            "clearing-space-widget" => true,
+            "divider-widget" => true,
+            "divider-top-widget" => true,
+            "header-fancy-widget" => true,
+            "device-slider-widget" => true,
+            "tab-slider-widget" => true,
+            "animate-numbers-widget" => true,
+            "custom-posts-widget" => true,
+            "contact-form-widget" => true,
+            "pricing-plans-widget" => true,
+            "show-portfolio-widget" => true,
+            "show-gallery-widget" => true,
+            "social-list-widget" => true,
+            "toggle-widget" => true,
+            "team-widget" => true,
+            "testimonials-slider-widget" => true,
+            "piechart-widget" => true,
+            "stats-bars-widget" => true,
+            "responsive-slider-widget" => true,
+            "post-snippets-carousel-widget" => true,
+            "responsive-carousel-widget" => true,
+            "show-post-snippets-widget" => true,
+            "device-slider-widget" => true,
+            "ticker-slider-widget" => true,
+            "tabs-widget" => true,
+            "hero-section-widget" => true,
+            "service-item-widget" => true,
+            "video-showcase-widget" => true,
+            "video-section-widget" => true,
+            "ytp-video-section-widget" => true,
+            "ytp-video-showcase-widget" => true,
+
+            // Livemesh SiteOrigin Widgets
+
+            "lsow-accordion-widget" => true,
+            "lsow-carousel-widget" => true,
+            "lsow-clients-widget" => true,
+            "lsow-heading-widget" => true,
+            "lsow-hero-image-widget" => true,
+            "lsow-odometers-widget" => true,
+            "lsow-piecharts-widget" => true,
+            "lsow-portfolio-widget" => true,
+            "lsow-posts-carousel-widget" => true,
+            "lsow-pricing-table-widget" => true,
+            "lsow-services-widget" => true,
+            "lsow-stats-bar-widget" => true,
+            "lsow-tabs-widget" => true,
+            "lsow-team-members-widget" => true,
+            "lsow-testimonials-slider-widget" => true,
+            "lsow-testimonials-widget" => true,
+
+        );
+
+        return wp_parse_args($theme_widgets, $default_widgets);
+
+    }
+
+    function init_vc_composer() {
+
+        /* Visual Composer */
+        $vc_templates_path = MO_FRAMEWORK_DIR . '/vc-extensions/vc-templates/';
+        vc_set_shortcodes_templates_dir($vc_templates_path);
+
+        add_action( 'vc_before_init', array(&$this, 'pre_init_vc_extensions'));
+
+        add_action( 'init', array(&$this, 'init_vc_extensions'), 9999);
+    }
+
+    /**
+     * Enable Admin Features.
+     */
+    function pre_init_vc_extensions() {
+
+        /**
+         * Force Visual Composer to initialize as "built into the theme".
+         * This will hide certain tabs under the Settings->Visual Composer page
+         */
+        vc_set_as_theme($disable_updater = true);
+
+    }
+
+    /**
+     * Enable Admin Features.
+     */
+    function init_vc_extensions() {
+
+        require_once(MO_FRAMEWORK_DIR . '/vc-extensions/vc-extender.php');
+
     }
 
     function init_option_tree() {
@@ -133,7 +319,8 @@ class MO_Framework {
     }
 
     function get_easy_image_name_map() {
-        $easy_name_map = array('mini' => 'mini-thumb', 'small' => 'small-thumb', 'medium' => 'medium-thumb', 'large' => 'large-thumb', 'full' => 'slider-thumb', 'square' => 'square-thumb');
+        // See https://developer.wordpress.org/reference/functions/the_post_thumbnail/ for standard image sizes
+        $easy_name_map = array('thumbnail' => 'thumbnail', 'mini' => 'medium', 'small' => 'medium', 'proportional' => 'large', 'full' => 'full', 'medium' => 'medium-thumb', 'large' => 'large-thumb', 'square' => 'square-thumb', );
         return $easy_name_map;
     }
 
@@ -142,12 +329,9 @@ class MO_Framework {
         if (!isset($this->image_sizes)) {
 
             $this->image_sizes = array(
-                'mini-thumb' => array(90, 65),
-                'small-thumb' => array(295, 220),
-                'medium-thumb' => array(550, 400),
-                'large-thumb' => array(820, 400),
-                'slider-thumb' => array(1140, 500),
-                'square-thumb' => array(450, 450)
+                'medium-thumb' => array(550, 400), // portfolio
+                'large-thumb' => array(820, 400), // blog
+                'square-thumb' => array(450, 450), // team etc.
             );
 
         }
@@ -195,7 +379,6 @@ class MO_Framework {
         require_once(MO_FRAMEWORK_DIR . '/extensions/framework-extender.php');
         include_once(MO_FRAMEWORK_DIR . '/extensions/init-options.php');
         require_once(MO_FRAMEWORK_DIR . '/extensions/loop-pagination.php');
-        include_once(MO_FRAMEWORK_DIR . '/extensions/get-the-image.php');
         include_once(MO_FRAMEWORK_DIR . '/extensions/aq_resizer.php');
         include_once(MO_FRAMEWORK_DIR . '/extensions/class-tgm-plugin-activation.php');
         /* The stylizer generates css based on options chosen by the user in theme options panel */
@@ -319,6 +502,8 @@ class MO_Framework {
 
             // Call now to initialize shortcode helper button on edit window
             $tinymce_button = new Shortcode_Helper ();
+
+            require_once(MO_ADMIN_DIR . '/shortcodes/livemesh-shortcodes.php');
         }
     }
 
@@ -390,6 +575,7 @@ class MO_Framework {
         /* Load all JS required by the theme */
         add_action('wp_enqueue_scripts', array(&$this, 'enqueue_scripts'));
         add_action('wp_enqueue_scripts', array(&$this, 'enqueue_styles'));
+        add_action('wp_footer', array(&$this, 'enqueue_additional_scripts'));
 
         add_action('admin_enqueue_scripts', array(&$this, 'admin_enqueue_scripts'));
         add_action('admin_enqueue_scripts', array(&$this, 'admin_enqueue_styles'), 18);
@@ -411,7 +597,9 @@ class MO_Framework {
 
         add_action('wp_head', array(&$this, 'mo_init_custom_css'), 15); // load as late as possible
 
-        add_action('wp_enqueue_scripts', array(&$this, 'mo_enqueue_plugin_styles'), 12); // load after all the plugins
+        add_action('wp_enqueue_scripts', array(&$this, 'enqueue_plugin_styles'), 12); // load after all the plugins
+        add_action('wp_enqueue_scripts', array(&$this, 'enqueue_skin_styles'), 12); // load skins and custom CSS after custom plugin styles
+        add_action('wp_enqueue_scripts', array(&$this, 'enqueue_custom_styles'), 12); // load skins and custom CSS after custom plugin styles
 
         if (is_admin())
             add_action('wp_ajax_update-page-section-order', array(&$this, 'save_page_section_order'));
@@ -479,7 +667,9 @@ class MO_Framework {
 
         remove_theme_support('custom-background');
         remove_theme_support('custom-header');
-
+        
+        add_theme_support('post-thumbnails');
+        
         add_theme_support('header-social-links');
         add_theme_support('single-page-site');
 
@@ -558,19 +748,19 @@ class MO_Framework {
             wp_enqueue_script('mo-drop-downs', MO_SCRIPTS_LIB_URL . '/drop-downs.js', array('jquery'), '1.4.8', true);
             wp_enqueue_script('jquery-waypoint', MO_SCRIPTS_LIB_URL . '/waypoints.js', array('jquery'), '2.0.2', true);
             wp_enqueue_script('jquery-plugins-lib', MO_SCRIPTS_LIB_URL . '/jquery.plugins.lib.js', array('jquery-easing'), '1.0', true);
+            wp_enqueue_script('jquery-modernizr', MO_SCRIPTS_LIB_URL . '/modernizr.js', array('jquery'), '2.7.1', true);
             wp_enqueue_script('jquery-ytpplayer', MO_SCRIPTS_LIB_URL . '/jquery.mb.YTPlayer.js', array('jquery'), '1.0', true);
 
 
 
             /* Slider packs */
             wp_enqueue_script('jquery-flexslider', MO_SCRIPTS_LIB_URL . '/jquery.flexslider.js', array('jquery-easing'), '1.2', true);
-            wp_enqueue_script('jquery-bxslider', MO_SCRIPTS_LIB_URL . '/jquery.bxslider.min.js', array('jquery-easing'), '4.1', true);
-            $disable_sliders = mo_get_theme_option('mo_disable_sliders');
-            $slider_type = mo_get_theme_option('mo_slider_choice', 'Nivo');
-            if (mo_is_home_page_layout() && !$disable_sliders && $slider_type == 'Nivo')
+            wp_enqueue_script('jquery-owl-carousel', MO_SCRIPTS_LIB_URL . '/owl.carousel.min.js', array('jquery-easing'), '4.1', true);
+            $slider_type = get_post_meta(get_the_ID(), 'mo_slider_choice', true);
+            if (!empty($slider_type) && $slider_type == 'Nivo')
                 wp_enqueue_script('nivo-slider', MO_SCRIPTS_LIB_URL . '/jquery.nivo.slider.pack.js', array('jquery'), '3.2', false);
 
-            wp_enqueue_script('jquery-prettyphoto', MO_SCRIPTS_LIB_URL . '/jquery.prettyPhoto.js', array('jquery'), '3.1.4', true);
+            wp_enqueue_script('jquery-prettyphoto', MO_SCRIPTS_LIB_URL . '/jquery.prettyPhoto.js', array('jquery'), '3.1.6', true);
 
             wp_enqueue_script('jquery-isotope', MO_SCRIPTS_LIB_URL . '/jquery.isotope.min.js', array('jquery'), '1.5.19', true);
 
@@ -612,10 +802,21 @@ class MO_Framework {
         }
     }
 
+    /* Overcome problems caused by late loading plugin scripts overriding the theme ones and destroying functionality */
+    function enqueue_additional_scripts() {
+        if (!is_admin()) {
+            wp_enqueue_script('jquery-waypoints-sticky', MO_SCRIPTS_LIB_URL . '/waypoints.sticky.min.js', array('jquery'), '2.0.2', true);
+        }
+    }
+
     function admin_enqueue_scripts($hook) {
 
         if (($hook == 'post.php') || ($hook == 'post-new.php') || ($hook == 'page.php') || ($hook == 'page-new.php')) {
             wp_enqueue_script('mo-admin-js', MO_SCRIPTS_URL . '/admin.js', array( 'jquery-ui-sortable', 'jquery-ui-draggable', 'jquery-ui-droppable' ), '1.0', true);
+        }
+
+        if ($hook == 'appearance_page_ot-theme-options') {
+            wp_enqueue_script('mo-itoggle-js', MO_SCRIPTS_URL . '/libs/jquery.simplecheckbox.js');
         }
     }
 
@@ -649,30 +850,26 @@ class MO_Framework {
         $GLOBALS['wp_styles']->add_data('style-html5', 'conditional', 'IE 8');
         wp_enqueue_style('style-html5');
 
-        /* The theme Custom CSS file for overriding css in a safe way */
-        wp_register_style('style-custom', MO_THEME_URL . '/custom/custom.css', array('style-skin-css'), false, 'all');
-
         /* Enqueue all registered styles */
         wp_enqueue_style('pretty-photo');
         wp_enqueue_style('animate');
         wp_enqueue_style('style-theme');
 
-        $this->register_skin_styles(); // loads the skin specific styling
-
-        wp_enqueue_style('style-skin-css');
-        wp_enqueue_style('style-custom');
-
     }
 
 
-    function mo_enqueue_plugin_styles() {
+    function enqueue_plugin_styles() {
         wp_register_style('style-plugins', MO_THEME_URL . '/css/plugins.css', array('style-theme'), false, 'all');
+
+        // Load the custom woocommerce styles after the theme stylesheets
+        if (mo_is_woocommerce_activated())
+            wp_enqueue_style('woocommerce-custom', MO_THEME_URL . '/woocommerce/css/woocommerce-mod.css', array('style-theme'));
 
         wp_enqueue_style('style-plugins'); // load the plugins css in the footer
     }
 
     /*---------------------- The theme Skin CSS file -----------------------------------*/
-    private function register_skin_styles() {
+    function enqueue_skin_styles() {
 
 
         $skin_color = mo_get_theme_skin();
@@ -680,10 +877,17 @@ class MO_Framework {
         if ($skin_color !== 'default') {
             $skin_stylesheet_dir_uri = get_template_directory_uri() . '/css/skins/';
 
-            wp_register_style('style-skin-php', $skin_stylesheet_dir_uri . 'skin.php?skin=' . urlencode($skin_color), array('style-theme'), false, 'all');
+            wp_register_style('style-skin-php', $skin_stylesheet_dir_uri . 'skin.php?skin=' . urlencode($skin_color), array('style-plugins'), false, 'all');
             wp_enqueue_style('style-skin-php');
 
         }
+    }
+
+    function enqueue_custom_styles() {
+        /* The theme Custom CSS file for overriding css in a safe way - comes after skin CSS has loaded */
+        wp_register_style('style-custom', MO_THEME_URL . '/custom/custom.css', array('style-skin-php'), false, 'all');
+
+        wp_enqueue_style('style-custom');
     }
 
     function sort_page_section_selection_list($query_params, $field_id) {

@@ -3,10 +3,6 @@
 
 function mo_woocommerce_init() {
 
-
-    mo_take_control_woocommerce_styles();
-
-
     remove_action('woocommerce_before_main_content', 'woocommerce_output_content_wrapper', 10);
     remove_action('woocommerce_after_main_content', 'woocommerce_output_content_wrapper_end', 10);
 
@@ -23,10 +19,6 @@ function mo_woocommerce_init() {
     add_action('woocommerce_after_single_product_summary', 'mo_woocommerce_upsell_display', 15);
     remove_action('woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20);
     add_action('woocommerce_after_single_product', 'mo_woocommerce_related_products', 20);
-
-    add_filter('woocommerce_get_image_size_shop_catalog', 'mo_shop_catalog_image_size', 1);
-    add_filter('woocommerce_get_image_size_shop_single', 'mo_shop_single_image_size', 1);
-    add_filter('woocommerce_get_image_size_shop_thumbnail', 'mo_shop_thumbnail_image_size', 1);
 
     add_filter('mo_sidebar_names', 'mo_init_woocommerce_sidebar', 10, 1);
 
@@ -45,9 +37,6 @@ function mo_woocommerce_init() {
     add_filter('woocommerce_cross_sells_columns', 'mo_woocommerce_cross_sell_number');
 
     add_filter('post_class', 'mo_add_post_class');
-
-    remove_action('woocommerce_after_shop_loop', 'woocommerce_pagination', 10);
-    add_action('woocommerce_after_shop_loop', 'mo_woocommerce_pagination', 10);
 
     // Ensure cart contents update when products are added to the cart via AJAX
     add_filter('add_to_cart_fragments', 'woocommerce_header_add_to_cart_fragment');
@@ -185,43 +174,6 @@ if (!function_exists('mo_init_woocommerce_sidebar_description')) {
     }
 }
 
-/* Ensure minimum of 250x250 image size for thumbnails as shown in related products */
-if (!function_exists('mo_shop_catalog_image_size')) {
-    function mo_shop_catalog_image_size($size) {
-        if (($size['width']) < 250)
-            $size['width'] = 250;
-        if (($size['height']) < 250)
-            $size['height'] = 250;
-
-        return $size;
-    }
-}
-
-/* Ensure minimum of 400x400 image size for single image */
-if (!function_exists('mo_shop_single_image_size')) {
-    function mo_shop_single_image_size($size) {
-        if (($size['width']) < 400)
-            $size['width'] = 400;
-        if (($size['height']) < 400)
-            $size['height'] = 400;
-
-        return $size;
-    }
-}
-
-/* Ensure minimum of 120x120 image size for thumbnails */
-if (!function_exists('mo_shop_thumbnail_image_size')) {
-    function mo_shop_thumbnail_image_size($size) {
-        if (($size['width']) < 120)
-            $size['width'] = 120;
-        if (($size['height']) < 120)
-            $size['height'] = 120;
-
-        return $size;
-    }
-}
-
-
 if (!function_exists('mo_is_woocommerce_activated')) {
     function mo_is_woocommerce_activated() {
         if (class_exists('woocommerce')) {
@@ -234,40 +186,6 @@ if (!function_exists('mo_is_woocommerce_activated')) {
 }
 
 
-if (!function_exists('mo_take_control_woocommerce_styles')) {
-    function mo_take_control_woocommerce_styles() {
-
-        //Disable all woocommerce stylesheets
-        define('WOOCOMMERCE_USE_CSS', false);
-
-        // Prioritize this - loads this stylesheet prior to theme stylesheet so that theme stylesheets can override it
-        add_action('wp_enqueue_scripts', 'mo_woocommerce_enqueue_styles', 9);
-
-        //Do this after woocommerce queues its stylesheets
-        add_action('wp_enqueue_scripts', 'mo_woocommerce_dequeue_styles', 99);
-    }
-}
-
-if (!function_exists('mo_woocommerce_enqueue_styles')) {
-    function mo_woocommerce_enqueue_styles() {
-
-        if (mo_is_woocommerce_activated() && is_checkout()) {
-            $chosen_en = get_option('woocommerce_enable_chosen') == 'yes' ? true : false;
-            if ($chosen_en)
-                wp_enqueue_style('woocommerce-chosen', plugins_url() . '/woocommerce/assets/css/chosen.css');
-        }
-
-        // Load the custom woocommerce styles after the theme stylesheets
-        if (mo_is_woocommerce_activated())
-            wp_enqueue_style('woocommerce-custom', get_template_directory_uri() . '/woocommerce/css/woocommerce-mod.css', array('style-theme'));
-    }
-}
-
-if (!function_exists('mo_woocommerce_dequeue_styles')) {
-    function mo_woocommerce_dequeue_styles() {
-        wp_dequeue_style('woocommerce_chosen_styles');
-    }
-}
 if (!function_exists('mo_remove_theme_breadcrumb')) {
     function mo_remove_theme_breadcrumb() {
         /* Do not display theme native breadcrumbs for woocommerce */
@@ -301,8 +219,13 @@ if (!function_exists('mo_woocommerce_upsell_display')) {
 
 if (!function_exists('mo_woocommerce_related_products')) {
     function mo_woocommerce_related_products() {
-        // 4 products, 4 columns - good layout for responsive
-        woocommerce_related_products(3, 3);
+        // 3 products, 3 columns - good layout for responsive
+        $args = array(
+            'posts_per_page' => 3,
+            'columns'        => 3,
+            'orderby'        => 'rand'
+        );
+        woocommerce_related_products($args);
     }
 }
 

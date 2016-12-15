@@ -44,7 +44,7 @@ class MO_Related_Posts_Widget extends MO_Widget {
 
 
 
-        $match = $instance['match_taxonamy'];
+        $match = $instance['match_taxonomy'];
 
         global $post;
 
@@ -124,7 +124,7 @@ class MO_Related_Posts_Widget extends MO_Widget {
         $instance['hide_thumbnail'] = !empty($new_instance['hide_thumbnail']) ? 1 : 0;
         $instance['show_meta'] = !empty($new_instance['show_meta']) ? 1 : 0;
 
-        $instance['match_taxonamy'] = $new_instance['match_taxonamy'];
+        $instance['match_taxonomy'] = $new_instance['match_taxonomy'];
 
         return $instance;
     }
@@ -137,7 +137,7 @@ class MO_Related_Posts_Widget extends MO_Widget {
     function form($instance) {
 
         /* Set up some default widget settings. */
-        $defaults = array('title' => __('Related Posts', 'mo_theme'), 'post_count' => '5', 'excerpt_count' => '100', 'hide_thumbnail' => false, 'show_meta' => false, 'match_taxonamy' => 'category');
+        $defaults = array('title' => __('Related Posts', 'mo_theme'), 'post_count' => '5', 'excerpt_count' => '100', 'hide_thumbnail' => false, 'show_meta' => false, 'match_taxonomy' => 'category');
         $instance = wp_parse_args((array) $instance, $defaults);
 
         $show_meta = isset($instance['show_meta']) ? (bool) $instance['show_meta'] : false;
@@ -172,11 +172,11 @@ class MO_Related_Posts_Widget extends MO_Widget {
         </p>
 
         <p>
-            <label for="<?php echo $this->get_field_id('match_taxonamy'); ?>"><?php _e('Match:', 'mo_theme'); ?></label>
-            <select class="widefat" id="<?php echo $this->get_field_id('match_taxonamy'); ?>" name="<?php echo $this->get_field_name('match_taxonamy'); ?>"> 
-                <option value='category' <?php selected($instance['match_taxonamy'], 'category'); ?>>Category</option>
-                <option value='tag' <?php selected($instance['match_taxonamy'], 'tag'); ?>>Tag</option>
-                <option value='both' <?php selected($instance['match_taxonamy'], 'both'); ?>>Both</option>
+            <label for="<?php echo $this->get_field_id('match_taxonomy'); ?>"><?php _e('Match:', 'mo_theme'); ?></label>
+            <select class="widefat" id="<?php echo $this->get_field_id('match_taxonomy'); ?>" name="<?php echo $this->get_field_name('match_taxonomy'); ?>"> 
+                <option value='category' <?php selected($instance['match_taxonomy'], 'category'); ?>>Category</option>
+                <option value='tag' <?php selected($instance['match_taxonomy'], 'tag'); ?>>Tag</option>
+                <option value='both' <?php selected($instance['match_taxonomy'], 'both'); ?>>Both</option>
             </select>
         </p>
 

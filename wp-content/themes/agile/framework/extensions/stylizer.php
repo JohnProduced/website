@@ -161,7 +161,7 @@ if (!function_exists('mo_custom_css')) {
 
         $fonts_import = '';
         if (!empty($fonts_to_import))
-            $fonts_import .= '@import url(http://fonts.googleapis.com/css?family=' . $fonts_to_import . ');';
+            $fonts_import .= '@import url("//fonts.googleapis.com/css?family=' . $fonts_to_import . '");';
 
         /* -------------------- Font Options ------------------------------------ */
 
@@ -291,7 +291,6 @@ if (!function_exists('mo_custom_css')) {
 
             $output .= "\n" . '#nivo-slider-wrap { background: none; /* get rid of that existing shadow */ }';
             $output .= "\n" . '#nivo-slider {';
-            $output .= 'height:' . intval($nivo_slider_height) . 'px;';
             $output .= 'box-shadow: 0px 0px 15px -3px black; /* Replace the existing shadow */';
             $output .= '}';
 

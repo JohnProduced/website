@@ -46,6 +46,9 @@ jQuery(document).ready(function ($) {
         'cursor': 'pointer',
         'items': 'li',
         'placeholder': 'placeholder',
+        start: function (event, ui) {
+            $('#sortable2 li.ui-draggable-dragging').css('width', '100%').css('max-width', '380px').css('height', 'auto');
+        },
         stop: function (event, ui) {
             MO_ADMIN.post_data(data);
         },

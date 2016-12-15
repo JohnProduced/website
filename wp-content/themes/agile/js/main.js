@@ -3,51 +3,7 @@
 
 jQuery.noConflict();
 
-var MO_THEME; // theme namespace
-
-/*================================ Global Function init ==================================*/
-// Helps to avoid continuous method execution as can happen in the case of scroll or window resize. Useful specially
-// when DOM access/manipulation is involved
-var mo_wait_for_final_event = (function () {
-    "use strict";
-    var timers = {};
-    return function (callback, ms, uniqueId) {
-        if (!uniqueId) {
-            uniqueId = "Don't call this twice without a uniqueId";
-        }
-        if (timers[uniqueId]) {
-            clearTimeout(timers[uniqueId]);
-        }
-        timers[uniqueId] = setTimeout(callback, ms);
-    };
-})();
-
-/*---- Enter negative percentage to darken; assumes presence of # - Credit: http://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color --*/
-var mo_shadeColor = (function () {
-    "use strict";
-    return function (color, percent) {
-        var num = parseInt(color.slice(1), 16), amt = Math.round(2.55 * percent), R = (num >> 16) + amt, G = (num >> 8 & 0x00FF) + amt, B = (num & 0x0000FF) + amt;
-        return "#" + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 + (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 + (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
-    };
-})();
-
-var mo_isIE = (function () {
-    "use strict";
-    return function (version) {
-        var exp = new RegExp('msie' + (!isNaN(version) ? ('\\s' + version) : ''), 'i');
-        return exp.test(navigator.userAgent);
-    };
-})();
-
-var mo_isMobile = (function () {
-    "use strict";
-    return function () {
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-            return true;
-        }
-        return false;
-    };
-})();
+var MO_THEME = {}; // theme namespace
 
 /*================================== Theme Function init =======================================*/
 
@@ -55,10 +11,78 @@ var mo_isMobile = (function () {
 
     "use strict";
 
+    var touchDevice = (Modernizr.touch) ? true : false;
+    var css3 = (Modernizr.csstransforms3d) ? true : false;
+
     MO_THEME = {
 
+        touchDevice: (Modernizr.touch) ? true : false,
+
+        css3: (Modernizr.csstransforms3d) ? true : false,
+
+        timers: {},
+
+        vendor_prefix: function () {
+
+            var prefix;
+
+            if (css3 === true) {
+                var styles = window.getComputedStyle(document.documentElement, '');
+                prefix = (Array.prototype.slice.call(styles).join('').match(/-(moz|webkit|ms)-/) || (styles.OLink === '' && ['', 'o']))[1];
+
+                return prefix;
+            }
+        },
+
+        is_IE: function () {
+
+
+            var myNav = navigator.userAgent.toLowerCase();
+            return (myNav.indexOf('msie') != -1) ? parseInt(myNav.split('msie')[1]) : false;
+        },
+
+        is_mobile: function () {
+
+
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                return true;
+            }
+            return false;
+        },
+
+        // Helps to avoid continuous method execution as can happen in the case of scroll or window resize. Useful specially
+        // when DOM access/manipulation is involved
+        wait_for_final_event: function (callback, ms, uniqueId) {
+
+            if (!uniqueId) {
+                uniqueId = "Don't call this twice without a uniqueId";
+            }
+            if (MO_THEME.timers[uniqueId]) {
+                clearTimeout(MO_THEME.timers[uniqueId]);
+            }
+            MO_THEME.timers[uniqueId] = setTimeout(callback, ms);
+        },
+
+        toggle_html5_video_volume: function (video) {
+
+
+            if (video.muted) {
+                video.muted = false;
+            }
+            else {
+                video.muted = true;
+            }
+        },
+
+        // Enter negative percentage to darken; assumes presence of # - Credit: http://stackoverflow.com/questions/5560248/programmatically-lighten-or-darken-a-hex-color //
+        shade_color: function (color, percent) {
+
+            var num = parseInt(color.slice(1), 16), amt = Math.round(2.55 * percent), R = (num >> 16) + amt, G = (num >> 8 & 0x00FF) + amt, B = (num & 0x0000FF) + amt;
+            return "#" + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 + (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 + (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
+        },
+
         add_body_classes: function () {
-            if (mo_isMobile()) {
+            if (MO_THEME.is_mobile()) {
                 $('body').addClass('mobile-device');
             }
             if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
@@ -77,7 +101,7 @@ var mo_isMobile = (function () {
 
         display_numbers: function (duration) {
             /* ------- Numbers ---------- */
-            $('.animate-numbers .number').animateNumbers(false, duration);
+            $('.stats .number').animateNumbers(false, duration);
         },
 
         display_stats: function () {
@@ -87,10 +111,14 @@ var mo_isMobile = (function () {
                 $(this).animate({ "width": dataperc + "%"}, dataperc * 20);
             });
 
+        },
+
+        display_piecharts: function () {
+
             /* -------- Charts like Pie Chart -------- */
             var charts = $('.piechart .percentage'),
                 bar_color = mo_options.theme_skin,
-                track_color = mo_shadeColor(bar_color, 26);
+                track_color = MO_THEME.shade_color(bar_color, 26);
             /* Lighten */
             charts.easyPieChart({
                 animate: 2000,
@@ -196,7 +224,7 @@ var mo_isMobile = (function () {
 
 
                 $(window).resize(function () {
-                    mo_wait_for_final_event(function () {
+                    MO_THEME.wait_for_final_event(function () {
                         if ($(document).scrollTop() < 50) {
                             var height = $('#header').height();
                             $('.sticky-wrapper').height(height);
@@ -210,35 +238,21 @@ var mo_isMobile = (function () {
             /* ----- Smooth Scroll --------*/
 
             if ($().smoothScroll !== undefined) {
-                $('.single-page-template #primary-menu > ul > li > a[href*=#]').smoothScroll(
-                    { preventDefault: true, easing: 'swing', speed: 700, offset: -50, exclude: ['.external a'],
-                        beforeScroll: function () {
-                            // Disable all waypoints on internal divs which are linked to from the menu
-                            $('.single-page-template #primary-menu > ul > li > a[href*=#]').each(function () {
-                                var element_id = MO_THEME.get_internal_link($(this).attr('href')); // Gives me ids of div's with ids like #work,#service, #portfolio etc.
-                                $(element_id).waypoint('disable');
-                            });
-                        },
-                        afterScroll: function () {
-                            // Enable all waypoints on internal divs which are linked to from the menu
-                            $('.single-page-template #primary-menu > ul > li > a[href*=#]').each(function () {
-                                var element_id = MO_THEME.get_internal_link($(this).attr('href')); // Gives me ids of div's with ids like #work,#service, #portfolio etc.
-                                $(element_id).waypoint('enable');
-                            });
-                        }});
-                $('.single-page-template #mobile-menu a[href*=#]').smoothScroll(
+                $('#primary-menu > ul > li > a[href*="#"]').smoothScroll(
+                    { preventDefault: true, easing: 'swing', speed: 700, offset: -50, exclude: ['.external a']});
+                $('#mobile-menu a[href*="#"]').smoothScroll(
                     {easing: 'swing', speed: 700, offset: 0, exclude: ['.external a']});
             }
 
 
             /* --------- One Page Menu --------- */
-            $('.single-page-template #primary-menu > ul > li > a[href*=#]').click(function () {
+            $('#primary-menu > ul > li > a[href*="#"]').click(function () {
                 $(this).closest('ul').children('li').each(function () {
                     $(this).removeClass('active');
                 });
                 $(this).parent('li').addClass('active');
             });
-            $('.single-page-template #primary-menu > ul > li > a[href*=#]').each(function () {
+            $('#primary-menu > ul > li > a[href*="#"]').each(function () {
                 var current_div_selector = MO_THEME.get_internal_link($(this).attr('href')); // Give ids of div's with ids like #work,#service, #portfolio etc.
 
                 $(current_div_selector).waypoint(function (direction) {
@@ -292,7 +306,7 @@ var mo_isMobile = (function () {
 
 
             /* Take care of internal links too - close the menu when scrolling from internal links */
-            $("#mobile-menu-toggle, #mobile-menu a[href*=#]").click(function () {
+            $('#mobile-menu-toggle, #mobile-menu a[href*="#"]').click(function () {
                 MO_THEME.toggle_mobile_menu();
                 return true;
                 /* must return true to record click event for smooth scroll of internal links */
@@ -312,16 +326,17 @@ var mo_isMobile = (function () {
             $("#mobile-menu ul li").each(function () {
                 var sub_menu = $(this).find("> ul");
                 if (sub_menu.length > 0 && $(this).addClass("has-ul")) {
-                    $(this).find("> a").append('<span class="sf-sub-indicator"><i class="icon-chevron-right"></i></span>');
+                    $(this).append('<div class="sf-sub-indicator"><i class="icon-uniF488"></i></div>');
                 }
             });
 
-            $('#mobile-menu ul li:has(">ul") > a').click(function () {
-                $(this).parent().find("> ul").stop(true, true).slideToggle();
+            $('#mobile-menu ul li:has(">ul") > div').click(function () {
+                $(this).siblings("ul.sub-menu").stop(true, true).slideToggle();
+                $(this).parent().toggleClass("open");
                 return false;
             });
 
-            this.init_page_navigation();
+            MO_THEME.init_page_navigation();
         },
 
         scroll_effects: function () {
@@ -329,7 +344,7 @@ var mo_isMobile = (function () {
                 return;
             }
 
-            $(".download-buttons .appstore img, .profiles .profile-header img, .download-buttons .google-play img, #client-list .twocol img, .single-page-template .showcase-section .image-area, #featured-app .app-screenshot img, .features-list-alternate i").css('opacity', 0);
+            $(".download-buttons .appstore img, .profiles .profile-header img, .download-buttons .google-play img, #client-list .twocol img, .showcase-section .image-area, #featured-app .app-screenshot img, .features-list-alternate i").css('opacity', 0);
 
             $(".download-buttons").waypoint(function (direction) {
                 $(this).find(".appstore img").addClass("animated fadeInLeft"); // flash only the button
@@ -343,7 +358,7 @@ var mo_isMobile = (function () {
             }, { offset: $.waypoints('viewportHeight') - 300,
                 triggerOnce: true});
 
-            $(".single-page-template .showcase-section .image-area").waypoint(function (direction) {
+            $(".showcase-section .image-area").waypoint(function (direction) {
                 $(this).addClass("animated fadeInUp");
             }, { offset: $.waypoints('viewportHeight') - 150,
                 triggerOnce: true});
@@ -365,14 +380,21 @@ var mo_isMobile = (function () {
 
             /* ------------------- Stats -----------------------------*/
 
-            $("#stats-section").waypoint(function (direction) {
+            $(".skill-bar").waypoint(function (direction) {
 
                 MO_THEME.display_stats();
 
-            }, { offset: $.waypoints('viewportHeight') - 250,
+            }, { offset: $.waypoints('viewportHeight') - 200,
                 triggerOnce: true});
 
-            $(".animate-numbers").waypoint(function (direction) {
+            $(".piechart").waypoint(function (direction) {
+
+                MO_THEME.display_piecharts();
+
+            }, { offset: $.waypoints('viewportHeight') - 200,
+                triggerOnce: true});
+
+            $(".stats").waypoint(function (direction) {
                 setTimeout(function () {
                     MO_THEME.display_numbers(2400)
                 }, 100);
@@ -419,6 +441,10 @@ var mo_isMobile = (function () {
         },
 
         validate_contact_form: function () {
+
+            if ($().validate === undefined) {
+                return;
+            }
             /* ------------------- Contact Form Validation ------------------------ */
             var rules = {
                 contact_name: {
@@ -435,7 +461,7 @@ var mo_isMobile = (function () {
                 },
                 contact_url: {
                     required: false,
-                    url: true
+                    url: false
                 },
                 message: {
                     required: true,
@@ -547,13 +573,15 @@ var mo_isMobile = (function () {
             }
         };
 
-        list_element.not(".hover-bg").hover(function () {
-            move(this);
-        }, noop);
+        if (!(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
+            list_element.not(".hover-bg").hover(function () {
+                move(this);
+            }, noop);
 
-        $(this).hover(noop, function () {
-            move(current);
-        });
+            $(this).hover(noop, function () {
+                move(current);
+            });
+        }
 
         list_element.click(function (e) {
             setCurr(this);
@@ -591,7 +619,7 @@ jQuery(document).ready(function ($) {
 
     /* --------- Back to top function ------------ */
     $(window).scroll(function () {
-        mo_wait_for_final_event(function () {
+        MO_THEME.wait_for_final_event(function () {
             var yPos = $(window).scrollTop();
             /* show back to top after screen has scrolled down 200px from the top in desktop and big size tablets only */
             if (yPos > 200) {
@@ -614,13 +642,16 @@ jQuery(document).ready(function ($) {
     /* ------------------- Scroll Effects ----------------------------- */
 
 
-    if (!mo_options.disable_animations_on_page && !mo_isIE() && !mo_isMobile()) {
+    if (!mo_options.disable_animations_on_page && !(MO_THEME.is_IE() && MO_THEME.is_IE() < 10) && !MO_THEME.is_mobile()) {
         MO_THEME.scroll_effects();
     }
     else {
 
         //Show stats without waiting for user to scroll to the element
         MO_THEME.display_stats();
+
+        MO_THEME.display_piecharts();
+        
         setTimeout(function () {
             MO_THEME.display_numbers(2400)
         }, 200);
@@ -660,7 +691,7 @@ jQuery(document).ready(function ($) {
         $(this).closest('.message-box').fadeOut();
     });
 
-
+    /* -------------------------------- Toggle  --------------------------*/
     $(".toggle-label").toggle(
         function () {
             MO_THEME.toggle_state($(this).parent());
@@ -670,6 +701,7 @@ jQuery(document).ready(function ($) {
         }
     );
 
+    /* -------------------------------- Contact Form --------------------------*/
     // Hide the honeypot trap field
     $("p.trap-field").hide();
 
@@ -700,7 +732,7 @@ jQuery(document).ready(function ($) {
 
     /* --------------------------- YouTube Video display ------------------------- */
 
-    if (!mo_isMobile()) {
+    if (!MO_THEME.is_mobile()) {
         $(".ytp-player").mb_YTPlayer({
             startAt: 0,
             showYTLogo: false,
@@ -718,10 +750,10 @@ jQuery(document).ready(function ($) {
             return;
         }
 
-        var post_snippets = $('.post-snippets').not('.bx-wrapper .post-snippets').not('.pane .post-snippets');
+        var post_snippets = $('.post-snippets').not('.carousel-container .post-snippets').not('.pane .post-snippets');
 
         post_snippets.imagesLoaded(function () {
-            $(this).isotope({
+            post_snippets.isotope({
                 // options
                 itemSelector: '.entry-item',
                 layoutMode: 'fitRows'
@@ -734,7 +766,7 @@ jQuery(document).ready(function ($) {
         }
 
         container.imagesLoaded(function () {
-            $(this).isotope({
+            container.isotope({
                 // options
                 itemSelector: '.showcase-item',
                 layoutMode: 'fitRows'
@@ -804,6 +836,4 @@ jQuery(window).load(function () {
         jQuery("#page-loading").delay(500).fadeOut("slow");
     }
 
-    /* Temporary fix for Chrome 33 Build Fonts display issue */
-    jQuery('body').width(jQuery('body').width()+1).width('auto');
 });

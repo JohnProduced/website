@@ -193,36 +193,6 @@ function mo_show_custom_post_types_shortcode($atts) {
 
 add_shortcode('show_custom_post_types', 'mo_show_custom_post_types_shortcode');
 
-function mo_show_rounded_post_snippets_shortcode($atts) {
-    $args = shortcode_atts(array(
-        'post_type' => 'portfolio',
-        'post_count' => 3,
-        'number_of_columns' => 3,
-        'title' => null,
-        'terms' => '',
-        'taxonomy' => 'category'
-    ), $atts);
-
-    /* Set default values for variables */
-    $args['layout_class'] = 'rounded';
-    $args['number_of_columns'] = $number_of_columns;
-    $args['image_size'] = 'square';
-    $args['show_meta'] = false;
-    $args['excerpt_count'] = 0;
-    $args['display_title'] = false;
-    $args['display_summary'] = false;
-    $args['show_excerpt'] = true;
-    $args['hide_thumbnail'] = false;
-    $args['row_line_break'] = true;
-
-    $output = mo_get_post_snippets($args);
-
-    return $output;
-
-}
-
-add_shortcode('show_rounded_post_snippets', 'mo_show_rounded_post_snippets_shortcode');
-
 /* Post Snippets Shortcode - See http://portfoliotheme.org/austin/portfolio-shortcodes/ ‎for examples.
 
 Displays the post snippets of blog posts or another custom post types with featured images. The post snippets are displayed in a grid fashion like a typical portfolio page or grid based blog page.
@@ -261,8 +231,9 @@ no_margin - false (boolean) - If set to true, no margins are maintained between 
 
 function mo_show_post_snippets_shortcode($atts) {
     $args = shortcode_atts(array(
-        'post_type' => null,
+        'post_type' => 'post',
         'post_count' => 4,
+        'post_ids' => false,
         'image_size' => 'medium',
         'title' => null,
         'layout_class' => '',
@@ -276,7 +247,10 @@ function mo_show_post_snippets_shortcode($atts) {
         'row_line_break' => true,
         'terms' => '',
         'taxonomy' => 'category',
-        'no_margin' => false
+        'taxonamy' => 'category', /* For backward compatibility */
+        'no_margin' => false,
+        'enable_sorting' => false,
+        'posts_query' => ''
     ), $atts);
 
     $output = mo_get_post_snippets($args);

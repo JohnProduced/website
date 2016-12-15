@@ -82,7 +82,7 @@ if (!function_exists('mo_display_gallery_content_grid_style')) {
 
                             <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
-                                <?php $thumbnail_exists = mo_thumbnail(array('image_size' => $image_size, 'wrapper' => true, 'size' => 'full', 'taxonamy' => 'gallery_category'));
+                                <?php $thumbnail_exists = mo_thumbnail(array('image_size' => $image_size, 'wrapper' => true, 'size' => 'full', 'taxonomy' => 'gallery_category'));
 
                                 ?>
 
@@ -163,7 +163,7 @@ if (!function_exists('mo_get_filterable_gallery_content')) {
 
                 $output .= '<article id="post-' . get_the_ID() . '" class="' . join(' ', get_post_class()) . '">';
 
-                $output .= mo_get_thumbnail(array('image_size' => $image_size, 'wrapper' => true, 'size' => 'full', 'taxonamy' => 'gallery_category'));
+                $output .= mo_get_thumbnail(array('image_size' => $image_size, 'wrapper' => true, 'size' => 'full', 'taxonomy' => 'gallery_category'));
 
                 $output .= '</article><!-- .hentry -->';
 

@@ -77,7 +77,7 @@ if (!class_exists('MO_SidebarManager')) {
                 'primary-gallery' => __('Gallery Sidebar', 'mo_theme'),
                 'after-singular-post' => __('After Singular Post', 'mo_theme'),
                 'after-singular-page' => __('After Singular Page', 'mo_theme'),
-                'slider-area-home' => __('Home Page Slider Area', 'mo_theme'),
+                'slider-area-home' => __('Home Page Slider Area (Deprecated)', 'mo_theme'),
                 'header' => __('Header Area', 'mo_theme')
             );
 
@@ -101,7 +101,7 @@ if (!class_exists('MO_SidebarManager')) {
                 'primary-gallery' => __('Sidebar displayed in the Gallery pages', 'mo_theme'),
                 'after-singular-post' => __('Widgets placed after the single post content', 'mo_theme'),
                 'after-singular-page' => __('Widgets placed after the single page content', 'mo_theme'),
-                'slider-area-home' => __('Widgets to be placed in top area of Custom Home Page to help create static content when sliders are disabled', 'mo_theme'),
+                'slider-area-home' => __('(Deprecated - no longer used) - Widgets to be placed in top area of Custom Home Page to help create static content when sliders are disabled', 'mo_theme'),
                 'header' => __('Widget content in the Header area. Typically custom HTML, buttons, social icons etc.', 'mo_theme')
             );
 
@@ -325,15 +325,19 @@ if (!class_exists('MO_SidebarManager')) {
          * @param $name
          */
         function register_sidebar($id, $name, $desc = '') {
-            register_sidebar(array(
-                'id' => $id,
-                'name' => $name,
-                'description' => $desc,
-                'before_widget' => '<aside id="%1$s" class="widget %2$s widget-%2$s"><div class="widget-wrap widget-inside">',
-                'after_widget' => '</div></aside>',
-                'before_title' => '<h3 class="widget-title"><span>',
-                'after_title' => '</span></h3>'
-            ));
+
+            if (!empty($id)) {
+                register_sidebar(array(
+                    'id' => $id,
+                    'name' => $name,
+                    'description' => $desc,
+                    'before_widget' => '<aside id="%1$s" class="widget %2$s widget-%2$s"><div class="widget-wrap widget-inside">',
+                    'after_widget' => '</div></aside>',
+                    'before_title' => '<h3 class="widget-title"><span>',
+                    'after_title' => '</span></h3>'
+                ));
+            }
+
         }
 
     }

@@ -1,5 +1,8 @@
+var tinymce, tinyMCE;
+
 function init() {
-    tinyMCEPopup.resizeToInnerSize();
+    var parentWin = (!window.frameElement && window.dialogArguments) || opener || parent || top;
+    tinymce = tinyMCE = parentWin.tinymce;
 }
 
 function getshortcodeText(selectedShortcode) {
@@ -257,7 +260,7 @@ function getshortcodeText(selectedShortcode) {
     /* --------------- Miscellaneous Shortcodes ------------------------ */
 
     if (selectedShortcode == 'responsive_slider') {
-        shortcodeText = '[responsive_slider type="testimonials2" animation="slide" control_nav="true" direction_nav=false pause_on_hover="true" slideshow_speed=4500]<ul><li>Slide 1 content goes here.</li><li>Slide 2 content goes here.</li><li>Slide 3 content goes here.</li></ul>[/responsive_slider';
+        shortcodeText = '[responsive_slider type="testimonials2" animation="slide" control_nav="true" direction_nav=false pause_on_hover="true" slideshow_speed=4500]<ul><li>Slide 1 content goes here.</li><li>Slide 2 content goes here.</li><li>Slide 3 content goes here.</li></ul>[/responsive_slider]<br />';
         return shortcodeText;
     }
 
@@ -275,6 +278,10 @@ function getshortcodeText(selectedShortcode) {
     return shortcodeText;
 }
 
+function closeDialog() {
+    tinyMCE.activeEditor.windowManager.close(window);
+}
+
 function shortcodeSubmit() {
 
     var shortcodeText;
@@ -289,15 +296,17 @@ function shortcodeSubmit() {
 
     shortcodeText = getshortcodeText(mo_shortcode);
 
-    if (window.tinyMCE) {
-        //TODO: For QTranslate we should use here 'qtrans_textarea_content' instead 'content'
-        //window.tinyMCE.execInstanceCommand('content', 'mceInsertContent', false, shortcodeText);
-        tinyMCEPopup.editor.execCommand('mceInsertContent', false, shortcodeText);
-        //Peforms a clean up of the current editor HTML.
-        //tinyMCEPopup.editor.execCommand('mceCleanup');
-        //Repaints the editor. Sometimes the browser has graphic glitches.
-        tinyMCEPopup.editor.execCommand('mceRepaint');
-        tinyMCEPopup.close();
+    if (tinyMCE) {
+        var version = tinyMCE.majorVersion;
+
+        if (version === '3') {
+            tinyMCE.execInstanceCommand(tinyMCE.activeEditor.id, 'mceInsertContent', false, shortcodeText);
+            tinyMCE.activeEditor.windowManager.close(window);
+        } else if (version === '4') {
+            tinyMCE.activeEditor.insertContent(shortcodeText);
+            tinyMCE.activeEditor.windowManager.close(window);
+        }
+
     }
 
 }

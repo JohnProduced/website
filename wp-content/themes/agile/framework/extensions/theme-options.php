@@ -635,83 +635,6 @@ if (!function_exists('mo_custom_theme_options')) {
             ),
             'settings' => array(
                 array(
-                    'id' => 'mo_slider_choice',
-                    'label' => 'Slider Choice',
-                    'desc' => 'Select your choice of Slider type to be shown in the top section of pages with page template Home Page or Single Page Site.',
-                    'std' => '',
-                    'type' => 'select',
-                    'section' => 'general_default',
-                    'rows' => '',
-                    'post_type' => '',
-                    'taxonomy' => '',
-                    'class' => '',
-                    'choices' => array(
-                        array(
-                            'value' => 'Revolution',
-                            'label' => 'Revolution Slider',
-                            'src' => ''
-                        ),
-                        array(
-                            'value' => 'FlexSlider',
-                            'label' => 'FlexSlider',
-                            'src' => ''
-                        ),
-                        array(
-                            'value' => 'Nivo',
-                            'label' => 'Nivo',
-                            'src' => ''
-                        )
-                    ),
-                ),
-                array(
-                    'id' => 'mo_revolution_slider_choice',
-                    'label' => 'Revolution Slider Choice',
-                    'desc' => 'If Revolution Slider type is chosen above, choose the instance of Revolution Slider to be displayed in Home Page and Single Page Site templates. <strong><i>The Revolution Slider plugin bundled with the theme must be installed and activated before you can choose the slider for display.</i></strong>',
-                    'std' => '',
-                    'type' => 'select',
-                    'section' => 'general_default',
-                    'rows' => '',
-                    'post_type' => '',
-                    'taxonomy' => '',
-                    'class' => '',
-                    'choices' => mo_get_revolution_slider_options(),
-                ),
-                array(
-                    'id' => 'mo_disable_sliders',
-                    'label' => 'Disable Sliders in Home Page and Enable Home Page Slider Area Widget',
-                    'desc' => 'Do not display sliders in the home page. Can use Slider Area widgets to show in the slider area static text or the amazing revolution slider.',
-                    'std' => '',
-                    'type' => 'checkbox',
-                    'section' => 'general_default',
-                    'rows' => '',
-                    'post_type' => '',
-                    'taxonomy' => '',
-                    'class' => '',
-                    'choices' => array(
-                        array(
-                            'value' => 'Disable Sliders',
-                            'label' => 'Disable Sliders',
-                            'src' => ''
-                        )
-                    ),
-                ),
-                array(
-                    'id' => 'mo_disable_slider_section',
-                    'label' => 'Disable Sliders in Home Page and Disable Home Page Slider Area Widget',
-                    'desc' => '',
-                    'std' => '',
-                    'type' => 'checkbox',
-                    'desc' => 'Do not display top section for the page ( with slider or static content) for home page. Applies in the case of Single Page Site as well.',
-                    'section' => 'general_default',
-                    'choices' => array(
-                        array(
-                            'value' => 'Yes',
-                            'label' => 'Yes',
-                            'src' => ''
-                        )
-                    )
-                ),
-                array(
                     'id' => 'mo_disable_smooth_page_load',
                     'label' => 'Disable Smooth Page Load',
                 'desc' => 'Disables the smooth fade animation for page load. Loads the page rightaway without loading animation.',
@@ -779,31 +702,6 @@ if (!function_exists('mo_custom_theme_options')) {
                     'post_type' => '',
                     'taxonomy' => '',
                     'class' => ''
-                ),
-                array(
-                    'id' => 'mo_thumbnail_generation',
-                    'label' => 'Thumbnail Generation',
-                    'desc' => 'Choose the thumbnail generation method to use for your site. Wordpress is recommended while Aqua Resize helps if you need images of custom height/width for your posts and want to generate thumbnails on the fly at runtime.',
-                    'std' => '',
-                    'type' => 'select',
-                    'section' => 'general_default',
-                    'rows' => '',
-                    'post_type' => '',
-                    'taxonomy' => '',
-                    'class' => '',
-                    'choices' => array(
-                        array(
-                            'value' => 'Aqua',
-                            'label' => 'Aqua',
-                            'src' => ''
-                        ),
-                        array(
-                            'value' => 'Wordpress',
-                            'label' => 'Wordpress',
-                            'src' => ''
-                        )
-
-                    ),
                 ),
                 array(
                     'id' => 'mo_disable_sticky_menu',
@@ -2112,18 +2010,6 @@ if (!function_exists('mo_custom_theme_options')) {
                     ),
                 ),
                 array(
-                    'id' => 'mo_flex_slider_height',
-                    'label' => 'Flex Slider Height',
-                    'desc' => 'Enter the height in pixel units the desired height of the responsive Flex Slider. Leave blank to default to height of 600 pixels.',
-                    'std' => '',
-                    'type' => 'text',
-                    'section' => 'mo_flex_slider',
-                    'rows' => '',
-                    'post_type' => '',
-                    'taxonomy' => '',
-                    'class' => ''
-                ),
-                array(
                     'id' => 'mo_flex_slider_animation_speed',
                     'label' => 'Flex Slider Animation Speed',
                     'desc' => 'Specify the duration of slide animations in milliseconds. Defaults to 500 milliseconds.',
@@ -2314,18 +2200,6 @@ if (!function_exists('mo_custom_theme_options')) {
                             'src' => ''
                         )
                     ),
-                ),
-                array(
-                    'id' => 'mo_nivo_slider_height',
-                    'label' => 'Nivo Slider Height',
-                    'desc' => 'Enter the height in pixel units the desired height of the Nivo Slider. Leave blank to default to height of 600 pixels.',
-                    'std' => '',
-                    'type' => 'text',
-                    'section' => 'mo_nivo_slider',
-                    'rows' => '',
-                    'post_type' => '',
-                    'taxonomy' => '',
-                    'class' => ''
                 ),
                 array(
                     'id' => 'mo_nivo_slices',

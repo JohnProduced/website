@@ -15,6 +15,7 @@
 			// Register the command to be invoked by using tinyMCE.activeEditor.execCommand('mceInsertContent');
 			ed.addCommand('mceshortcodepanel', function() {
 				ed.windowManager.open({
+                    title: 'Choose Shortcode',
 					file : url + '/window_page.php',
 					width : 360 + ed.getLang('shortcodepanel.delta_width', 0),
 					height : 210 + ed.getLang('shortcodepanel.delta_height', 0),

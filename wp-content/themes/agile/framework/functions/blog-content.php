@@ -252,10 +252,10 @@ if (!function_exists('mo_display_video_or_slider_thumbnail')) {
             $slides = get_post_meta($post_id, 'post_slider', true);
 
             if (!empty($slides)) {
-                $output = '[responsive_slider type="thumbnail" ]';
+                $output = '[responsive_slider type="thumbnail" direction_nav="true" control_nav="false"]';
                 $output .= '<ul>';
                 foreach ($slides as $slide) {
-                    $output .= '<li>' . mo_get_custom_sized_image($slide['slider_image'], $image_size, 'thumbnail-slide', $slide['title']) . '</li>';
+                    $output .= '<li>' . mo_get_custom_sized_image($slide['slider_image'], null, 'thumbnail-slide', $slide['title']) . '</li>';
                 }
                 $output .= '</ul>';
                 $output .= '[/responsive_slider]';
@@ -271,20 +271,20 @@ if (!function_exists('mo_display_video_or_slider_thumbnail')) {
 }
 
 if (!function_exists('mo_display_blog_thumbnail')) {
-    function mo_display_blog_thumbnail($image_size, $taxonamy = "category") {
+    function mo_display_blog_thumbnail($image_size, $taxonomy = "category") {
 
         global $post;
 
         $thumbnail_exists = mo_display_video_or_slider_thumbnail($post->ID, $image_size);
 
         if (!$thumbnail_exists)
-            $thumbnail_exists = mo_thumbnail(array('image_size' => $image_size, 'wrapper' => true, 'size' => 'full', 'taxonamy' => $taxonamy));
+            $thumbnail_exists = mo_thumbnail(array('image_size' => $image_size, 'wrapper' => true, 'size' => 'full', 'taxonomy' => $taxonomy));
         return $thumbnail_exists;
     }
 }
 
 if (!function_exists('mo_get_blog_thumbnail')) {
-    function mo_get_blog_thumbnail($image_size, $taxonamy = "category") {
+    function mo_get_blog_thumbnail($image_size, $taxonomy = "category") {
 
         global $post;
 
@@ -324,7 +324,7 @@ if (!function_exists('mo_get_blog_thumbnail')) {
                 $slider_content = '[responsive_slider direction_nav="true" control_nav="false"]';
                 $slider_content .= '<ul>';
                 foreach ($slides as $slide) {
-                    $slider_content .= '<li>' . mo_get_custom_sized_image($slide['slider_image'], $image_size, 'thumbnail-slide', $slide['title']) . '</li>';
+                    $slider_content .= '<li>' . mo_get_custom_sized_image($slide['slider_image'], null, 'thumbnail-slide', $slide['title']) . '</li>';
                 }
                 $slider_content .= '</ul>';
                 $slider_content .= '[/responsive_slider]';
@@ -336,7 +336,7 @@ if (!function_exists('mo_get_blog_thumbnail')) {
         }
 
         /* Place image outside the content area for thumbnail lists to avoid going for css circus */
-        $output .= mo_get_thumbnail(array('image_size' => $image_size, 'wrapper' => true, 'size' => 'full', 'taxonamy' => $taxonamy));
+        $output .= mo_get_thumbnail(array('image_size' => $image_size, 'wrapper' => true, 'size' => 'full', 'taxonomy' => $taxonomy));
         return $output;
     }
 }

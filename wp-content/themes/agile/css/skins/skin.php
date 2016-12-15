@@ -31,6 +31,8 @@ button, .button, input[type=button], input[type="submit"], input[type="reset"] {
 .button.theme { border-color: {$skin_color} !important; }
 
 .segment .flex-control-nav li a:hover, .segment .flex-control-nav li a.flex-active { background-color: {$skin_color}; }
+.flex-control-paging li a:hover, .flex-control-paging li a.flex-active, .flex-control-nav li a.flex-active, .flex-control-nav li a:hover { background-color: {$skin_color}; }
+.vc_row .flex-control-nav li a:hover, .vc_row .flex-control-nav li a.flex-active { background-color: {$skin_color}; }
 
 #flickr-widget .flickr_badge_image img:hover { border-color: {$skin_color}; }
 ul#recentcomments li.recentcomments a { color: {$skin_color}; }
@@ -42,7 +44,7 @@ h3.fancy-header { background-color: {$skin_color};}
 
 .slogan1 .highlight, .slogan1 .highlight h2 { color: {$skin_color}; }
 .heading2 .subtitle span { color: {$skin_color}; }
-.segment.slogan blockquote .footer cite { color: {$skin_color}; }
+.slogan blockquote .footer cite { color: {$skin_color}; }
 
 .skill-bar-content { background: {$skin_color}; }
 .animate-numbers .stats .number { color: {$skin_color};}

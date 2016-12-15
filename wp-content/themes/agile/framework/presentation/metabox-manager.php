@@ -137,20 +137,72 @@ if (!function_exists('mo_build_advanced_page_meta_boxes')) {
         };
 
         $advanced_page_meta_box = array(
-            'id' => 'mo_advanced_page_options',
-            'title' => 'Advanced Page Options',
+            'id' => 'mo_advanced_entry_options',
+            'title' => 'Advanced Entry Options',
             'desc' => '',
-            'pages' => array('page'),
+            'pages' => array(
+                'post',
+                'page',
+                'portfolio'
+            ),
             'context' => 'normal',
             'priority' => 'high',
             'fields' => array(
                 array(
-                    'id' => 'mo_disable_slider_section',
-                    'label' => __('Disable Sliders and Disable Home Page Slider Area Widget', 'mo_theme'),
+                    'id' => 'mo_slider_choice',
+                    'label' => 'Display Slider and Remove Title Header',
+                    'desc' => 'Select your choice of Slider type to be shown in the top section of the page, replacing the default page/post title header for this page. This option is often used with full width page templates like Home Page or Composite Page, although one can choose to display sliders in any page.',
+                    'std' => '',
+                    'type' => 'select',
+                    'section' => 'general_default',
+                    'rows' => '',
+                    'post_type' => 'page,post,portfolio',
+                    'taxonomy' => '',
+                    'class' => '',
+                    'choices' => array(
+                        array(
+                            'value' => 'None',
+                            'label' => 'None',
+                            'src' => ''
+                        ),
+                        array(
+                            'value' => 'Revolution',
+                            'label' => 'Revolution Slider',
+                            'src' => ''
+                        ),
+                        array(
+                            'value' => 'FlexSlider',
+                            'label' => 'FlexSlider',
+                            'src' => ''
+                        ),
+                        array(
+                            'value' => 'Nivo',
+                            'label' => 'Nivo',
+                            'src' => ''
+                        )
+                    ),
+                ),
+                array(
+                    'id' => 'mo_revolution_slider_choice',
+                    'label' => 'Revolution Slider Choice',
+                    'desc' => 'If Revolution Slider type is chosen above, choose the instance of Revolution Slider to be displayed in the page/post/portfolio. <strong><i>The Revolution Slider plugin bundled with the theme must be installed and activated before you can choose the slider for display.</i></strong>',
+                    'std' => '',
+                    'type' => 'select',
+                    'section' => 'general_default',
+                    'rows' => '',
+                    'post_type' => 'page,post,portfolio',
+                    'taxonomy' => '',
+                    'class' => '',
+                    'choices' => mo_get_revolution_slider_options(),
+                ),
+                array(
+                    'id' => 'mo_remove_title_header',
+                    'label' => __('Remove Title Header', 'mo_theme'),
                     'desc' => '',
                     'std' => '',
                     'type' => 'checkbox',
-                    'desc' => 'Do not display top section for the page with slider or static content if Single Page Site template or Home Page template is chosen for this page.',
+                    'post_type' => 'page',
+                    'desc' => 'Do not display normal title headers for this entry (disables both custom or default headers specified in heading options below). Useful if normal headers with page/post title and description (or custom HTML) need to be replaced with custom content for a entry as is often the case for pages that use Composite Page template or Home Page template.',
                     'choices' => array(
                         array(
                             'value' => 'Yes',

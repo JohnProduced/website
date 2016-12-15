@@ -49,8 +49,12 @@ None
 
 */
 
-function mo_divider_top_shortcode() {
-    return '<div class="divider top-of-page"><a href="#top" title="Top of Page" class="back-to-top">Back to Top</a></div>';
+function mo_divider_top_shortcode($atts, $content = null, $shortcode_name = "") {
+    extract(shortcode_atts(array(
+        'style' => null
+    ), $atts));
+
+    return '<div class="divider top-of-page"' . ($style ? (' style="' . $style . '"') : '') . '><a href="#top" title="' . __("Top of the Page", "mo_theme") . '" class="back-to-top">' . __("Back to Top", "mo_theme") . '</a></div>';
 }
 
 add_shortcode('divider_top', 'mo_divider_top_shortcode');
@@ -74,6 +78,30 @@ function mo_clear_shortcode() {
 }
 
 add_shortcode('clear', 'mo_clear_shortcode');
+
+/* Space Shortcode -
+
+Create a DIV element aimed at having a space of fixed height between elements.
+
+Usage:
+
+[space height="30"]
+
+Parameters -
+
+height - Specify height of the space in pixel units
+
+*/
+
+function mo_space_shortcode($atts, $content = null) {
+    extract(shortcode_atts(array(
+        'height' => false
+    ), $atts));
+
+    return '<div style="clear:both; width:100%; height:'. $height .'px"></div>';
+}
+
+add_shortcode('clearing_space', 'mo_space_shortcode');
 
 /* Header Fancy Shortcode -
 

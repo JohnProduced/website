@@ -24,7 +24,6 @@ wrapper_class - The CSS class for any wrapper DIV element created for the image.
 wrapper_style - The inline CSS styling for any wrapper DIV element created for the image.
 width - Any custom width specified for the element. The original image (pointed to by the src parameter) will be cropped to this width.
 height - Any custom height specified for the element. The original image (pointed to by the src parameter) will be cropped to this height.
-size - Takes effect if no custom width or height is specified. Can be mini, small, medium, large, full, square. The original image (pointed to by the src parameter) is cropped to the size specified.
 
 */
 
@@ -41,46 +40,47 @@ function mo_image_shortcode($atts, $content = null, $code) {
         'wrapper_style' => '',
         'wrapper_class' => '',
         'width' => null,
-        'height' => null,
-        'size' => 'medium'
+        'height' => null
     ), $atts));
 
     $output = '';
     if ($link)
-        $output .= '<a href="' . $link . '" title="' . $title . '">';
+        $output .= '<a href="' . esc_url($link) . '" title="' . esc_attr($title) . '">';
 
     $output .= '<img';
-    $output .= ' class="thumbnail ' . $class . '"';
+    $output .= ' class="thumbnail ' . esc_attr($class) . '"';
 
-    if (!$align)
+    if (!$align) {
         $align = '';
-    else
-        $align = ' align' . $align;
+    }
+    else {
+        $align = ' align' . esc_attr($align);
+    }
 
-    $wrapper_class = $wrapper_class . ' image-box';
+    $wrapper_class = esc_attr($wrapper_class) . ' image-box';
 
-    // If the custom width and height is not specified
-    if (!isset($height) && !isset($width)) {
-        $image_size = mo_get_image_size_array($size, 'medium'); // default to medium if size is invalid
+    // If the custom width and height is specified
+    if (isset($height) && isset($width)) {
 
-        $height = $image_size['height'];
-        $width = $image_size['width'];
+        $image_url = aq_resize($src, $width, $height, true, true, true); //resize & crop the image if required
 
     }
     else {
-        $size = '';
+        $image_url = esc_url($src); // change the image src url only if certain custom size is required
     }
 
-    $wrapper_style = $wrapper_style ? ' style="' . $wrapper_style . '"' : '';
+    $wrapper_style = $wrapper_style ? ' style="' . esc_attr($wrapper_style) . '"' : '';
 
-    $image_url = aq_resize($src, $width, $height, true); //resize & crop the image if required
+    if ($align || !empty($wrapper_style)) {
+        $wrapper = true;
+    }
 
     $output .= ' src="' . $image_url . '"';
 
     if (!$alt)
-        $output .= ' alt="' . $title . '"';
+        $output .= ' alt="' . esc_attr($title) . '"';
     else
-        $output .= ' alt="' . $alt . '"';
+        $output .= ' alt="' . esc_attr($alt) . '"';
 
     if (!$link)
         $output .= '>';
@@ -90,18 +90,19 @@ function mo_image_shortcode($atts, $content = null, $code) {
     // Image height and width for actual wp image while size attribute is for styling - to obtain appropriate css frame fitting this image
     if (mo_to_boolean($image_frame)) {
         $wrap = '<div class="' . $wrapper_class . $align . ' clearfix"' . $wrapper_style . '>';
-        $wrap .= '<div class="image-area'. $size .'">';
+        $wrap .= '<div class="image-area">';
         $wrap .= $output;
         $wrap .= '</div></div>';
 
         $output = $wrap;
     }
-    else {
+    elseif ($wrapper) {
         $wrap = '<div class="' . $wrapper_class . $align . ' clearfix"' . $wrapper_style . '>';
         $wrap .= $output;
         $wrap .= '</div>';
 
         $output = $wrap;
+
     }
 
     return $output;

@@ -11,7 +11,7 @@ class Shortcode_Helper {
         $this->path = get_template_directory_uri() . '/framework/admin/tinymce/';
 
         // Modify the version when tinyMCE plugins are changed.
-        add_filter('tiny_mce_version', array(&$this, 'change_tinymce_version'));
+        //add_filter('tiny_mce_version', array(&$this, 'change_tinymce_version'));
 
         // init process for button control
         add_action('init', array(&$this, 'addbuttons'));
@@ -22,8 +22,7 @@ class Shortcode_Helper {
     }
 
 
-    function _add_my_quicktags()
-    {  /* Add custom Quicktag buttons to the editor Wordpress ver. 3.3 and above only
+    function _add_my_quicktags() { /* Add custom Quicktag buttons to the editor Wordpress ver. 3.3 and above only
              *
              * Params for this are:
              * - Button HTML ID (required)
@@ -34,15 +33,15 @@ class Shortcode_Helper {
              * - Title, title="" attribute (optional)
              * - Priority/position on bar, 1-9 = first, 11-19 = second, 21-29 = third, etc. (optional)
              */
-    ?>
+        ?>
         <script type="text/javascript">
 
 
-            if ( typeof(QTags) != 'undefined' && QTags.addButton )  {
-                QTags.addButton( 'segment', 'segment', '[segment id="" class="" style="" background_image="http://example.com/x.png" background_pattern="http://example.com/y.png" background_color="#eaeaea" parallax_background="true" background_speed="0.5"]', '[/segment]');
-                QTags.addButton( 'two_col', 'two-columns', '[one_half]Replace with your content[/one_half][one_half_last]Replace with your content[/one_half_last]', '');
-                QTags.addButton( 'three_col', 'three-columns', '[one_third]Replace with your content[/one_third][one_third]Replace with your content[/one_third][one_third_last]Replace with your content[/one_third_last]', '');
-                QTags.addButton( 'four_col', 'four-columns', '[one_fourth]Replace with your content[/one_fourth][one_fourth]Replace with your content[/one_fourth][one_fourth]Replace with your content[/one_fourth][one_fourth_last]Replace with your content[/one_fourth_last]', '');
+            if (typeof(QTags) != 'undefined' && QTags.addButton) {
+                QTags.addButton('segment', 'segment', '[segment id="" class="" style="" background_image="http://example.com/x.png" background_pattern="http://example.com/y.png" background_color="#eaeaea" parallax_background="true" background_speed="0.5"]', '[/segment]');
+                QTags.addButton('two_col', 'two-columns', '[one_half]Replace with your content[/one_half][one_half_last]Replace with your content[/one_half_last]', '');
+                QTags.addButton('three_col', 'three-columns', '[one_third]Replace with your content[/one_third][one_third]Replace with your content[/one_third][one_third_last]Replace with your content[/one_third_last]', '');
+                QTags.addButton('four_col', 'four-columns', '[one_fourth]Replace with your content[/one_fourth][one_fourth]Replace with your content[/one_fourth][one_fourth]Replace with your content[/one_fourth][one_fourth_last]Replace with your content[/one_fourth_last]', '');
             }
         </script>
     <?php
@@ -72,9 +71,16 @@ class Shortcode_Helper {
 
     function add_tinymce_plugin($plugin_array) {
 
+        global $tinymce_version;
+
         $svr_uri = $_SERVER['REQUEST_URI'];
         if (strstr($svr_uri, 'post.php') || strstr($svr_uri, 'post-new.php') || strstr($svr_uri, 'page.php') || strstr($svr_uri, 'page-new.php')) {
-            $plugin_array[$this->pluginname] = $this->path . 'editor_plugin.js';
+            if (version_compare($tinymce_version, '400', '<')) {
+                $plugin_array[$this->pluginname] = $this->path . 'editor_plugin.js';
+            }
+            else {
+                $plugin_array[$this->pluginname] = $this->path . 'plugin.js';
+            }
         }
 
         return $plugin_array;

@@ -18,6 +18,10 @@ abstract class MO_Widget extends WP_Widget {
 
     }
 
+    public function WP_Widget( $id_base, $name, $widget_options = array(), $control_options = array() ) {
+        parent::__construct( $id_base, $name, $widget_options, $control_options );
+    }
+
 }
 
 ?>

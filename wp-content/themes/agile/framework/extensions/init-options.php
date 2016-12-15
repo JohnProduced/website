@@ -54,12 +54,12 @@ if (!function_exists('mo_setup_general_theme_options')) {
 if (!function_exists('mo_setup_slider_options')) {
     function mo_setup_slider_options() {
 
-        if (!mo_is_home_page_layout() || mo_get_theme_option('mo_disable_sliders')) {
+        $slider_type = get_post_meta(get_the_ID(), 'mo_slider_choice', true);
+        if (empty($slider_type) || $slider_type == 'None') {
             echo 'mo_options.slider_chosen="None";';
             return;
         }
 
-        $slider_type = mo_get_theme_option('mo_slider_choice', 'Nivo');
         echo 'mo_options.slider_chosen="' . $slider_type . '";'; // output slider option chosen by the user for later use
 
         if ($slider_type == 'Nivo')

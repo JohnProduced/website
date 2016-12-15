@@ -55,7 +55,6 @@ jQuery(document).ready(function ($) {
 
 jQuery(window).load(function () {
     // Wait till all images have loaded before unwrapping
-    setTimeout(function () {
-        jQuery('.flex-slider-container, #nivo-slider, .carousel-wrap').removeClass('loading');
-    }, 400);
+    jQuery('.flex-slider-container, #nivo-slider, .carousel-wrap').removeClass('loading');
+
 });

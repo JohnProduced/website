@@ -19,8 +19,8 @@
 <?php elseif (is_singular('portfolio')) : ?>
 
     <div class="loop-nav">
-        <?php previous_post_link('<div class="previous">&larr; ' . '%link' . '</div>', '<span class="portfolio-nav">' . __('Previous Project', 'mo_theme') . '</span>'); ?>
-        <?php next_post_link('<div class="next">&rarr; ' . '%link' . '</div>', '<span class="portfolio-nav">' . __('Next Project', 'mo_theme') . '</span>'); ?>
+        <?php previous_post_link('<div class="previous">&larr; ' . '%link' . '</div>', '<span class="portfolio-nav">' . __('Previous Project', 'mo_theme') . '</span>', false, '', 'portfolio_category'); ?>
+        <?php next_post_link('<div class="next">&rarr; ' . '%link' . '</div>', '<span class="portfolio-nav">' . __('Next Project', 'mo_theme') . '</span>', false, '', 'portfolio_category'); ?>
     </div><!-- .loop-nav -->
 
 <?php

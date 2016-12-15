@@ -16,16 +16,16 @@
 
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
-define('DB_NAME', 'produced');
+define('DB_NAME', 'produced_db');
 
 /** MySQL database username */
-define('DB_USER', 'root');
+define('DB_USER', 'john');
 
 /** MySQL database password */
-define('DB_PASSWORD', 'root');
+define('DB_PASSWORD', 'it's a secret);
 
 /** MySQL hostname */
-define('DB_HOST', 'localhost');
+define('DB_HOST', 'localhost:3306');
 
 /** Database Charset to use in creating database tables. */
 define('DB_CHARSET', 'utf8');
@@ -78,7 +78,9 @@ define('WPLANG', '');
  * It is strongly recommended that plugin and theme developers use WP_DEBUG
  * in their development environments.
  */
-define('WP_DEBUG', false);
+
+define( 'WP_DEBUG', false );
+
 
 /* That's all, stop editing! Happy blogging. */
 
