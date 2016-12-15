@@ -33,6 +33,7 @@ function mo_image_shortcode($atts, $content = null, $code) {
         'title' => '',
         'class' => '',
         'src' => '',
+        'image_id' => '',
         'alt' => '',
         'align' => false,
         'image_frame' => false,
@@ -58,6 +59,9 @@ function mo_image_shortcode($atts, $content = null, $code) {
     }
 
     $wrapper_class = esc_attr($wrapper_class) . ' image-box';
+
+    if (!empty($image_id))
+        $src = wp_get_attachment_url($image_id);
 
     // If the custom width and height is specified
     if (isset($height) && isset($width)) {

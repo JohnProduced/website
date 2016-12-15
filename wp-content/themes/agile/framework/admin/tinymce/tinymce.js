@@ -269,6 +269,11 @@ function getshortcodeText(selectedShortcode) {
         return shortcodeText;
     }
 
+    if (selectedShortcode == 'smartphone_slider') {
+        shortcodeText = '[' + selectedShortcode + ' device="iphone7black" image_urls="http://example.com/slide1.jpg,http://example.com/slide2.jpg,http://example.com/slide3.jpg" browser_url="http://portfoliotheme.org/austin" animation="slide" direction_nav=true control_nav=false slideshow_speed=4000 animation_speed=600 pause_on_action=true pause_on_hover=true easing="swing" style="margin-bottom:20px;"]';
+        return shortcodeText;
+    }
+
     /* --------------- Miscellaneous Shortcodes ------------------------ */
 
     // Default if none of the above shortcodes match

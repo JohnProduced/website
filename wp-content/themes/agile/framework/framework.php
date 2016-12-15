@@ -382,6 +382,7 @@ class MO_Framework {
         include_once(MO_FRAMEWORK_DIR . '/extensions/aq_resizer.php');
         include_once(MO_FRAMEWORK_DIR . '/extensions/class-tgm-plugin-activation.php');
         /* The stylizer generates css based on options chosen by the user in theme options panel */
+        include_once(MO_FRAMEWORK_DIR . '/extensions/skin.php');
         include_once(MO_FRAMEWORK_DIR . '/extensions/stylizer.php');
 
         require_once(MO_FRAMEWORK_DIR . '/functions/utility-functions.php');
@@ -595,11 +596,10 @@ class MO_Framework {
         add_filter('widget_text', 'do_shortcode');
         add_filter('term_description', 'do_shortcode');
 
-        add_action('wp_head', array(&$this, 'mo_init_custom_css'), 15); // load as late as possible
-
         add_action('wp_enqueue_scripts', array(&$this, 'enqueue_plugin_styles'), 12); // load after all the plugins
-        add_action('wp_enqueue_scripts', array(&$this, 'enqueue_skin_styles'), 12); // load skins and custom CSS after custom plugin styles
         add_action('wp_enqueue_scripts', array(&$this, 'enqueue_custom_styles'), 12); // load skins and custom CSS after custom plugin styles
+
+        add_action('wp_enqueue_scripts', array(&$this, 'mo_init_custom_css'), 15); // load as late as possible
 
         if (is_admin())
             add_action('wp_ajax_update-page-section-order', array(&$this, 'save_page_section_order'));
@@ -653,8 +653,7 @@ class MO_Framework {
 
         // Output styles
         if ($output <> '') {
-            $output = "<!-- Options based styling -->\n<style type=\"text/css\">\n" . $output . "</style>\n";
-            echo $output;
+            wp_add_inline_style('style-custom', $custom_css); // after custom.css file
         }
 
     }
@@ -836,7 +835,7 @@ class MO_Framework {
         wp_register_style('animate', MO_THEME_URL . '/css/animate.css', array(), false, 'screen');
         wp_register_style('icon-fonts', MO_THEME_URL . '/css/icon-fonts.css', array(), false, 'screen');
 
-        wp_register_style('style-theme', get_stylesheet_uri(), array('pretty-photo', 'icon-fonts'), false, 'all');
+        wp_register_style('style-theme', get_template_directory_uri() . '/style.css', array('pretty-photo', 'icon-fonts'), false, 'all');
 
         wp_register_style('style-ie8', MO_THEME_URL . '/css/ie8.css', array('style-theme'), false, 'screen');
         $GLOBALS['wp_styles']->add_data('style-ie8', 'conditional', 'IE 8');
@@ -868,24 +867,9 @@ class MO_Framework {
         wp_enqueue_style('style-plugins'); // load the plugins css in the footer
     }
 
-    /*---------------------- The theme Skin CSS file -----------------------------------*/
-    function enqueue_skin_styles() {
-
-
-        $skin_color = mo_get_theme_skin();
-
-        if ($skin_color !== 'default') {
-            $skin_stylesheet_dir_uri = get_template_directory_uri() . '/css/skins/';
-
-            wp_register_style('style-skin-php', $skin_stylesheet_dir_uri . 'skin.php?skin=' . urlencode($skin_color), array('style-plugins'), false, 'all');
-            wp_enqueue_style('style-skin-php');
-
-        }
-    }
-
     function enqueue_custom_styles() {
         /* The theme Custom CSS file for overriding css in a safe way - comes after skin CSS has loaded */
-        wp_register_style('style-custom', MO_THEME_URL . '/custom/custom.css', array('style-skin-php'), false, 'all');
+        wp_register_style('style-custom', MO_THEME_URL . '/custom/custom.css', array('style-plugins'), false, 'all');
 
         wp_enqueue_style('style-custom');
     }

@@ -412,7 +412,7 @@ Parameters -
 
 
 style - (string) - The inline CSS applied to the slider container DIV element.
-device - iphone (string) - The device type - valid values are iphone, galaxys4, htcone, ipad, imac, macbook, browser.
+device - iphone (string) - The device type - valid values are iphone, galaxys4, htcone, ipad, imac, macbook, browser, iphone7rosegold, iphone7gold, iphone7silver, iphone7black, iphone7jetblack, galaxys7, nexus6p, googlepixelsilver, googlepixelblack, googlepixelblue.
 slideshow_speed - 5000 (number). Set the speed of the slideshow cycling, in milliseconds
 animation_speed - 600 (number). Set the speed of animations, in milliseconds.
 animation - fade (string). Select your animation type, "fade" or "slide".

@@ -406,6 +406,15 @@ if (!function_exists('mo_custom_css')) {
         }
 
 
+        /* ------------------- Generate skin styling ----------------------------------- */
+
+        $skin_color = mo_get_theme_skin();
+
+        if ($skin_color !== 'default') {
+            $output .= mo_generate_skin_styles($skin_color);
+        }
+
+
         /* -------------------- Custom CSS defined by user ------------------------------------ */
 
         $custom_css = mo_get_theme_option('mo_custom_css');

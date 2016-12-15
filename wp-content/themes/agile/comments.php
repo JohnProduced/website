@@ -27,7 +27,7 @@ if (post_password_required() || (!have_comments() && !comments_open() && !pings_
         <div id="comments">
 
             <h3 id="comments-number"
-                class="comments-header"><?php comments_number(__('No&nbsp;Comments', 'mo_theme'), __('<span class="number">1</span>&nbsp;Comment', 'mo_theme'), __(htmlspecialchars_decode('<span class="number">%</span>&nbsp;Comments'), 'mo_theme')); ?></h3>
+                class="comments-header"><?php comments_number(esc_html__('No&nbsp;Comments', 'mo_theme'), '<span class="number">1</span>&nbsp;' . esc_html__('Comment', 'mo_theme'), '<span class="number">%</span>&nbsp;' . esc_html__('Comments', 'mo_theme')); ?></h3>
 
             <ol class="comment-list">
                 <?php wp_list_comments(mo_list_comments_args()); ?>
@@ -47,7 +47,7 @@ if (post_password_required() || (!have_comments() && !comments_open() && !pings_
         <?php if (pings_open() && !comments_open()) : ?>
 
             <p class="comments-closed pings-open">
-                <?php printf(__('Comments are closed, but <a href="%1$s" title="Trackback URL for this post">trackbacks</a> and pingbacks are open.', 'mo_theme'), get_trackback_url()); ?>
+                <?php echo __('Comments are closed, but trackbacks and pingbacks are open.', 'mo_theme'); ?>
             </p><!-- .comments-closed .pings-open -->
 
             <?php elseif (!comments_open()) : ?>

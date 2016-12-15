@@ -2107,7 +2107,18 @@ $livemesh_shortcodes['device_slider'] = array(
             'label' => __('Select Slider Type', 'livemesh'),
             'desc' => __('The device type to decide on the type of slider desired.', 'livemesh'),
             'options' => array(
-                'iphone' => __('iphone', 'livemesh'),
+                'iphone7black' => __('iPhone 7 Black', 'livemesh'),
+                'iphone7jetblack' => __('iPhone 7 Jet Black', 'livemesh'),
+                'iphone7silver' => __('iPhone 7 Silver', 'livemesh'),
+                'iphone7gold' => __('iPhone 7 Gold', 'livemesh'),
+                'iphone7rosegold' => __('iPhone 7 Rose Gold', 'livemesh'),
+                'iphone' => __('iPhone', 'livemesh'),
+                'galaxys7' => __('Samsung Galaxy S7', 'livemesh'),
+                'nexus6p' => __('Nexus 6p', 'livemesh'),
+                'googlepixelblack' => __('Google Pixel Black', 'livemesh'),
+                'googlepixelblue' => __('Google Pixel Blue', 'livemesh'),
+                'googlepixelsilver' => __('Google Pixel Silver', 'livemesh'),
+
                 'galaxys4' => __('galaxys4', 'livemesh'),
                 'htcone' => __('htcone', 'livemesh'),
                 'ipad' => __('ipad', 'livemesh'),
@@ -2213,7 +2224,7 @@ $livemesh_shortcodes['device_slider'] = array(
             'desc' => __('If the device specified is browser or if [browser_slider], provide the URL to be displayed in the address bar of the browser.', 'livemesh')
         )
     ),
-    'shortcode' => '[{{device}}_slider style="{{style}}" slideshow_speed="{{slideshow_speed}}" animation_speed="{{animation_speed}}" animation="{{animation}}" control_nav="{{control_nav}}" direction_nav="{{direction_nav}}" pause_on_hover="{{pause_on_hover}}" pause_on_action="{{pause_on_action}}" easing="{{easing}}" loop="{{loop}}" image_urls="{{image_urls}}" browser_url="{{browser_url}}"]',
+    'shortcode' => '[device_slider device="{{device}}" style="{{style}}" slideshow_speed="{{slideshow_speed}}" animation_speed="{{animation_speed}}" animation="{{animation}}" control_nav="{{control_nav}}" direction_nav="{{direction_nav}}" pause_on_hover="{{pause_on_hover}}" pause_on_action="{{pause_on_action}}" easing="{{easing}}" loop="{{loop}}" image_urls="{{image_urls}}" browser_url="{{browser_url}}"]',
     'popup_title' => __('Insert Slider Shortcode', 'livemesh')
 
 );

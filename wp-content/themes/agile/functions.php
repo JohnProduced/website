@@ -13,9 +13,11 @@
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
+
+global $theme_cache, $options_cache, $mo_theme;
+
 $theme_cache = array();
 $options_cache = array();
-
 
 /* Load the LiveMesh theme framework. */
 require_once( get_template_directory() . '/framework/framework.php' );

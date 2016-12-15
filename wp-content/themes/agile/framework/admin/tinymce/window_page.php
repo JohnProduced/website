@@ -124,6 +124,7 @@ document.getElementById('shortcode_select').focus();" style="display: none">
                                 <option value="macbook_slider">Macbook Slider</option>
                                 <option value="ipad_slider">iPad Slider</option>
                                 <option value="iphone_slider">iPhone Slider</option>
+                                <option value="smartphone_slider">Smartphone Slider</option>
                                 <option value="htcone_slider">HTC One Slider</option>
                                 <option value="galaxys4_slider">Galaxy S4 Slider</option>
                             </optgroup>

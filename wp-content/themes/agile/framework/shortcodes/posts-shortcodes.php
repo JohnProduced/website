@@ -247,7 +247,7 @@ function mo_show_post_snippets_shortcode($atts) {
         'row_line_break' => true,
         'terms' => '',
         'taxonomy' => 'category',
-        'taxonamy' => 'category', /* For backward compatibility */
+        'taxonamy' => '', /* For backward compatibility */
         'no_margin' => false,
         'enable_sorting' => false,
         'posts_query' => ''

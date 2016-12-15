@@ -55,7 +55,7 @@ get_header(); ?>
                 $project_author = get_post_meta($post->ID, '_portfolio_author_field', true);
                 if (!empty($project_author)) {
                     echo '<p>' . htmlspecialchars_decode($project_author) . '</p>';
-                    echo '<div class="portfolio-label" >' . __('Creative ', 'mo_theme') . ' </div > ';
+                    echo '<div class="portfolio-label" >' . __('Credit ', 'mo_theme') . ' </div > ';
                 }
 
                 $project_client = get_post_meta($post->ID, '_portfolio_client_field', true);
@@ -71,7 +71,7 @@ get_header(); ?>
                 }
 
                 echo '<p>' . mo_entry_terms_text('portfolio_category') . '</p>';
-                echo '<div class="portfolio-label" >' . __('Tags ', 'mo_theme') . ' </div > ';
+                echo '<div class="portfolio-label" >' . __('Category ', 'mo_theme') . ' </div > ';
 
                 echo '<div class="clear" ></div>';
 

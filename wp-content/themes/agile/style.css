@@ -2,7 +2,7 @@
 Theme Name: Agile
 Theme URI: http://www.portfoliotheme.org/austin
 Description: A clean, responsive multi-purpose flat-style theme from LiveMesh. Follow us on <a href="http://twitter.com/live_mesh">Twitter</a> for updates
-Version: 4.1
+Version: 4.3
 Author: <a href="http://portfoliotheme.org">LiveMesh</a>
 Author URI: http://www.portfoliotheme.org/
 License: GNU General Public License version 3.0
@@ -1977,12 +1977,21 @@ a.nivo-prevNav {
 
 .iphone-slider-container {
   max-width: 534px; }
-  .iphone-slider-container .flex-slider-container {
-    position: absolute;
-    overflow: hidden; }
 
 .ipad-slider-container {
   max-width: 940px; }
+
+.iphone7gold-slider-container, .iphone7rosegold-slider-container, .iphone7black-slider-container, .iphone7jetblack-slider-container, .iphone7silver-slider-container {
+  max-width: 400px; }
+
+.galaxys7-slider-container {
+  max-width: 400px; }
+
+.nexus6p-slider-container {
+  max-width: 420px; }
+
+.googlepixelsilver-slider-container, .googlepixelblack-slider-container, .googlepixelblue-slider-container {
+  max-width: 400px; }
 
 .galaxys4-slider-container, .htcone-slider-container {
   max-width: 331px; }
@@ -2006,6 +2015,36 @@ a.nivo-prevNav {
 .imac-slider-container .flex-prev, .macbook-slider-container .flex-prev, .browser-slider-container .flex-prev {
   right: 40px;
   top: 10px; }
+
+.iphone7gold-slider-container .flex-slider-container,
+.iphone7rosegold-slider-container .flex-slider-container,
+.iphone7black-slider-container .flex-slider-container,
+.iphone7jetblack-slider-container .flex-slider-container,
+.iphone7silver-slider-container .flex-slider-container {
+  top: 11.3%;
+  left: 6.3%;
+  width: 87.5%;
+  height: auto; }
+
+.galaxys7-slider-container .flex-slider-container {
+  top: 10.8%;
+  left: 5%;
+  width: 90%;
+  height: auto; }
+
+.nexus6p-slider-container .flex-slider-container {
+  top: 10.6%;
+  left: 8.6%;
+  width: 83.4%;
+  height: auto; }
+
+.googlepixelsilver-slider-container .flex-slider-container,
+.googlepixelblack-slider-container .flex-slider-container,
+.googlepixelblue-slider-container .flex-slider-container {
+  top: 10.2%;
+  left: 5.6%;
+  width: 88.4%;
+  height: auto; }
 
 .iphone-slider-container .flex-slider-container {
   top: 16.3%;
@@ -5203,6 +5242,11 @@ img.replacer, img.hideOnHover {
     margin-bottom: 30px; }
     .features-list-alternate .row.last {
       margin-bottom: 0; }
+  .features-list-alternate .smartphone-slider {
+    margin-top: -350px; }
+    @media only screen and (max-width: 959px) {
+      .features-list-alternate .smartphone-slider {
+        margin-top: 0; } }
   .features-list-alternate .iphone-slider-container, .features-list-alternate .ipad-slider-container {
     margin-top: -350px; }
     @media only screen and (max-width: 959px) {

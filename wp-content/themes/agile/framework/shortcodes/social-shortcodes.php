@@ -161,9 +161,11 @@ function mo_paypal_donate_shortcode($atts) {
 add_shortcode('donate', 'mo_paypal_donate_shortcode');
 /*------ Credit - https://github.com/jeherve/jp-sd-shortcode. Enable JetPack sharing module to use this shortcode. ----*/
 
-function tweakjp_sd_shortcode() {
-    if (class_exists('Jetpack') && method_exists('Jetpack', 'get_active_modules') && in_array('sharedaddy', Jetpack::get_active_modules()))
-        return sharing_display();
+if (!function_exists('tweakjp_sd_shortcode')) {
+    function tweakjp_sd_shortcode() {
+        if (class_exists('Jetpack') && method_exists('Jetpack', 'get_active_modules') && in_array('sharedaddy', Jetpack::get_active_modules()))
+            return sharing_display();
+    }
 }
 
 add_shortcode('jpshare', 'tweakjp_sd_shortcode');
