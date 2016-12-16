@@ -19,6 +19,9 @@
 
     <title><?php wp_title('|', true, 'right');
         bloginfo('name'); ?></title>
+    <meta name="description" content="John Gerard Produced Productions, Digital and Video Work">
+    <meta name="keywords" content="Produced Productions, Produced, Productions, John Gerard, Digital, Producer, JohnProduced,  Gerard, John, Interactive, Video, Film, VFX, Post">
+    <meta name="author" content="John Gerard">
 
     <!-- For use in JS files -->
     <script type="text/javascript">
