@@ -47,10 +47,13 @@ if (!empty ($mo_bg_image) || !empty($mo_bg_color) || !empty($mo_padding_top) || 
     }
 
     if ($mo_padding == "custom") {
-        if ($mo_padding_top !== '')
+        if (!empty($mo_padding_top)) {
             $inline_style .= 'padding-top: ' . $mo_padding_top . 'px;';
-        if ($mo_padding_bottom !== '')
+        }
+        if (!empty($mo_padding_bottom)) {
             $inline_style .= 'padding-bottom: ' . $mo_padding_bottom . 'px;';
+    }
+
     }
     $inline_style .= $mo_style . '"'; // let the style override what we specify above using background shorthand
 }
@@ -62,7 +65,7 @@ $mo_class = $this->getExtraClass($mo_class);
 
 $vc_inner = $this->settings('base') === 'vc_row_inner';
 
-$css_class = apply_filters(VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, 'vc_row wpb_row ' . ($mo_padding == "none" ? 'no-padding ' : '') . ($vc_inner ? 'vc_inner ' : '') . get_row_css_class() . $mo_class . $text_scheme . $parallax_classes, $this->settings['base'], $atts);
+$css_class = apply_filters(VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, 'vc_row wpb_row vc_row-fluid ' . ($mo_padding == "none" ? 'no-padding ' : '') . ($vc_inner ? 'vc_inner ' : '') . ((empty($mo_row_type) || $mo_row_type == 'in_container') ? 'vc_row-in-container ' : 'vc_row-full-width ') . $mo_class . $text_scheme . $parallax_classes, $this->settings['base'], $atts);
 
 $output .= '<div ' . $id . $parallax_markup . ' class="' . $css_class . '"' . $inline_style . '>';
 

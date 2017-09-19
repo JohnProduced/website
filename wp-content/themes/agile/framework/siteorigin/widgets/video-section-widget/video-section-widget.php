@@ -4,7 +4,7 @@
   Widget Name: HTML5 Video section
   Description: Displays a section with HTML5 video background. Controls for play/pause/mute are provided to the bottom right.
   Author: LiveMesh
-  Author URI: http://portfoliotheme.org
+  Author URI: https://www.livemeshthemes.com
  */
 
 class MO_Video_Section_Widget extends SiteOrigin_Widget {

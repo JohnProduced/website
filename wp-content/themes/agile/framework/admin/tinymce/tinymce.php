@@ -5,7 +5,7 @@ class Shortcode_Helper {
     var $path = '';
     var $internalVersion = 100;
 
-    function Shortcode_Helper() {
+    public function __construct() {
 
         // Set path to editor_plugin.js
         $this->path = get_template_directory_uri() . '/framework/admin/tinymce/';

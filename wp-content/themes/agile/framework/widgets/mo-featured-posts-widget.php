@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Livemesh Framework Featured Posts
- * Plugin URI: http://portfoliotheme.org/
+ * Plugin URI: https://www.livemeshthemes.com/
  * Description: A widget that displays the posts for a (featured) category chosen by the user.
  *
  * This program is distributed in the hope that it will be useful,
@@ -9,14 +9,12 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-class MO_Featured_Posts_Widget extends MO_Widget {
+class MO_Featured_Posts_Widget extends WP_Widget {
 
     /**
      * Widget setup.
      */
-    function MO_Featured_Posts_Widget() {
-
-        parent::init();
+    public function __construct() {
 
         /* Widget settings. */
         $widget_ops = array('classname' => 'featured-posts-widget', 'description' => __('A widget that displays the featured posts.', 'mo_theme'));
@@ -25,7 +23,7 @@ class MO_Featured_Posts_Widget extends MO_Widget {
         $control_ops = array('width' => 300, 'height' => 350, 'id_base' => 'mo-featured-posts-widget');
 
         /* Create the widget. */
-        $this->WP_Widget('mo-featured-posts-widget', __('Featured Posts Widget', 'mo_theme'), $widget_ops, $control_ops);
+        parent::__construct('mo-featured-posts-widget', __('Featured Posts Widget', 'mo_theme'), $widget_ops, $control_ops);
     }
 
     /**

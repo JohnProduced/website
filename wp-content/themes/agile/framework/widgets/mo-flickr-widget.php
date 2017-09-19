@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Livemesh Framework Flickr Widget
- * Plugin URI: http://portfoliotheme.org/
+ * Plugin URI: https://www.livemeshthemes.com/
  * Description: A widget that displays photos from the flickr.
  *
  * This program is distributed in the hope that it will be useful,
@@ -9,15 +9,13 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-class MO_Flickr_Widget extends MO_Widget {
+class MO_Flickr_Widget extends WP_Widget {
 
 
     /**
      * Widget setup.
      */
-    function MO_Flickr_Widget() {
-
-        parent::init();
+    public function __construct() {
 
         /* Widget settings. */
         $widget_ops = array('classname' => 'flickr-widget', 'description' => __('A widget that displays the flickr stream.', 'mo_theme'));
@@ -26,7 +24,7 @@ class MO_Flickr_Widget extends MO_Widget {
         $control_ops = array('width' => 300, 'height' => 350, 'id_base' => 'mo-flickr-widget');
 
         /* Create the widget. */
-        $this->WP_Widget('mo-flickr-widget', __('Flickr Widget', 'mo_theme'), $widget_ops, $control_ops);
+        parent::__construct('mo-flickr-widget', __('Flickr Widget', 'mo_theme'), $widget_ops, $control_ops);
     }
 
     /**
@@ -54,7 +52,7 @@ class MO_Flickr_Widget extends MO_Widget {
 
     <div id="flickr-widget" class="clearfix">
         <script type="text/javascript"
-                src="http://www.flickr.com/badge_code_v2.gne?count=<?php echo $post_count; ?>&amp;display=<?php echo $display_mode; ?>&amp;size=s&amp;layout=x&amp;source=<?php echo $type; ?>&amp;<?php echo $type; ?>=<?php echo $flickr_id; ?>"></script>
+                src="https://www.flickr.com/badge_code_v2.gne?count=<?php echo $post_count; ?>&amp;display=<?php echo $display_mode; ?>&amp;size=s&amp;layout=x&amp;source=<?php echo $type; ?>&amp;<?php echo $type; ?>=<?php echo $flickr_id; ?>"></script>
     </div>
 
     <?php

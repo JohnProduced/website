@@ -4,7 +4,7 @@
 Widget Name: Animate Numbers
 Description: Animate from a starting value to a end number when the user scrolls to this section.
 Author: LiveMesh
-Author URI: http://portfoliotheme.org
+Author URI: https://www.livemeshthemes.com
 */
 
 
@@ -59,7 +59,7 @@ class MO_Animate_Numbers_Widget extends SiteOrigin_Widget {
                         'icon' => array(
                             'type' => 'text',
                             'label' => __('Stats Icon', 'mo_theme'),
-                            'description' => __('The font icon to be displayed for the statistic being displayed, chosen from the list of icons listed at <a href="http://portfoliotheme.org/wp-content/uploads/icomoon/demo.html" target="_blank">http://portfoliotheme.org/wp-content/uploads/icomoon/demo.html</a>.', 'mo_theme'),
+                            'description' => __('The font icon to be displayed for the statistic being displayed, chosen from the list of icons listed at <a href="https://www.livemeshthemes.com/wp-content/uploads/icomoon/demo.html" target="_blank">https://www.livemeshthemes.com/wp-content/uploads/icomoon/demo.html</a>.', 'mo_theme'),
                             "default" => 'icon-infinite'
                         ),
                     )

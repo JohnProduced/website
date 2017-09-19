@@ -2,7 +2,7 @@
 
 /* Contact Form Shortcode -
 
-Usage: Pls refer to http://portfoliotheme.org/austin/contact-form-shortcode/
+Usage: Pls refer to https://www.livemeshthemes.com/austin/contact-form-shortcode/
 
 [contact_form mail_to="receipient@mydomain.com" phone=true web_url=true subject=true button_color="default"]
 

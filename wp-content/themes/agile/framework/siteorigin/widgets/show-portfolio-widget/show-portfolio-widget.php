@@ -4,7 +4,7 @@
 Widget Name: Show Portfolio
 Description: Display portfolio in a multi-column grid, filterable by portfolio categories.
 Author: LiveMesh
-Author URI: http://portfoliotheme.org
+Author URI: https://www.livemeshthemes.com
 */
 
 

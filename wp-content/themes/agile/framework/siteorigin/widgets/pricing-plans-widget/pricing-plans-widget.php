@@ -4,7 +4,7 @@
 Widget Name: Pricing Plans
 Description: Display the pricing table with pricing plans created in Pricing Plan tab of WordPress admin.
 Author: LiveMesh
-Author URI: http://portfoliotheme.org
+Author URI: https://www.livemeshthemes.com
 */
 
 

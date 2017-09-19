@@ -22,197 +22,11 @@ class MO_Framework {
 
         $this->init_option_tree();
 
-        $this->init_siteorigin_pagebuilder();
-
-        if(function_exists('vc_map')) {
-            $this->init_vc_composer();
-        }
-
         add_action('after_setup_theme', array(&$this, 'i18n'), 9);
 
         add_action('after_setup_theme', array(&$this, 'load_functions'), 10);
 
         add_action('after_setup_theme', array(&$this, 'initialize_theme'), 11);
-    }
-
-
-    function init_siteorigin_pagebuilder() {
-
-
-        add_filter('siteorigin_widgets_widget_folders', array($this, 'add_widgets_collection'));
-
-        add_filter('siteorigin_panels_widget_dialog_tabs', array($this, 'add_widget_tabs'), 20);
-
-        add_filter('siteorigin_panels_widgets', array($this, 'add_bundle_groups'), 11);
-
-        add_filter('siteorigin_panels_row_style_fields', array($this, 'row_style_fields'));
-
-        add_filter('siteorigin_panels_row_style_attributes', array($this, 'row_style_attributes'), 10, 2);
-
-        // Filtering specific attributes
-        add_filter('siteorigin_panels_css_cell_margin_bottom', array($this, 'filter_cell_bottom_margin'), 10, 2);
-
-        add_filter('siteorigin_widgets_default_active', array($this, 'activate_theme_widgets'));
-
-    }
-
-    function add_widgets_collection($folders) {
-        $folders[] = MO_FRAMEWORK_DIR . '/siteorigin/widgets/';
-        return $folders;
-    }
-
-
-    // Placing all widgets under the 'SiteOrigin Widgets' Tab
-    function add_widget_tabs($tabs) {
-        $tabs[] = array(
-            'title' => __('Livemesh Theme Widgets', 'mo_theme'),
-            'filter' => array(
-                'groups' => array('livemesh-widgets')
-            )
-        );
-        return $tabs;
-    }
-
-
-    // Adding group for all Widgets
-    function add_bundle_groups($widgets) {
-        foreach ($widgets as $class => &$widget) {
-            if (preg_match('/MO_(.*)_Widget/', $class, $matches)) {
-                $widget['groups'] = array('livemesh-widgets');
-            }
-        }
-        return $widgets;
-    }
-
-    function row_style_fields($fields) {
-        // Add the attribute fields
-
-        $fields['row_id'] = array(
-            'name' => __('Row ID for styling', 'mo_theme'),
-            'type' => 'text',
-            'group' => 'attributes',
-            'description' => __('An ID for the row for styling purposes.', 'mo_theme'),
-            'priority' => 4,
-        );
-
-        return $fields;
-    }
-
-    function row_style_attributes($attributes, $args) {
-
-        // Do not set id if already set. Hope to get rid of this in future when page builder has this function
-        if (!empty($args['row_id']) && empty($attributes['id'])) {
-            $attributes['id'] = $args['row_id'];
-        }
-
-        return $attributes;
-    }
-
-    /* Set the bottom margin same as that specified for container row - typically 0px for all Livemesh themes content */
-    function filter_cell_bottom_margin($margin, $grid) {
-        if (!empty($grid['style']['bottom_margin'])) {
-            $margin = $grid['style']['bottom_margin'];
-        }
-        return $margin;
-    }
-
-
-
-    function activate_theme_widgets($default_widgets) {
-
-        $theme_widgets = array(
-
-            "heading-widget" => true,
-            "action-call-widget" => true,
-            "button-widget" => true,
-            "clearing-space-widget" => true,
-            "divider-widget" => true,
-            "divider-top-widget" => true,
-            "header-fancy-widget" => true,
-            "device-slider-widget" => true,
-            "tab-slider-widget" => true,
-            "animate-numbers-widget" => true,
-            "custom-posts-widget" => true,
-            "contact-form-widget" => true,
-            "pricing-plans-widget" => true,
-            "show-portfolio-widget" => true,
-            "show-gallery-widget" => true,
-            "social-list-widget" => true,
-            "toggle-widget" => true,
-            "team-widget" => true,
-            "testimonials-slider-widget" => true,
-            "piechart-widget" => true,
-            "stats-bars-widget" => true,
-            "responsive-slider-widget" => true,
-            "post-snippets-carousel-widget" => true,
-            "responsive-carousel-widget" => true,
-            "show-post-snippets-widget" => true,
-            "device-slider-widget" => true,
-            "ticker-slider-widget" => true,
-            "tabs-widget" => true,
-            "hero-section-widget" => true,
-            "service-item-widget" => true,
-            "video-showcase-widget" => true,
-            "video-section-widget" => true,
-            "ytp-video-section-widget" => true,
-            "ytp-video-showcase-widget" => true,
-
-            // Livemesh SiteOrigin Widgets
-
-            "lsow-accordion-widget" => true,
-            "lsow-carousel-widget" => true,
-            "lsow-clients-widget" => true,
-            "lsow-heading-widget" => true,
-            "lsow-hero-image-widget" => true,
-            "lsow-odometers-widget" => true,
-            "lsow-piecharts-widget" => true,
-            "lsow-portfolio-widget" => true,
-            "lsow-posts-carousel-widget" => true,
-            "lsow-pricing-table-widget" => true,
-            "lsow-services-widget" => true,
-            "lsow-stats-bar-widget" => true,
-            "lsow-tabs-widget" => true,
-            "lsow-team-members-widget" => true,
-            "lsow-testimonials-slider-widget" => true,
-            "lsow-testimonials-widget" => true,
-
-        );
-
-        return wp_parse_args($theme_widgets, $default_widgets);
-
-    }
-
-    function init_vc_composer() {
-
-        /* Visual Composer */
-        $vc_templates_path = MO_FRAMEWORK_DIR . '/vc-extensions/vc-templates/';
-        vc_set_shortcodes_templates_dir($vc_templates_path);
-
-        add_action( 'vc_before_init', array(&$this, 'pre_init_vc_extensions'));
-
-        add_action( 'init', array(&$this, 'init_vc_extensions'), 9999);
-    }
-
-    /**
-     * Enable Admin Features.
-     */
-    function pre_init_vc_extensions() {
-
-        /**
-         * Force Visual Composer to initialize as "built into the theme".
-         * This will hide certain tabs under the Settings->Visual Composer page
-         */
-        vc_set_as_theme($disable_updater = true);
-
-    }
-
-    /**
-     * Enable Admin Features.
-     */
-    function init_vc_extensions() {
-
-        require_once(MO_FRAMEWORK_DIR . '/vc-extensions/vc-extender.php');
-
     }
 
     function init_option_tree() {
@@ -380,6 +194,7 @@ class MO_Framework {
         include_once(MO_FRAMEWORK_DIR . '/extensions/init-options.php');
         require_once(MO_FRAMEWORK_DIR . '/extensions/loop-pagination.php');
         include_once(MO_FRAMEWORK_DIR . '/extensions/aq_resizer.php');
+        include_once(MO_FRAMEWORK_DIR . '/extensions/page-builder.php');
         include_once(MO_FRAMEWORK_DIR . '/extensions/class-tgm-plugin-activation.php');
         /* The stylizer generates css based on options chosen by the user in theme options panel */
         include_once(MO_FRAMEWORK_DIR . '/extensions/skin.php');
@@ -407,8 +222,6 @@ class MO_Framework {
 
 
         $widgets_path = MO_FRAMEWORK_DIR . '/widgets/';
-
-        require_once($widgets_path . 'mo-widget.php');
 
         include_once($widgets_path . 'mo-flickr-widget.php');
         include_once($widgets_path . 'mo-popular-posts-widget.php');
@@ -672,6 +485,8 @@ class MO_Framework {
         add_theme_support('header-social-links');
         add_theme_support('single-page-site');
 
+        add_theme_support('title-tag');
+
         //add_theme_support('post-thumbnails', array('post', 'page', 'portfolio', 'showcase_slide', 'product'));
 
         // Add default posts and comments RSS feed links to head
@@ -741,27 +556,30 @@ class MO_Framework {
 
             $layoutManager = mo_get_layout_manager();
 
-            wp_enqueue_script('jquery-easing', MO_SCRIPTS_LIB_URL . '/jquery.easing.1.3.js', array('jquery'));
+
+            wp_enqueue_script( 'jquery-effects-core' );
+
             wp_enqueue_script('jquery-tools', MO_SCRIPTS_LIB_URL . '/jquery.tools.min.js', array('jquery'), '1.2.7', true);
             wp_enqueue_script('jquery-validate', MO_SCRIPTS_LIB_URL . '/jquery.validate.min.js', array('jquery'), '1.9.0', true);
             wp_enqueue_script('mo-drop-downs', MO_SCRIPTS_LIB_URL . '/drop-downs.js', array('jquery'), '1.4.8', true);
             wp_enqueue_script('jquery-waypoint', MO_SCRIPTS_LIB_URL . '/waypoints.js', array('jquery'), '2.0.2', true);
-            wp_enqueue_script('jquery-plugins-lib', MO_SCRIPTS_LIB_URL . '/jquery.plugins.lib.js', array('jquery-easing'), '1.0', true);
+            wp_enqueue_script('jquery-plugins-lib', MO_SCRIPTS_LIB_URL . '/jquery.plugins.lib.js', array('jquery'), '1.0', true);
             wp_enqueue_script('jquery-modernizr', MO_SCRIPTS_LIB_URL . '/modernizr.js', array('jquery'), '2.7.1', true);
             wp_enqueue_script('jquery-ytpplayer', MO_SCRIPTS_LIB_URL . '/jquery.mb.YTPlayer.js', array('jquery'), '1.0', true);
 
 
 
             /* Slider packs */
-            wp_enqueue_script('jquery-flexslider', MO_SCRIPTS_LIB_URL . '/jquery.flexslider.js', array('jquery-easing'), '1.2', true);
-            wp_enqueue_script('jquery-owl-carousel', MO_SCRIPTS_LIB_URL . '/owl.carousel.min.js', array('jquery-easing'), '4.1', true);
+            wp_enqueue_script('jquery-flexslider', MO_SCRIPTS_LIB_URL . '/jquery.flexslider.js', array('jquery'), '1.2', true);
+            wp_enqueue_script('jquery-owl-carousel', MO_SCRIPTS_LIB_URL . '/owl.carousel.min.js', array('jquery'), '4.1', true);
             $slider_type = get_post_meta(get_the_ID(), 'mo_slider_choice', true);
             if (!empty($slider_type) && $slider_type == 'Nivo')
                 wp_enqueue_script('nivo-slider', MO_SCRIPTS_LIB_URL . '/jquery.nivo.slider.pack.js', array('jquery'), '3.2', false);
 
             wp_enqueue_script('jquery-prettyphoto', MO_SCRIPTS_LIB_URL . '/jquery.prettyPhoto.js', array('jquery'), '3.1.6', true);
 
-            wp_enqueue_script('jquery-isotope', MO_SCRIPTS_LIB_URL . '/jquery.isotope.min.js', array('jquery'), '1.5.19', true);
+            wp_enqueue_script('isotope-js', MO_SCRIPTS_LIB_URL . '/isotope.pkgd.min.js', array('jquery'), '3.0.2', true);
+            wp_enqueue_script('images-loaded', MO_SCRIPTS_LIB_URL . '/imagesloaded.pkgd.min.js', array('jquery'), '4.1.1', true);
 
             $ajax_portfolio = mo_get_theme_option('mo_ajax_portfolio');
             $ajax_gallery = mo_get_theme_option('mo_ajax_gallery');

@@ -4,7 +4,7 @@
 Widget Name: Divider
 Description: Draws a line or a divider of various kinds depending on the type of divider chosen.
 Author: LiveMesh
-Author URI: http://portfoliotheme.org
+Author URI: https://www.livemeshthemes.com
 */
 
 

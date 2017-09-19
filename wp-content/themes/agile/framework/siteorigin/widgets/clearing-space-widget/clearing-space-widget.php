@@ -4,7 +4,7 @@
 Widget Name: Clearing space
 Description: Create a DIV element aimed at having a space of fixed height between elements.
 Author: LiveMesh
-Author URI: http://portfoliotheme.org
+Author URI: https://www.livemeshthemes.com
 */
 
 

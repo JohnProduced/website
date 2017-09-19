@@ -4,7 +4,7 @@
 Widget Name: Post Snippets Carousel
 Description: Create a touch friendly responsive carousel of a collection of custom posts.
 Author: LiveMesh
-Author URI: http://portfoliotheme.org
+Author URI: https://www.livemeshthemes.com
 */
 
 

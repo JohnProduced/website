@@ -4,7 +4,7 @@
 Widget Name: Toggle
 Description: Displays a toggle box that displays content when toggle button is clicked.
 Author: LiveMesh
-Author URI: http://portfoliotheme.org
+Author URI: https://www.livemeshthemes.com
 */
 
 

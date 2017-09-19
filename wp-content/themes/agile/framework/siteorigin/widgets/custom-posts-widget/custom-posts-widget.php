@@ -4,7 +4,7 @@
 Widget Name: Custom Posts
 Description: Display posts or custom post type instances based on user selection criteria.
 Author: LiveMesh
-Author URI: http://portfoliotheme.org
+Author URI: https://www.livemeshthemes.com
 */
 
 

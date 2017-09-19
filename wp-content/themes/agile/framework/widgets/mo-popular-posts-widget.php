@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Livemesh Framework Popular Posts
- * Plugin URI: http://portfoliotheme.org/
+ * Plugin URI: https://www.livemeshthemes.com/
  * Description: A widget that displays the most popular posts based on comment count.
  *
  * This program is distributed in the hope that it will be useful,
@@ -10,14 +10,12 @@
  */
 
 
-class MO_Popular_Posts_Widget extends MO_Widget {
+class MO_Popular_Posts_Widget extends WP_Widget {
 
     /**
      * Widget setup.
      */
-    function MO_Popular_Posts_Widget() {
-
-        parent::init();
+    public function __construct() {
 
         /* Widget settings. */
         $widget_ops = array('classname' => 'popular-posts-widget', 'description' => __('A widget that displays the most popular posts.', 'mo_theme'));
@@ -26,7 +24,7 @@ class MO_Popular_Posts_Widget extends MO_Widget {
         $control_ops = array('width' => 300, 'height' => 350, 'id_base' => 'mo-popular-posts-widget');
 
         /* Create the widget. */
-        $this->WP_Widget('mo-popular-posts-widget', __('Popular Posts Widget', 'mo_theme'), $widget_ops, $control_ops);
+        parent::__construct('mo-popular-posts-widget', __('Popular Posts Widget', 'mo_theme'), $widget_ops, $control_ops);
     }
 
     /**

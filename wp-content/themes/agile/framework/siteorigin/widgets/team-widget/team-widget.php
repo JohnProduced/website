@@ -4,7 +4,7 @@
 Widget Name: Team
 Description: Displays a list of team members created in the Team Profiles tab of the WordPress Admin.
 Author: LiveMesh
-Author URI: http://portfoliotheme.org
+Author URI: https://www.livemeshthemes.com
 */
 
 

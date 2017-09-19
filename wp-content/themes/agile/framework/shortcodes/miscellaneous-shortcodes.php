@@ -59,13 +59,13 @@ Display a service item with an image or a font icon specified by the user on the
 
 Usage:
 
-[service_item image_url="http://portfoliotheme.org/invent/wp-content/uploads/2014/05/muscles.png" title="Personal Training" description="Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut."]
+[service_item image_url="https://www.livemeshthemes.com/invent/wp-content/uploads/2014/05/muscles.png" title="Personal Training" description="Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut."]
 
 Parameters -
 
 title - The title displayed below the image or font icon, above the description.
 image_url - The URL of the image displayed at the top of the box displaying the marketing offer.
-icon_class - The class name for the icon font as documented in the http://portfoliotheme.org/support/faqs/how-to-use-1500-icons-bundled-with-the-agile-theme/.
+icon_class - The class name for the icon font as documented in the https://www.livemeshthemes.com/support/faqs/how-to-use-1500-icons-bundled-with-the-agile-theme/.
 If an image_url has been specified, this font icon parameter is ignored.
 description - The textual description to be displayed below the title.
 
@@ -224,7 +224,7 @@ Parameters -
 
 title - The title indicating the stats title.
 start_value - The starting value for the animation which displays a counter that animates to the end value specified as the content of the [animate-number] shortcode.
-icon - The font icon to be displayed for the statistic being displayed, chosen from the list of icons listed at http://portfoliotheme.org/support/faqs/how-to-use-1500-icons-bundled-with-the-agile-theme/
+icon - The font icon to be displayed for the statistic being displayed, chosen from the list of icons listed at https://www.livemeshthemes.com/support/faqs/how-to-use-1500-icons-bundled-with-the-agile-theme/
 
 */
 

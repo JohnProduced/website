@@ -4,7 +4,7 @@
 Widget Name: Social List
 Description: Display a list of social icons with links to various social network pages.
 Author: LiveMesh
-Author URI: http://portfoliotheme.org
+Author URI: https://www.livemeshthemes.com
 */
 
 

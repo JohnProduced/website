@@ -129,7 +129,7 @@ Usage:
 id="video-intro"
 video_url="http://www.youtube.com/watch?v=PzjwAAskt4o"
 containment="self"
-placeholder_url="http://portfoliotheme.org/austin/wp-content/uploads/2014/03/video-placeholder.jpg"
+placeholder_url="https://www.livemeshthemes.com/austin/wp-content/uploads/2014/03/video-placeholder.jpg"
 title="Awesomeness"
 button_text="Contact Us »"
 button_url="http://example.com/contact-us"
@@ -178,11 +178,11 @@ Usage:
 id="video-intro"
 video_url="http://www.youtube.com/watch?v=RdIh8GiVR9I"
 containment="self"
-placeholder_url="http://portfoliotheme.org/austin/wp-content/uploads/2014/03/ytp-video-placeholder.jpg"
+placeholder_url="https://www.livemeshthemes.com/austin/wp-content/uploads/2014/03/ytp-video-placeholder.jpg"
 text="All the tools you need to build a top notch website. "
 button_text="Contact Us »"
 button_url="http://example.com/contact-us"
-overlay_pattern="http://portfoliotheme.org/austin/wp-content/themes/austin/dev/images/styleswitcher/patterns/pattern-3.gif"
+overlay_pattern="https://www.livemeshthemes.com/austin/wp-content/themes/austin/dev/images/styleswitcher/patterns/pattern-3.gif"
 overlay_color="#31110F"
 overlay_opacity="0.3"]
 
@@ -327,15 +327,15 @@ Usage:
 [video_showcase
 id="video-intro"
 class="video-heading"
-mp4_url="http://portfoliotheme.org/austin/wp-content/uploads/2014/04/office.mp4"
-ogg_url="http://portfoliotheme.org/austin/wp-content/uploads/2014/04/office.ogv"
-webm_url="http://portfoliotheme.org/austin/wp-content/uploads/2014/04/office.webm"
-placeholder_url="http://portfoliotheme.org/austin/wp-content/uploads/2014/04/about-video-placeholder.jpg"
+mp4_url="https://www.livemeshthemes.com/austin/wp-content/uploads/2014/04/office.mp4"
+ogg_url="https://www.livemeshthemes.com/austin/wp-content/uploads/2014/04/office.ogv"
+webm_url="https://www.livemeshthemes.com/austin/wp-content/uploads/2014/04/office.webm"
+placeholder_url="https://www.livemeshthemes.com/austin/wp-content/uploads/2014/04/about-video-placeholder.jpg"
 title="Developers and Designers"
 text="All the tools you need to build a top notch website. "
 button_text="Contact Us »"
 button_url="http://example.com/contact-us"
-overlay_pattern="http://portfoliotheme.org/austin/wp-content/themes/austin/dev/images/styleswitcher/patterns/pattern-3.gif"
+overlay_pattern="https://www.livemeshthemes.com/austin/wp-content/themes/austin/dev/images/styleswitcher/patterns/pattern-3.gif"
 overlay_color="#31110F"
 overlay_opacity="0.3"
 loop=true]
@@ -368,14 +368,14 @@ Usage:
 
 [video_section
 id="html5-video-bg1"
-mp4_url="http://portfoliotheme.org/austin/wp-content/uploads/2014/02/snow.mp4"
-ogg_url="http://portfoliotheme.org/austin/wp-content/uploads/2014/02/snow.ogv"
-webm_url="http://portfoliotheme.org/austin/wp-content/uploads/2014/02/snow.webm"
-placeholder_url="http://portfoliotheme.org/austin/wp-content/uploads/2014/02/snow.jpg"
+mp4_url="https://www.livemeshthemes.com/austin/wp-content/uploads/2014/02/snow.mp4"
+ogg_url="https://www.livemeshthemes.com/austin/wp-content/uploads/2014/02/snow.ogv"
+webm_url="https://www.livemeshthemes.com/austin/wp-content/uploads/2014/02/snow.webm"
+placeholder_url="https://www.livemeshthemes.com/austin/wp-content/uploads/2014/02/snow.jpg"
 text="All the tools you need to build a top notch website. "
 button_text="Contact Us »"
 button_url="http://example.com/contact-us"
-overlay_pattern="http://portfoliotheme.org/austin/wp-content/themes/austin/dev/images/styleswitcher/patterns/pattern-3.gif"
+overlay_pattern="https://www.livemeshthemes.com/austin/wp-content/themes/austin/dev/images/styleswitcher/patterns/pattern-3.gif"
 overlay_color="#31110F"
 overlay_opacity="0.3"]
 
@@ -453,7 +453,7 @@ function mo_youtube_video_shortcode($atts, $content = null, $code = "") {
         $style = ' style="' . $style . '"';
 
     if (!empty($clip_id))
-        $output = '<div class="video-box' . ' align' . $align . '"' . $style . '><iframe title="YouTube video player" parent-selector=' . $parent_selector . ' width="' . $width . '" height="' . $height . '" src="http://www.youtube.com/embed/' . $clip_id . '?rel=0&amp;' . ($hd ? '?hd=1' : '') . '" frameborder="0" allowfullscreen></iframe></div>';
+        $output = '<div class="video-box' . ' align' . $align . '"' . $style . '><iframe title="YouTube video player" parent-selector=' . $parent_selector . ' width="' . $width . '" height="' . $height . '" src="https://www.youtube.com/embed/' . $clip_id . '?rel=0&amp;' . ($hd ? '?hd=1' : '') . '" frameborder="0" allowfullscreen></iframe></div>';
 
     return $output;
 }
@@ -479,7 +479,7 @@ function mo_vimeo_video_shortcode($atts, $content = null, $code = "") {
         $style = ' style="' . $style . '"';
 
     if (!empty($clip_id))
-        $out = '<div class="video-box' . ' align' . $align . '"' . $style . '><iframe parent-selector=' . $parent_selector . ' width="' . $width . '" height="' . $height . '" src="http://player.vimeo.com/video/' . $clip_id . '?byline=0&amp;portrait=0" frameborder="0" webkitAllowFullScreen allowFullScreen></iframe></div>';
+        $out = '<div class="video-box' . ' align' . $align . '"' . $style . '><iframe parent-selector=' . $parent_selector . ' width="' . $width . '" height="' . $height . '" src="https://player.vimeo.com/video/' . $clip_id . '?byline=0&amp;portrait=0" frameborder="0" webkitAllowFullScreen allowFullScreen></iframe></div>';
 
     return $out;
 }

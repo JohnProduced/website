@@ -3,7 +3,7 @@
  * Template Name: Home Page
  *
  * A page template for home page layout involving sliders, featured stories and categories.
- * @link http://www.portfoliotheme.org/
+ * @link https://www.livemeshthemes.com/
  *
  * @package Agile
  * @subpackage Template

@@ -4,7 +4,7 @@
 Widget Name: Responsive Carousel
 Description: Create a touch friendly responsive carousel of a collection of HTML content.
 Author: LiveMesh
-Author URI: http://portfoliotheme.org
+Author URI: https://www.livemeshthemes.com
 */
 
 

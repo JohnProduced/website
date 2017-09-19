@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Livemesh Framework Advertisement 125 Widget
- * Plugin URI: http://portfoliotheme.org/
+ * Plugin URI: https://www.livemeshthemes.com/
  * Description: A widget that displays the 125x125 ads (typical of ads run by buysellads).
  *
  * This program is distributed in the hope that it will be useful,
@@ -9,14 +9,12 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-class MO_Advertisement_125_Widget extends MO_Widget {
+class MO_Advertisement_125_Widget extends WP_Widget {
 
     /**
      * Widget setup.
      */
-    function MO_Advertisement_125_Widget() {
-
-        parent::init();
+    public function __construct() {
 
         /* Widget settings. */
         $widget_ops = array('classname' => 'advertisement-125-widget', 'description' => __('A widget that displays the contact information.', 'mo_theme'));
@@ -25,7 +23,7 @@ class MO_Advertisement_125_Widget extends MO_Widget {
         $control_ops = array('width' => 300, 'height' => 350, 'id_base' => 'mo-advertisement-125-widget');
 
         /* Create the widget. */
-        $this->WP_Widget('mo-advertisement-125-widget', __('Advertisement 125 Widget', 'mo_theme'), $widget_ops, $control_ops);
+        parent::__construct('mo-advertisement-125-widget', __('Advertisement 125 Widget', 'mo_theme'), $widget_ops, $control_ops);
 
         if (basename($_SERVER['PHP_SELF']) == 'widgets.php') {
             add_action('admin_print_scripts', array(&$this, 'load_script'));

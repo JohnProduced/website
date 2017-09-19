@@ -4,7 +4,7 @@
 Widget Name: Stats Bars
 Description: Display a set of animated line bars to display percentage stats.
 Author: LiveMesh
-Author URI: http://portfoliotheme.org
+Author URI: https://www.livemeshthemes.com
 */
 
 

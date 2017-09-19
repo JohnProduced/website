@@ -4,7 +4,7 @@
 Widget Name: Service Item
 Description: Displays a service item part of services.
 Author: LiveMesh
-Author URI: http://portfoliotheme.org
+Author URI: https://www.livemeshthemes.com
 */
 
 
@@ -33,7 +33,7 @@ class MO_Service_Item_Widget extends SiteOrigin_Widget {
                 'icon' => array(
                     'type' => 'text',
                     'label' => __('Service Icon', 'mo_theme'),
-                    'description' => __('The font icon representing the service item being displayed, chosen from the list of icons listed at <a href="http://portfoliotheme.org/wp-content/uploads/icomoon/demo.html" target="_blank">http://portfoliotheme.org/wp-content/uploads/icomoon/demo.html</a>.', 'mo_theme'),
+                    'description' => __('The font icon representing the service item being displayed, chosen from the list of icons listed at <a href="https://www.livemeshthemes.com/wp-content/uploads/icomoon/demo.html" target="_blank">https://www.livemeshthemes.com/wp-content/uploads/icomoon/demo.html</a>.', 'mo_theme'),
                     "default" => 'icon-heart'
                 ),
             )

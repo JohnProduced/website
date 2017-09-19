@@ -9,7 +9,7 @@
  * @version 1.0
  * @author LiveMesh
  * @copyright Copyright (c) 2012, LiveMesh
- * @link http://portfoliotheme.org/
+ * @link https://www.livemeshthemes.com/
  * @license http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 

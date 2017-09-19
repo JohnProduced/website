@@ -17,13 +17,6 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    <title><?php wp_title('|', true, 'right');
-        bloginfo('name'); ?></title>
-
-    <meta name="description" content="Produced Productions is the portfolio of John Gerard, Digital and Video Freelance Producer in Amsterdam">
-    <meta name="keywords" content="Produced Productions, Produced, Productions, John Gerard, Digital, Producer, JohnProduced,  Gerard, John, Interactive, Video, Film, VFX, Post">
-    <meta name="author" content="John Gerard">
-
     <!-- For use in JS files -->
     <script type="text/javascript">
         var template_dir = "<?php echo get_template_directory_uri(); ?>";

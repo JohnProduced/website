@@ -396,7 +396,7 @@ Usage:
 
 [browser_slider
 animation="slide"
-browser_url="http://portfoliotheme.org/extinct"
+browser_url="https://www.livemeshthemes.com/extinct"
 direction_nav=true
 control_nav=false
 slideshow_speed=4000
@@ -405,7 +405,7 @@ pause_on_action=true
 pause_on_hover=true
 easing="swing"
 style="margin-bottom:20px;"
-image_urls="http://portfoliotheme.org/austin/wp-content/uploads/2014/03/web-slide3.jpg,http://portfoliotheme.org/austin/wp-content/uploads/2014/03/web-slide1.jpg,http://portfoliotheme.org/austin/wp-content/uploads/2014/03/web-slide2.jpg,http://portfoliotheme.org/austin/wp-content/uploads/2014/03/web-slide4.jpg"]
+image_urls="https://www.livemeshthemes.com/austin/wp-content/uploads/2014/03/web-slide3.jpg,https://www.livemeshthemes.com/austin/wp-content/uploads/2014/03/web-slide1.jpg,https://www.livemeshthemes.com/austin/wp-content/uploads/2014/03/web-slide2.jpg,https://www.livemeshthemes.com/austin/wp-content/uploads/2014/03/web-slide4.jpg"]
 
 
 Parameters -

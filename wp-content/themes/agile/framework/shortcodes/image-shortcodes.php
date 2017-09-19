@@ -4,7 +4,7 @@
 
 Displays an image with the optional attributes.
 
-Usage: See examples at http://portfoliotheme.org/austin/image-shortcodes/
+Usage: See examples at https://www.livemeshthemes.com/austin/image-shortcodes/
 
 [image link="true" title="Visit Mountain Lion Page" src="http://example.com/lion.jpg" alt="Mountain Lion" align="left" image_frame="true" wrapper="true" wrapper_class="image-bordered" wrapper_style="margin-top: 20px;" width="320" height="240"]
 

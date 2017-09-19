@@ -3,7 +3,7 @@
  * Template Name: Portfolio Home
  *
  * A page template for home page layout featuring portfolio items.
- * @link http://www.portfoliotheme.org/
+ * @link https://www.livemeshthemes.com/
  *
  * @package Agile
  * @subpackage Template
@@ -20,7 +20,7 @@ get_header(); // displays slider content if so chosen by user
         $args = array(
             'number_of_columns' => 3,
             'image_size' => 'medium',
-            'posts_per_page' => 50,
+            'posts_per_page' => 9,
             'filterable' => true
         );
 

@@ -4,7 +4,7 @@
 Widget Name: Action Call
 Description: Create action call sections that display text with button urging the user to take action.
 Author: LiveMesh
-Author URI: http://portfoliotheme.org
+Author URI: https://www.livemeshthemes.com
 */
 
 

@@ -193,7 +193,7 @@ function mo_show_custom_post_types_shortcode($atts) {
 
 add_shortcode('show_custom_post_types', 'mo_show_custom_post_types_shortcode');
 
-/* Post Snippets Shortcode - See http://portfoliotheme.org/austin/portfolio-shortcodes/ ‎for examples.
+/* Post Snippets Shortcode - See https://www.livemeshthemes.com/austin/portfolio-shortcodes/ ‎for examples.
 
 Displays the post snippets of blog posts or another custom post types with featured images. The post snippets are displayed in a grid fashion like a typical portfolio page or grid based blog page.
 

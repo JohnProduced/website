@@ -4,7 +4,7 @@
 Widget Name: Piechart
 Description: Display a piechart for a percentage statistic with a title in the middle.
 Author: LiveMesh
-Author URI: http://portfoliotheme.org
+Author URI: https://www.livemeshthemes.com
 */
 
 

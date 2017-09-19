@@ -230,10 +230,10 @@ if (!function_exists('mo_display_video_or_slider_thumbnail')) {
                 echo '<div class="video-box">';
                 if (mo_is_vimeo($video_url) || mo_is_youtube($video_url)) {
                     if (mo_is_vimeo($video_url)) {
-                        $video_url = "http://player.vimeo.com/video/" . mo_get_vimeo_id($video_url);
+                        $video_url = "https://player.vimeo.com/video/" . mo_get_vimeo_id($video_url);
                     }
                     if (mo_is_youtube($video_url)) {
-                        $video_url = "http://www.youtube.com/embed/" . mo_get_youtube_id($video_url);
+                        $video_url = "https://www.youtube.com/embed/" . mo_get_youtube_id($video_url);
                     }
 
                     echo '<iframe parent-selector=#content src="' . $video_url . '" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
@@ -299,10 +299,10 @@ if (!function_exists('mo_get_blog_thumbnail')) {
                 $output .= '<div class="video-box">';
                 if (mo_is_vimeo($video_url) || mo_is_youtube($video_url)) {
                     if (mo_is_vimeo($video_url)) {
-                        $video_url = "http://player.vimeo.com/video/" . mo_get_vimeo_id($video_url);
+                        $video_url = "https://player.vimeo.com/video/" . mo_get_vimeo_id($video_url);
                     }
                     if (mo_is_youtube($video_url)) {
-                        $video_url = "http://www.youtube.com/embed/" . mo_get_youtube_id($video_url);
+                        $video_url = "https://www.youtube.com/embed/" . mo_get_youtube_id($video_url);
                     }
 
                     $output .= '<iframe parent-selector=#content src="' . $video_url . '" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';

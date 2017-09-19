@@ -341,7 +341,7 @@ add_shortcode('ancestor_wrap', 'mo_wrap_shortcode');
 
 /* Icon Shortcode -
 
-Shortcode to display one of the font icons, chosen from the list of icons listed at http://portfoliotheme.org/support/faqs/how-to-use-1500-icons-bundled-with-the-agile-theme/
+Shortcode to display one of the font icons, chosen from the list of icons listed at https://www.livemeshthemes.com/support/faqs/how-to-use-1500-icons-bundled-with-the-agile-theme/
 
 Usage:
 

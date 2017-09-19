@@ -4,7 +4,7 @@
 Widget Name: Button
 Description: Renders a button with multiple styles.
 Author: LiveMesh
-Author URI: http://portfoliotheme.org
+Author URI: https://www.livemeshthemes.com
 */
 
 

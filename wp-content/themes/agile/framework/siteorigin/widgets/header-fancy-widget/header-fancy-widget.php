@@ -4,7 +4,7 @@
 Widget Name: Header fancy
 Description: Draws a nice looking header with a title displayed in the center and with a line dividing the content.
 Author: LiveMesh
-Author URI: http://portfoliotheme.org
+Author URI: https://www.livemeshthemes.com
 */
 
 

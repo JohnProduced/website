@@ -5,7 +5,7 @@
 
 /* Column Shortcodes -
 
-Usage: Pls refer to http://portfoliotheme.org/austin/column-shortcodes/
+Usage: Pls refer to https://www.livemeshthemes.com/austin/column-shortcodes/
 
 [six_col]One Half[six_col]
 [six_col_last]Second Half[six_col_last]

@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Livemesh Framework Related Posts
- * Plugin URI: http://portfoliotheme.org/
+ * Plugin URI: https://www.livemeshthemes.com/
  * Description: A widget that displays the related posts with thumbnails and excerpts for the user.
  *
  * This program is distributed in the hope that it will be useful,
@@ -9,14 +9,12 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-class MO_Related_Posts_Widget extends MO_Widget {
+class MO_Related_Posts_Widget extends WP_Widget {
 
     /**
      * Widget setup.
      */
-    function MO_Related_Posts_Widget() {
-
-        parent::init();
+    public function __construct() {
 
         /* Widget settings. */
         $widget_ops = array('classname' => 'related-posts-widget', 'description' => __('A widget that displays the related posts with thumbnails.', 'mo_theme'));
@@ -25,7 +23,7 @@ class MO_Related_Posts_Widget extends MO_Widget {
         $control_ops = array('width' => 300, 'height' => 350, 'id_base' => 'mo-related-posts-widget');
 
         /* Create the widget. */
-        $this->WP_Widget('mo-related-posts-widget', __('Related Posts Widget', 'mo_theme'), $widget_ops, $control_ops);
+        parent::__construct('mo-related-posts-widget', __('Related Posts Widget', 'mo_theme'), $widget_ops, $control_ops);
     }
 
     /**
@@ -153,10 +151,10 @@ class MO_Related_Posts_Widget extends MO_Widget {
         <p>
             <label for="<?php echo $this->get_field_id('post_count'); ?>"><?php _e('Post Count:', 'mo_theme'); ?></label>
             <input type="text" class="smallfat" id="<?php echo $this->get_field_id('post_count'); ?>" name="<?php echo $this->get_field_name('post_count'); ?>" value="<?php echo $instance['post_count']; ?>" />
-        </p> 
+        </p>
 
         <p>
-            <input class="checkbox" type="checkbox" <?php checked($hide_thumbnail); ?> id="<?php echo $this->get_field_id('hide_thumbnail'); ?>" name="<?php echo $this->get_field_name('hide_thumbnail'); ?>" /> 
+            <input class="checkbox" type="checkbox" <?php checked($hide_thumbnail); ?> id="<?php echo $this->get_field_id('hide_thumbnail'); ?>" name="<?php echo $this->get_field_name('hide_thumbnail'); ?>" />
             <label for="<?php echo $this->get_field_id('hide_thumbnail'); ?>"><?php _e('Hide Thumbnail?', 'mo_theme'); ?></label>
         </p>
 
@@ -164,23 +162,23 @@ class MO_Related_Posts_Widget extends MO_Widget {
             <label for="<?php echo $this->get_field_id('excerpt_count'); ?>"><?php _e('Length of Summary:', 'mo_theme'); ?></label>
             <input type="text" class="smallfat" id="<?php echo $this->get_field_id('excerpt_count'); ?>" name="<?php echo $this->get_field_name('excerpt_count'); ?>" value="<?php echo $instance['excerpt_count']; ?>" />
             <small>(0 for no excerpt)</small>
-        </p> 
+        </p>
 
         <p>
-            <input class="checkbox" type="checkbox" <?php checked($show_meta); ?> id="<?php echo $this->get_field_id('show_meta'); ?>" name="<?php echo $this->get_field_name('show_meta'); ?>" /> 
+            <input class="checkbox" type="checkbox" <?php checked($show_meta); ?> id="<?php echo $this->get_field_id('show_meta'); ?>" name="<?php echo $this->get_field_name('show_meta'); ?>" />
             <label for="<?php echo $this->get_field_id('show_meta'); ?>"><?php _e('Show Post Meta?', 'mo_theme'); ?></label>
         </p>
 
         <p>
             <label for="<?php echo $this->get_field_id('match_taxonomy'); ?>"><?php _e('Match:', 'mo_theme'); ?></label>
-            <select class="widefat" id="<?php echo $this->get_field_id('match_taxonomy'); ?>" name="<?php echo $this->get_field_name('match_taxonomy'); ?>"> 
+            <select class="widefat" id="<?php echo $this->get_field_id('match_taxonomy'); ?>" name="<?php echo $this->get_field_name('match_taxonomy'); ?>">
                 <option value='category' <?php selected($instance['match_taxonomy'], 'category'); ?>>Category</option>
                 <option value='tag' <?php selected($instance['match_taxonomy'], 'tag'); ?>>Tag</option>
                 <option value='both' <?php selected($instance['match_taxonomy'], 'both'); ?>>Both</option>
             </select>
         </p>
 
-        <?php
+    <?php
     }
 
 }

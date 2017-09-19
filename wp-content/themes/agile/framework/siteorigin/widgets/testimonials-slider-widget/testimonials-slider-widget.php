@@ -4,7 +4,7 @@
 Widget Name: Testimonials Slider
 Description: Display a slider of testimonial posts created in the Testimonials tab of the WordPress Admin
 Author: LiveMesh
-Author URI: http://portfoliotheme.org
+Author URI: https://www.livemeshthemes.com
 */
 
 

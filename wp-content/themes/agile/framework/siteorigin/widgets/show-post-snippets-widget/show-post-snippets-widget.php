@@ -4,7 +4,7 @@
 Widget Name: Show Post Snippets
 Description: Displays the post snippets of posts or another custom post types with featured images in a grid layout.
 Author: LiveMesh
-Author URI: http://portfoliotheme.org
+Author URI: https://www.livemeshthemes.com
 */
 
 class MO_Show_Post_Snippets_Widget extends SiteOrigin_Widget {

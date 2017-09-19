@@ -21,8 +21,8 @@ function mo_display_button() {
         $google_play_url = 'http://play.google.com/';
 
         echo '<div class="app-download-buttons">';
-        echo '<a class="play-button" href="'. $google_play_url . '"><img src="http://portfoliotheme.org/appdev/wp-content/uploads/2013/07/btn-googleplay.png" alt="btn-googleplay" width="192" height="63" class="alignleft size-full" /></a>';
-        echo '<a class="itunes-button" href="'. $itunes_url . '"><img src="http://portfoliotheme.org/appdev/wp-content/uploads/2013/07/btn-appstore.png" alt="btn-appstore" width="192" height="63" class="alignnleft size-full" /></a>';
+        echo '<a class="play-button" href="'. $google_play_url . '"><img src="https://www.livemeshthemes.com/appdev/wp-content/uploads/2013/07/btn-googleplay.png" alt="btn-googleplay" width="192" height="63" class="alignleft size-full" /></a>';
+        echo '<a class="itunes-button" href="'. $itunes_url . '"><img src="https://www.livemeshthemes.com/appdev/wp-content/uploads/2013/07/btn-appstore.png" alt="btn-appstore" width="192" height="63" class="alignnleft size-full" /></a>';
         echo '</div>';
 
 }

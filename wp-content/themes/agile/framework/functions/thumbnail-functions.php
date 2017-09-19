@@ -193,12 +193,16 @@ if (!function_exists('mo_get_wp_thumbnail_urls')) {
         if ($feature_image_src) {
             $feature_image_src = $feature_image_src[0];
             // 2- Now get me the complete img element
-            $atts = array(
-                'class' => $image_class,
-                'alt' => $image_alt,
-                'title' => $image_title
-            );
+            $atts = array();
 
+            if (!empty($image_class))
+                $atts['class'] = $image_class;
+
+            if (!empty($image_alt))
+                $atts['alt'] = $image_alt;
+
+            if (!empty($image_title))
+                $atts['title'] = $image_title;
 
             // make sure you pass the string thumbnail size instead of array to avoid image downsizing by WordPress
             $wp_thumb_name = mo_get_wp_thumb_name($image_size);

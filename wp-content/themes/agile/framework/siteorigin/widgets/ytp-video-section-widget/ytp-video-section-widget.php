@@ -4,7 +4,7 @@
   Widget Name: YouTube Video Section
   Description: Displays a section with YouTube video background. Controls for play pause mute are provided to the bottom right.
   Author: LiveMesh
-  Author URI: http://portfoliotheme.org
+  Author URI: https://www.livemeshthemes.com
  */
 
 class MO_YTP_Video_Section_Widget extends SiteOrigin_Widget {

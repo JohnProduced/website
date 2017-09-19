@@ -4,7 +4,7 @@
 Widget Name: Device Slider
 Description: Create a browser, smartphone, tablet or a desktop slider
 Author: LiveMesh
-Author URI: http://portfoliotheme.org
+Author URI: https://www.livemeshthemes.com
 */
 
 
@@ -67,7 +67,7 @@ class MO_Device_Slider_Widget extends SiteOrigin_Widget {
                     "type" => "text",
                     "description" => __("If the device specified is browser, this provides the URL to be displayed in the address bar of the browser.", "mo_theme"),
                     "label" => __("Browser url", "mo_theme"),
-                    "default" => __("http://portfoliotheme.org/", "mo_theme"),
+                    "default" => __("https://www.livemeshthemes.com/", "mo_theme"),
                     'state_handler' => array(
                         'device[browser]' => array('show'),
                         '_else[device]' => array('hide'),

@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Livemesh Framework Social Media Widget
- * Plugin URI: http://portfoliotheme.org/
+ * Plugin URI: https://www.livemeshthemes.com/
  * Description: A widget that displays the social networks information
  *
  * This program is distributed in the hope that it will be useful,
@@ -9,14 +9,12 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-class MO_Social_Networks_Widget extends MO_Widget {
+class MO_Social_Networks_Widget extends WP_Widget {
 
     /**
      * Widget setup.
      */
-    function MO_Social_Networks_Widget() {
-
-        parent::init();
+    public function __construct() {
 
         /* Widget settings. */
         $widget_ops = array('classname' => 'social-networks-widget', 'description' => __('A widget that displays the social network information for the website.', 'mo_theme'));
@@ -25,7 +23,7 @@ class MO_Social_Networks_Widget extends MO_Widget {
         $control_ops = array('width' => 300, 'height' => 350, 'id_base' => 'mo-social-networks-widget');
 
         /* Create the widget. */
-        $this->WP_Widget('mo-social-networks-widget', __('Social Networks Widget', 'mo_theme'), $widget_ops, $control_ops);
+        parent::__construct('mo-social-networks-widget', __('Social Networks Widget', 'mo_theme'), $widget_ops, $control_ops);
     }
 
     /**

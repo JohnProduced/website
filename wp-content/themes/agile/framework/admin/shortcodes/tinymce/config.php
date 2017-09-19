@@ -470,7 +470,7 @@ $livemesh_shortcodes['icon'] = array(
             'std' => '',
             'type' => 'text',
             'label' => __('Icon Class', 'livemesh'),
-            'desc' => __('Custom CSS class name to be set for the icon element created. The class names are listed at http://portfoliotheme.org/support/faqs/how-to-use-1500-icons-bundled-with-the-agile-theme/', 'livemesh')
+            'desc' => __('Custom CSS class name to be set for the icon element created. The class names are listed at https://www.livemeshthemes.com/support/faqs/how-to-use-1500-icons-bundled-with-the-agile-theme/', 'livemesh')
         ),
         'style' => array(
             'std' => '',
@@ -2341,7 +2341,7 @@ $livemesh_shortcodes['animate_numbers'] = array(
                 'std' => 'icon-lab4',
                 'type' => 'text',
                 'label' => __('Icon', 'livemesh'),
-                'desc' => __('The font icon to be displayed for the statistic being displayed. The class names are listed at http://portfoliotheme.org/support/faqs/how-to-use-1500-icons-bundled-with-the-agile-theme/', 'livemesh'),
+                'desc' => __('The font icon to be displayed for the statistic being displayed. The class names are listed at https://www.livemeshthemes.com/support/faqs/how-to-use-1500-icons-bundled-with-the-agile-theme/', 'livemesh'),
             )
         ),
         'shortcode' => '[animate-number icon="{{icon}}" title="{{title}}" start_value="{{start_value}}"]{{end_value}}[/animate-number] ',

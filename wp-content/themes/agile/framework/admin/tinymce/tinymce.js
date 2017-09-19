@@ -265,12 +265,12 @@ function getshortcodeText(selectedShortcode) {
     }
 
     if (selectedShortcode == 'browser_slider' || selectedShortcode == 'imac_slider' || selectedShortcode == 'macbook_slider' || selectedShortcode == 'ipad_slider' || selectedShortcode == 'iphone_slider' || selectedShortcode == 'htcone_slider' || selectedShortcode == 'galaxys4_slider') {
-        shortcodeText = '[' + selectedShortcode + ' image_urls="http://example.com/slide1.jpg,http://example.com/slide2.jpg,http://example.com/slide3.jpg" browser_url="http://portfoliotheme.org/austin" animation="slide" direction_nav=true control_nav=false slideshow_speed=4000 animation_speed=600 pause_on_action=true pause_on_hover=true easing="swing" style="margin-bottom:20px;"]';
+        shortcodeText = '[' + selectedShortcode + ' image_urls="http://example.com/slide1.jpg,http://example.com/slide2.jpg,http://example.com/slide3.jpg" browser_url="https://www.livemeshthemes.com/austin" animation="slide" direction_nav=true control_nav=false slideshow_speed=4000 animation_speed=600 pause_on_action=true pause_on_hover=true easing="swing" style="margin-bottom:20px;"]';
         return shortcodeText;
     }
 
     if (selectedShortcode == 'smartphone_slider') {
-        shortcodeText = '[' + selectedShortcode + ' device="iphone7black" image_urls="http://example.com/slide1.jpg,http://example.com/slide2.jpg,http://example.com/slide3.jpg" browser_url="http://portfoliotheme.org/austin" animation="slide" direction_nav=true control_nav=false slideshow_speed=4000 animation_speed=600 pause_on_action=true pause_on_hover=true easing="swing" style="margin-bottom:20px;"]';
+        shortcodeText = '[' + selectedShortcode + ' device="iphone7black" image_urls="http://example.com/slide1.jpg,http://example.com/slide2.jpg,http://example.com/slide3.jpg" browser_url="https://www.livemeshthemes.com/austin" animation="slide" direction_nav=true control_nav=false slideshow_speed=4000 animation_speed=600 pause_on_action=true pause_on_hover=true easing="swing" style="margin-bottom:20px;"]';
         return shortcodeText;
     }
 

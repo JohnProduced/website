@@ -4,7 +4,7 @@
   Widget Name: YouTube Video Showcase
   Description: Displays an YouTube video with controls for play pause mute. The video is not auto-played by default and waits for the user input via the play button.
   Author: LiveMesh
-  Author URI: http://portfoliotheme.org
+  Author URI: https://www.livemeshthemes.com
  */
 
 class MO_YTP_Video_Showcase_Widget extends SiteOrigin_Widget {

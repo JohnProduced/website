@@ -4,7 +4,7 @@
 Widget Name: Contact Form
 Description: Display a simple contact form.
 Author: LiveMesh
-Author URI: http://portfoliotheme.org
+Author URI: https://www.livemeshthemes.com
 */
 
 

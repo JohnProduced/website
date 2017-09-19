@@ -1,10 +1,10 @@
 /*
 Theme Name: Agile
-Theme URI: http://www.portfoliotheme.org/austin
+Theme URI: https://www.livemeshthemes.com/agile
 Description: A clean, responsive multi-purpose flat-style theme from LiveMesh. Follow us on <a href="http://twitter.com/live_mesh">Twitter</a> for updates
-Version: 4.3
-Author: <a href="http://portfoliotheme.org">LiveMesh</a>
-Author URI: http://www.portfoliotheme.org/
+Version: 4.7
+Author: <a href="https://www.livemeshthemes.com">LiveMesh</a>
+Author URI: https://www.livemeshthemes.com/
 License: GNU General Public License version 3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 Tags: one-column, two-columns, three-columns, left-sidebar, right-sidebar, fixed-width, theme-options, threaded-comments, translation-ready,portfolio,mobile,app,one-page,single-page,ios,android,tags
@@ -4924,18 +4924,18 @@ img.replacer, img.hideOnHover {
     text-align: center;
     margin: 0 auto; }
   @media only screen and (max-width: 1024px) {
-    .pricing-table .threecol {
+    .pricing-table .threecol, .pricing-table .fourcol, .pricing-table .twocol, .pricing-table .sixcol {
       width: 48%;
       margin-right: 2%;
       margin-bottom: 20px; }
-      .pricing-table .threecol.zero-margin {
+      .pricing-table .threecol.zero-margin, .pricing-table .fourcol.zero-margin, .pricing-table .twocol.zero-margin, .pricing-table .sixcol.zero-margin {
         width: 50%;
         margin-right: 0%; } }
   @media only screen and (max-width: 479px) {
     .pricing-table .pricing-plan h4 {
       font-size: 48px;
       line-height: 48px; }
-    .pricing-table .threecol, .pricing-table .threecol.zero-margin {
+    .pricing-table .threecol, .pricing-table .threecol.zero-margin, .pricing-table .fourcol, .pricing-table .fourcol.zero-margin, .pricing-table .twocol, .pricing-table .twocol.zero-margin, .pricing-table .sixcol, .pricing-table .sixcol.zero-margin {
       width: 100%;
       margin: 0 0 20px 0 !important; } }
 

@@ -4,7 +4,7 @@
 Widget Name: Hero Section
 Description: Full width hero section or segment with options to set parallax or video backgrounds.
 Author: LiveMesh
-Author URI: http://portfoliotheme.org
+Author URI: https://www.livemeshthemes.com
 */
 
 

@@ -4,7 +4,7 @@
 Widget Name: Heading
 Description: Create headings used as introductory titles/text to the page sections.
 Author: LiveMesh
-Author URI: http://portfoliotheme.org
+Author URI: https://www.livemeshthemes.com
 */
 
 

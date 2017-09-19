@@ -4,7 +4,7 @@
 Widget Name: Tabs
 Description: Display tabbed content.
 Author: LiveMesh
-Author URI: http://portfoliotheme.org
+Author URI: https://www.livemeshthemes.com
 */
 
 

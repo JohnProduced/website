@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Livemesh Framework Author Bio Widget
- * Plugin URI: http://portfoliotheme.org/
+ * Plugin URI: https://www.livemeshthemes.com/
  * Description: A widget that displays author biographical information.
  *
  * This program is distributed in the hope that it will be useful,
@@ -10,14 +10,12 @@
  */
 
 
-class MO_Author_Widget extends MO_Widget {
+class MO_Author_Widget extends WP_Widget {
 
     /**
      * Widget setup.
      */
-    function MO_Author_Widget() {
-
-        parent::init();
+    public function __construct() {
 
         /* Widget settings. */
         $widget_ops = array('classname' => 'author-widget', 'description' => __('A widget that displays the post author information.', 'mo_theme'));
@@ -26,7 +24,7 @@ class MO_Author_Widget extends MO_Widget {
         $control_ops = array('width' => 300, 'height' => 350, 'id_base' => 'mo-author-widget');
 
         /* Create the widget. */
-        $this->WP_Widget('mo-author-widget', __('Author Widget', 'mo_theme'), $widget_ops, $control_ops);
+        parent::__construct('mo-author-widget', __('Author Widget', 'mo_theme'), $widget_ops, $control_ops);
     }
 
     /**
