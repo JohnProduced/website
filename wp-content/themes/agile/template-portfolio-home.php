@@ -20,7 +20,7 @@ get_header(); // displays slider content if so chosen by user
         $args = array(
             'number_of_columns' => 3,
             'image_size' => 'medium',
-            'posts_per_page' => 9,
+            'posts_per_page' => 99,
             'filterable' => true
         );
 
