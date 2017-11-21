@@ -1,7 +1,7 @@
 <?php
 /**
  * @package Facebook Open Graph, Google+ and Twitter Card Tags
- * @version 2.1.2
+ * @version 2.1.4.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -480,7 +480,7 @@ class Webdados_FB_Public {
 					//Additional
 					if ( isset($fb_image_additional) && is_array($fb_image_additional) && count($fb_image_additional)>0 ) {
 						foreach($fb_image_additional as $key => $value ) {
-							if ($value['png_overlay']) {
+							if ( isset($value['png_overlay']) && $value['png_overlay'] ) {
 								$temp_fb_image_overlay = $this->get_image_with_overlay($value['fb_image']);
 								if ( $temp_fb_image_overlay['overlay'] ) {
 									$fb_image_additional[$key]['fb_image'] = $temp_fb_image_overlay['fb_image'];
@@ -499,7 +499,7 @@ class Webdados_FB_Public {
 				if ( isset($fb_image) && trim($fb_image)!='' )							$fb_image =				str_replace(' ', '%20', trim($fb_image));
 				if ( isset($fb_image_additional) && is_array($fb_image_additional) && count($fb_image_additional) ) {
 					foreach ( $fb_image_additional as $key => $value ) {
-						$fb_image_additional[$key]['fb_image'] = str_replace( ' ', '%20', trim($value['fb_image']) );
+						if ( isset($value['fb_image']) ) $fb_image_additional[$key]['fb_image'] = str_replace( ' ', '%20', trim($value['fb_image']) );
 					}
 				}
 				
@@ -534,8 +534,10 @@ class Webdados_FB_Public {
 					//Additional Images
 					if( intval($this->options['fb_image_show'])==1  && isset($fb_image_additional) && is_array($fb_image_additional) && count($fb_image_additional)>0 ) {
 						foreach ($fb_image_additional as $fb_image_additional_temp) {
-							$html.='  <meta property="og:image" content="'.trim(esc_attr($fb_image_additional_temp['fb_image'])).'"/>
+							if ( isset($fb_image_additional_temp['fb_image']) && trim($fb_image_additional_temp['fb_image'])!='' ) {
+								$html.='  <meta property="og:image" content="'.trim(esc_attr($fb_image_additional_temp['fb_image'])).'"/>
 ';
+							}
 						}
 					} else {
 						//Image Size - We only show the image size if we only have one image

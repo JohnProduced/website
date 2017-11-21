@@ -3,8 +3,8 @@ Contributors: webdados, wonderm00n
 Donate link: http://blog.wonderm00n.com/2011/10/14/wordpress-plugin-simple-facebook-open-graph-tags/
 Tags: facebook, open graph, open graph protocol, share, social, meta, rss, twitter card, twitter, schema, google+, g+, google, google plus, image, like, seo, search engine optimization, woocommerce, yoast seo, wordpress seo, woocommerce, subheading, php7
 Requires at least: 4.5
-Tested up to: 4.7.3
-Stable tag: 2.1.2
+Tested up to: 4.9
+Stable tag: 2.1.4.2
 Inserts Facebook Open Graph, Google+/Schema.org, Twitter and SEO Meta Tags into your WordPress Website for more efficient sharing results.
 
 == Description ==
@@ -97,13 +97,17 @@ We like to work with everybody, so (if you want to) our plugin can even integrat
 
 1. Are you using a big enough image? The minimum image size is 200x200 pixels but we recommend 1200x630.
 2. Are you sure you only have one `og:image` tag on the source code? Make sure you're not using more than one plugin to set OG tags?
-3. Go to the [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/), insert your URL, click `Debug`. Then click on `Scrape again` to make sure Facebook gets the current version of your HTML code and not a cached version. If the image that shows up on the preview (bottom of the page) is the correct one, then the tags are well set and it "should" be the one that Facebook uses when sharing the post. If it still does not use the correct image when sharing, despite the debugger shows it correctly, there's nothing more we can do about that. That's just Facebook being Facebook.
+3. Go to the [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/), insert your URL, click `Debug`. Then click on `Scrape Again` to make sure Facebook gets the current version of your HTML code and not a cached version. If the image that shows up on the preview (bottom of the page) is the correct one, then the tags are well set and it "should" be the one that Facebook uses when sharing the post. If it still does not use the correct image when sharing, despite the debugger shows it correctly, there's nothing more we can do about that. That's just Facebook being Facebook.
+
+= What is the "Manually update Facebook cache" button on the "Post updated" notice? =
+
+It's a shortcut to the Facebook Sharing Debugger, where you should click on `Scrape Again` to make sure Facebook gets the current version of your post or page.
 
 = When I save/edit my post I get the "Facebook Open Graph Tags cache NOT updated/purged" error. Should I worry? =
 
 Each time you edit a post, if the option "Try to update Facebook Open Graph Tags cache when saving the post" is activated, we'll try to notify Facebook of the changes so it clears up it's cache and read the new Open Graph tags of this specific URL.
 If this is a new post and it's the first time you're saving it, the error is "normal" and you should ignore it (we're looking at a workaround to not show you this error).
-If this is not a new post and it's not the first time you're saving it, and if this happens always, then maybe your server does not support calling remote URLs with PHP and you should disable the "Try to update Facebook Open Graph Tags cache when saving the post" option. In that scenario we recommend you to use the [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/) to `Fetch new scrape information` each time you update your post.
+If this is not a new post and it's not the first time you're saving it, and if this happens always, then maybe your server does not support calling remote URLs with PHP and you should disable the "Try to update Facebook Open Graph Tags cache when saving the post" option. In that scenario we recommend you to use the [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/) to `Scrape Again` each time you update your post.
 Sometimes the plugin just can't update the Facebook cache itself and you may need to do it manually on the link provided above.
 
 = Can this plugin get content from "random plugin"? =
@@ -115,7 +119,13 @@ If you are a plugin or theme author you can always use our filters `fb_og_title`
 
 Chouck out this [code snippet](https://gist.github.com/webdados/ef5d5db01f01bee6041c2b2e0950d73a).
 
+= I'me getting a white screen of death / truncated HTML =
+
+Go to the plugin settings and check the `Do not get image size` option.
+This happens on some edge cases we haven't yet been able to identify.
+
 = There's a similar plugin on the repository, by Heateor. Is this the same? =
+
 It's similar, yes. They've forked our plugin and gave no credits whatsoever for our original work.
 
 = Do you provide email support? =
@@ -125,6 +135,23 @@ We DO NOT provide email support for this plugin. If you send us an email asking 
 2. Or we can give you a quote on premium email/phone support if you prefer to
 
 == Changelog ==
+
+= 2.1.4.2 =
+* Added a "Manually update Facebook cache" button to the "Post updated" notice
+* Improved the FAQ
+
+= 2.1.4.1 =
+* Better information when showing up the "Facebook Open Graph Tags cache NOT updated/purged" error, as well as a link to update the cache manually
+* Improved the FAQ
+
+= 2.1.4 =
+* Changed the way the admin notices are generated so we do not have to use PHP sessions
+
+= 2.1.3 =
+* Fixed some PHP notices and warnings
+* Tested with WooCommerce 3.2
+* Added `WC tested up to` tag on the plugin main file
+* Bumped `Tested up to` tag
 
 = 2.1.2 =
 * Fix the fact that we are using `sanitize_textarea_field()` that only exists since 4.7.0 although we had a 4.0 minimum requirement (Thanks @l3lackcat)
