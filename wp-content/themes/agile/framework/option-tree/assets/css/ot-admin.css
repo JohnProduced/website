@@ -3971,3 +3971,8 @@ a.ui-datepicker-next {
     clear: both;
   }
 }
+
+/* Customization */
+.hide-color-picker {
+    display: block;
+}

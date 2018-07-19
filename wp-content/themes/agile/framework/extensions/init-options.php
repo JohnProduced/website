@@ -124,11 +124,9 @@ if (!function_exists('mo_setup_animation_options')) {
 
         $disable_smooth_page_load = $mo_theme->get_theme_option('mo_disable_smooth_page_load') ? 'true' : 'false';
         $disable_animations_on_page = $mo_theme->get_theme_option('mo_disable_animations_on_page') ? 'true' : 'false';
-        $disable_smooth_scroll = $mo_theme->get_theme_option('mo_disable_smooth_scroll') ? 'true' : 'false';
 
         echo 'mo_options.disable_smooth_page_load=' . $disable_smooth_page_load . ';';
         echo 'mo_options.disable_animations_on_page=' . $disable_animations_on_page . ';';
-        echo 'mo_options.disable_smooth_scroll=' . $disable_smooth_scroll . ';';
     }
 
 }
