@@ -137,12 +137,12 @@ class Webdados_FB_Public {
 						if ( $fb_desc = trim( get_post_meta($post->ID, '_webdados_fb_open_graph_specific_description', true) ) ) {
 							//From our metabox
 						} else {
-							if ( trim($post->post_excerpt) != '' ) {
+							if ( trim( $post->post_excerpt ) != '' ) {
 								//If there's an excerpt that's what we'll use
-								$fb_desc = trim($post->post_excerpt);
+								$fb_desc = trim( $post->post_excerpt );
 							} else {
 								//If not we grab it from the content
-								$fb_desc = trim($post->post_content);
+								$fb_desc = trim( $post->post_content );
 							}
 						}
 					// Image
@@ -269,7 +269,7 @@ class Webdados_FB_Public {
 					//Other pages - Defaults
 					$fb_title = wp_strip_all_tags( stripslashes( get_bloginfo( 'name' ) ), true );
 					$fb_url = ( ( !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on' ) ? 'https://' : 'http://' ).$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];  //Not really canonical but will work for now
-					$fb_image = trim( $this->options['fb_image'] );
+					$fb_image = intval($this->options['fb_image_use_default'])==1 ? trim( $this->options['fb_image'] ) : '';
 		
 					$this->options['fb_article_sections_show'] = 0;
 					$this->options['fb_article_dates_show'] = 0;
@@ -496,6 +496,19 @@ class Webdados_FB_Public {
 						$fb_desc_temp = apply_filters( 'aioseop_description', $aiosp->get_main_description( $post ) );
 						$fb_desc = wp_strip_all_tags( trim($fb_desc_temp)!='' ? trim($fb_desc_temp) : $fb_desc, true);
 		
+					}
+				}
+
+				//Private post or password protected? (Thanks Benoît)
+				if ( is_singular() && ( get_post_status( $post->ID ) == 'private' || ! empty( $post->post_password ) ) ) {
+					$fb_desc = '';
+				} else {
+					//mShot - Only for public posts
+					if ( $fb_image == '' && intval($this->options['fb_image_use_mshot'])==1 && ! empty( $fb_url ) ) {
+						//No size and no overlay
+						$this->options['fb_image_size_show'] = 0;
+						$this->options['fb_image_overlay'] = 0;
+						$fb_image = 'https://s0.wordpress.com/mshots/v1/'.urlencode($fb_url).'?w=1200&h=630';
 					}
 				}
 		
