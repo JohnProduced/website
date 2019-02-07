@@ -1,10 +1,8 @@
 <?php
-
 require_once(dirname(__FILE__) . '/../vendor/autoload.php');
 
 use GeoIp2\Database\Reader;
 
-if (!defined('WFWAF_RUN_COMPLETE')) {
 class wfWAFGeoIP2 {
 	private $_reader;
 	
@@ -66,5 +64,4 @@ class wfWAFGeoIP2 {
 		}
 		return null;
 	}
-}
 }

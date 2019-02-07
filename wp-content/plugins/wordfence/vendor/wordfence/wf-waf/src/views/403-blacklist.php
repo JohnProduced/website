@@ -1,5 +1,4 @@
 <?php
-if (!defined('WFWAF_VIEW_RENDERING')) { exit; }
 
 /** @var wfWAF $waf */
 /** @var wfWAFView $this */
@@ -38,7 +37,7 @@ if (is_array($request->getHeaders())) {
 	}
 }
 
-$payload = array('ip' => $request->getIP(), 'timestamp' => $request->getTimestamp(), 'headers' => $headerString, 'url' => $request->getProtocol() . '://' . $request->getHost() . $request->getPath(), 'home_url' => $waf->getStorageEngine()->getConfig('homeURL', '', 'synced'));
+$payload = array('ip' => $request->getIP(), 'timestamp' => $request->getTimestamp(), 'headers' => $headerString, 'url' => $request->getProtocol() . '://' . $request->getHost() . $request->getPath(), 'home_url' => $waf->getStorageEngine()->getConfig('homeURL', ''));
 $payloadJSON = wfWAFUtils::json_encode($payload);
 $shouldEncrypt = false;
 if (function_exists('openssl_get_publickey') && function_exists('openssl_get_cipher_methods')) {
@@ -201,7 +200,7 @@ $payload = "-----BEGIN REPORT-----\n" . implode("\n", str_split($message, 60)) .
 		
 		textarea.addEventListener('focus', function() {
 			document.getElementById('reportButton').className = document.getElementById('reportButton').className.replace(new RegExp('(?:^|\\s)'+ 'disabled' + '(?:\\s|$)'), ' ');
-			document.getElementById('reportButton').href = 'ht' + 'tps:/' + '/user-reports.wordfence' + '.com';
+			document.getElementById('reportButton').href = 'ht' + 'tp:/' + '/user-reports.wordfence' + '.com';
 		});
 	})();
 </script>

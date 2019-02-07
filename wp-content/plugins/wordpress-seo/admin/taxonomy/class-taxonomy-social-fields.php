@@ -67,11 +67,6 @@ class WPSEO_Taxonomy_Social_Fields extends WPSEO_Taxonomy_Fields {
 				sprintf( __( 'The recommended image size for %1$s is %2$s pixels.', 'wordpress-seo' ), $settings['label'], $settings['size'] ),
 				'upload'
 			),
-			$settings['network'] . '-image-id' => $this->get_field_config(
-				'',
-				'',
-				'hidden'
-			),
 		);
 	}
 
@@ -97,24 +92,16 @@ class WPSEO_Taxonomy_Social_Fields extends WPSEO_Taxonomy_Fields {
 	 * @return array
 	 */
 	private function get_social_networks() {
-		// Source: https://developers.facebook.com/docs/sharing/best-practices#images.
-		$fb_image_size = sprintf(
-			/* translators: %1$s expands to the image recommended width, %2$s to its height. */
-			__( '%1$s by %2$s', 'wordpress-seo' ),
-			'1200',
-			'630'
-		);
-
-		$twitter_image_size = sprintf(
-			/* translators: %1$s expands to the image recommended width, %2$s to its height. */
-			__( '%1$s by %2$s', 'wordpress-seo' ),
-			'1024',
-			'512'
-		);
-
 		$social_networks = array(
-			'opengraph' => $this->social_network( 'opengraph', __( 'Facebook', 'wordpress-seo' ), $fb_image_size ),
-			'twitter'   => $this->social_network( 'twitter', __( 'Twitter', 'wordpress-seo' ), $twitter_image_size ),
+			// Source: https://developers.facebook.com/docs/sharing/best-practices#images.
+			'opengraph' => $this->social_network( 'opengraph', __( 'Facebook', 'wordpress-seo' ), sprintf(
+				/* translators: %1$s expands to the image recommended width, %2$s to its height. */
+				__( '%1$s by %2$s', 'wordpress-seo' ), '1200', '630'
+			) ),
+			'twitter'   => $this->social_network( 'twitter', __( 'Twitter', 'wordpress-seo' ), sprintf(
+				/* translators: %1$s expands to the image recommended width, %2$s to its height. */
+				__( '%1$s by %2$s', 'wordpress-seo' ), '1024', '512'
+			) ),
 		);
 
 		return $this->filter_social_networks( $social_networks );

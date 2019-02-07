@@ -76,14 +76,13 @@ class Yoast_Notification_Center {
 		if ( false === ( $notification instanceof Yoast_Notification ) ) {
 
 			// Permit legacy.
-			$options      = array(
+			$notification = new Yoast_Notification( '', array(
 				'id'            => $notification_id,
 				'dismissal_key' => $notification_id,
-			);
-			$notification = new Yoast_Notification( '', $options );
+			) );
 		}
 
-		if ( self::maybe_dismiss_notification( $notification ) ) {
+		if ( $notification_center->maybe_dismiss_notification( $notification ) ) {
 			die( '1' );
 		}
 
@@ -333,18 +332,13 @@ class Yoast_Notification_Center {
 
 		array_walk( $notifications, array( $this, 'remove_notification' ) );
 
-		$notifications = array_unique( $notifications );
 		if ( $echo_as_json ) {
 			$notification_json = array();
-
-			/**
-			 * @var Yoast_Notification[] $notifications
-			 */
 			foreach ( $notifications as $notification ) {
 				$notification_json[] = $notification->render();
 			}
 
-			echo wp_json_encode( $notification_json );
+			echo json_encode( $notification_json );
 
 			return;
 		}
@@ -394,24 +388,6 @@ class Yoast_Notification_Center {
 
 		unset( $this->notifications[ $index ] );
 		$this->notifications = array_values( $this->notifications );
-	}
-
-	/**
-	 * Removes a notification by its ID.
-	 *
-	 * @param string $notification_id The notification id.
-	 * @param bool   $resolve         Resolve as fixed.
-	 *
-	 * @return void
-	 */
-	public function remove_notification_by_id( $notification_id, $resolve = true ) {
-		$notification = $this->get_notification_by_id( $notification_id );
-
-		if ( $notification === null ) {
-			return;
-		}
-
-		$this->remove_notification( $notification, $resolve );
 	}
 
 	/**
@@ -547,8 +523,7 @@ class Yoast_Notification_Center {
 	private static function get_user_input( $key ) {
 
 		$filter_input_type = INPUT_GET;
-
-		if ( isset( $_SERVER['REQUEST_METHOD'] ) && 'POST' === strtoupper( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) ) {
+		if ( 'POST' === strtoupper( $_SERVER['REQUEST_METHOD'] ) ) {
 			$filter_input_type = INPUT_POST;
 		}
 
@@ -556,9 +531,9 @@ class Yoast_Notification_Center {
 	}
 
 	/**
-	 * Retrieve the notifications from storage.
+	 * Retrieve the notifications from storage
 	 *
-	 * @return array|void Yoast_Notification[] Notifications.
+	 * @return array Yoast_Notification[] Notifications
 	 */
 	private function retrieve_notifications_from_storage() {
 

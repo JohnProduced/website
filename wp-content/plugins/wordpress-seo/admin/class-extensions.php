@@ -37,6 +37,11 @@ class WPSEO_Extensions {
 			'identifier' => 'wpseo-local',
 			'classname'  => 'WPSEO_Local_Core',
 		),
+		'Local SEO for WooCommerce' => array(
+			'slug'       => 'local-seo-for-woocommerce',
+			'identifier' => 'wpseo-local-woocommerce',
+			'classname'  => 'WPSEO_Local_WooCommerce',
+		),
 	);
 
 	/**

@@ -1,5 +1,4 @@
 <?php
-if (defined('WFWAF_VERSION') && !defined('WFWAF_RUN_COMPLETE')) {
 
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 /**
@@ -956,5 +955,4 @@ if (class_exists('PEAR_Error')) {
 		}
 	}
 
-}
 }

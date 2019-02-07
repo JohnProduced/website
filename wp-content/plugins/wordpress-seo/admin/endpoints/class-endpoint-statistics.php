@@ -32,12 +32,17 @@ class WPSEO_Endpoint_Statistics implements WPSEO_Endpoint {
 	 */
 	public function register() {
 		// Register fetch config.
-		$route_args = array(
+		register_rest_route( self::REST_NAMESPACE, self::ENDPOINT_RETRIEVE, array(
 			'methods'             => 'GET',
-			'callback'            => array( $this->service, 'get_statistics' ),
-			'permission_callback' => array( $this, 'can_retrieve_data' ),
-		);
-		register_rest_route( self::REST_NAMESPACE, self::ENDPOINT_RETRIEVE, $route_args );
+			'callback'            => array(
+				$this->service,
+				'get_statistics',
+			),
+			'permission_callback' => array(
+				$this,
+				'can_retrieve_data',
+			),
+		) );
 	}
 
 	/**

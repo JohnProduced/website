@@ -38,18 +38,6 @@
 			}
 		});
 
-		//Default or mShot
-		$('#fb_image_use_default').on('change', function(event) {
-			if ( $(this).is(':checked') ) {
-				$('#fb_image_use_mshot').prop('checked', false);
-			}
-		});
-		$('#fb_image_use_mshot').on('change', function(event) {
-			if ( $(this).is(':checked') ) {
-				$('#fb_image_use_default').prop('checked', false);
-			}
-		});
-
 		//General
 		showDescriptionCustomText(false);
 		showDescriptionDefaultCustomText(false);

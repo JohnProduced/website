@@ -673,6 +673,25 @@ if (!function_exists('mo_custom_theme_options')) {
                     ),
                 ),
                 array(
+                    'id' => 'mo_disable_smooth_scroll',
+                    'label' => 'Disable Smooth Scroll',
+                    'desc' => 'Disable scripts that replace native browser scrollbar with custom one providing smooth scroll functions in browsers like Chrome and Safari that do not support native smooth scroll function. Big images, wide backgrounds and parallax effects are best seen with smooth scroll enabled.',
+                    'std' => '',
+                    'type' => 'checkbox',
+                    'section' => 'general_default',
+                    'rows' => '',
+                    'post_type' => '',
+                    'taxonomy' => '',
+                    'class' => '',
+                    'choices' => array(
+                        array(
+                            'value' => 'Yes',
+                            'label' => 'Yes',
+                            'src' => ''
+                        )
+                    ),
+                ),
+                array(
                     'id' => 'mo_skin_color',
                     'label' => 'Custom Color for the Skin',
                     'desc' => 'Specify the custom color you want as a skin for the theme. The theme adjusts the color of the theme elements automatically based on the color chosen here.<br><strong>The theme default color is #fe5000.</strong>',

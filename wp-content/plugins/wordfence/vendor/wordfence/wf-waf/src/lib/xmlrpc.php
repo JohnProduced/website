@@ -1,5 +1,4 @@
 <?php
-if (defined('WFWAF_VERSION') && !defined('WFWAF_RUN_COMPLETE')) {
 
 /**
  * Adaptation of WordPress's XML-RPC message parser so we can use it without loading the full environment
@@ -331,5 +330,4 @@ class wfXMLRPCDate {
 	{
 		return mktime($this->hour, $this->minute, $this->second, $this->month, $this->day, $this->year);
 	}
-}
 }

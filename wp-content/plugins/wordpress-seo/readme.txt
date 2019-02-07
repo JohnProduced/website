@@ -4,9 +4,9 @@ Donate link: https://yoa.st/1up
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: SEO, XML sitemap, Google Search Console, Content analysis, Readability
-Requires at least: 4.9
-Tested up to: 5.0.3
-Stable tag: 9.5
+Requires at least: 4.8
+Tested up to: 4.9.7
+Stable tag: 7.8
 Requires PHP: 5.2.4
 
 Improve your WordPress SEO: Write better content and have a fully optimized WordPress site using the Yoast SEO plugin.
@@ -34,8 +34,8 @@ Yoast SEO does everything in its power to please both visitors and search engine
 
 * Content & SEO analysis: Invaluable tools to write SEO-friendly texts.
 * The snippet preview shows you how your post or page will look in the search results - even on mobile. Yoast SEO Premium even has social media previews!
-* **[Premium]** The Insights tool shows you what your text focuses on so you can keep your article in line with your keyphrases.
-* **[Premium]** Synonyms & related keyphrases: Optimize your article for synonyms and related keyphrases.
+* **[Premium]** The Insights tool shows you what your text focuses on so you can keep your article in line with your keywords.
+* **[Premium]** Multiple focus keywords: Optimize your article for synonyms and related keywords.
 * **[Premium]** Automatic internal linking suggestions: write your article and get automatic suggested posts to link to.
 
 #### Keep your site in perfect shape
@@ -52,7 +52,7 @@ Yoast SEO does everything in its power to please both visitors and search engine
 
 The Yoast team does not always provide active support for the Yoast SEO plugin on the WordPress.org forums, as we prioritize our email support. One-on-one email support is available to people who [bought Yoast SEO Premium](https://yoa.st/1v8) only.
 
-Note that the [Yoast SEO Premium](https://yoa.st/1v8) also has several extra features too, including the option to have synonyms and related keyphrases, internal linking suggestions, cornerstone content checks and a redirect manager, so it is well worth your investment!
+Note that the [Yoast SEO Premium](https://yoa.st/1v8) also has several extra features too, including the option to have multiple focus keywords, internal linking suggestions, cornerstone content checks and a redirect manager, so it is well worth your investment!
 
 You should also check out the [Yoast Local SEO](https://yoa.st/1uu), [Yoast News SEO](https://yoa.st/1uv) and [Yoast Video SEO](https://yoa.st/1uw) extensions to Yoast SEO. They work with the free version of Yoast SEO already, and these premium extensions of course come with support too.
 
@@ -105,72 +105,94 @@ You'll find answers to many of your questions on [kb.yoast.com](https://yoa.st/1
 6. Easily import SEO data from other SEO plugins like All In One SEO pack, HeadSpace2 SEO and wpSEO.de.
 
 == Changelog ==
-= 9.5.0 =
-Release Date: January 22nd, 2019
+
+= 7.8.0 =
+Release Date: July 10th, 2018
 
 Enhancements:
-
-* Completes the readabilty analysis for Swedish by adding the transition words, sentence beginnings and passive voice assessments.
-* Improves the transition word assessment for German.
+* Improves the way that the OpenGraph is determined for front pages, especially in the case of static front pages.
+* Adds links to relevant articles to all SEO assessments.
+* Adds Flesch Reading Ease assessment for French.
+* Adds Flesch Reading Ease assessment for Spanish.
+* Adds passive voice assessment for Italian.
 
 Bugfixes:
+* Fixes a bug where images from password protected posts could potentially end up in OpenGraph image tags.
+* Fixes a bug where very old notifications could not be be dismissed or restored.
+* Fixes a bug where the `Insert snippet variable` button alignment was incorrect.
+* Fixes a bug where the snippet variables had a different label in the Search Appearance settings compared to the snippet variables when writing a post, pages and taxonomies.
+* Fixes a bug where instances of the same keyword with different kinds of apostrophes (e.g., brain’s and brain's) were not recognized as the same. This affects the following assessments: keyword in meta description, keyword in subheading, keyword in first paragraph, keyword in title and keyword in URL.
+* Fixes a bug where the custom set breadcrumb title for the WooCommerce Shop page wasn't used.
 
-* Fixes a bug where the Ryte endpoint would be called when the Ryte feature has been disabled.
-* Fixes a bug where the 'Show archives for authors without posts in search results?' toggle would be shown when the 'Show author archives in search results?' toggle was disabled in the search appearance settings.
-* Fixes a bug where the front page would be shown in the page sitemap. Props to [stodorovic](https://github.com/stodorovic).
-* Fixes a bug where errors would be thrown in the classic editor when Gutenberg assets were enqueued without Gutenberg being active.
-* Fixes a bug where the editor would not be loaded when clicking the ‘edit’ button for a child page in the page overview. Props [mondrey](https://github.com/mondrey).
+Other:
+* Adds a reminder message to create a redirect if a user deletes a category or tag.
+* Removes a banner spot in the admin.
+
+= 7.7.3 =
+Release Date: July 2nd, 2018
+
+Bugfixes:
+* Disables WordPress' automatic conversion of emoji to images on every page where the snippet editor is present. This conversion is not compatible with React or content editable fields and broke the snippet editor.
+* Fixes text directionality for the title and description fields in the snippet editor for right-to-left languages.
+* Fixes a bug where the snippet title and description values were saved to the database if they did match the post-type template.
+
+= 7.7.2 =
+Release Date: June 29th, 2018
+
+Bugfixes:
+* Fixes a bug where the snippet variables selection is hidden behind the WordPress menu when using a right-to-left language.
+* Fixes styling in the snippet preview when using a right-to-left language.
+* Fixes a bug where the 'insert snippet variable' button placement was inconsistent.
+* Migrates WooCommerce Product archive settings to the Shop page, if present and not already set on the Shop page.
+
+= 7.7.1 =
+Release Date: June 27th, 2018
+
+Bugfixes:
+* Fixes a bug where disabling the `post_format` archive would result in it actually being enabled and vice versa.
+* Fixes an issue where all replacement variables were being displayed instead of the recommended ones.
+
+Other:
+* Restores `currentyear` as a snippet variable.
+
+= 7.7.0 =
+Release Date: June 26th, 2018
+
+Enhancements:
+* Implements the snippet preview in React. This brings an improved user experience regarding the snippet variables, making it easier to use and discover them.
+* Implements the improved snippet variables on the search appearance settings pages.
+* Adds an inserter to the title and metadescription fields to make it easier to insert a snippet variable.
+* Improves the mobile snippet preview to match the Google mobile search results more closely.
+* Changes the behavior of the meta description preview when there is no handwritten meta description. We no longer mimic Google by showing a part of your content, but explain what Google does instead.
+* Sends the user to the proper control in the customizer when clicking the link in the "You still have the default WordPress tagline [...]" warning message.
+* Adds a `wpseo_attachment_redirect_url` filter to allow changing of the target redirection URL for attachments. This may be necessary to restore the redirect to the parent post. Props to [cawa-93](https://github.com/cawa-93).
+* Adds recommended snippet variables for templates depending on the context.
+* Adds a `wpseo_recommended_replace_vars` filter to allow adding or altering the recommended snippet variables.
+* Adds support for JSON-LD breadcrumbs. Props to [teolaz](https://github.com/teolaz)
+* Improves the lists of French transition words, stopwords, and function words, props to [Laurent-1971](https://github.com/Laurent-1971).
+* Improves the assessment that checks the use of subheadings so that it always returns relevant feedback to the user.
+* Adds a notification when a post is removed.
+* Overhauls the Content Types section under SEO -> Search Appearance by sectioning the post types and allowing users to collapse them. This is especially handy when you have a lot of custom post types.
+* Updates the 'snippet variables tab' of the Help Center to have the new names.
+
+Bugfixes:
+* Fixes a bug where a PHP notice would be triggered when the `opcache.restrict_api` directive was enabled.
+* Fixes a bug where restricting SEO setting access to network admins only on a multisite, would still allow regular admins to have access to SEO settings.
+* Fixes a bug where dismissing notifications on a single site in a multisite environment, would result in the notification being dismissed on all sites.
+* Fixes a bug where the attachment URL would redirect to `wp-admin` if the attachment was located on a different Site URL domain.
+* Fixes a bug where MySQL would throw a "Duplicate entry 'X'" error into the error log when attempting to upsert a record in the database.
+* Fixes a performance problem where the selecting a fallback Open Graph image would collect the filename for all the images in the content. This has been changed to detecting if an image is usable per image and stopping when a usable image is found.
+* Fixes a bug where the term title snippet variable would be replaced by 'undefined' instead of an empty string on posts and pages.
+* Fixes a bug where PHP notices got triggered on archive pages when `%%pt_single%%` and/or `%%pt_plural%%` are used in a template.
+* Fixes a bug where the configured separator wasn't used in the title template fallback that's being used when no title template has been set.
 
 Deprecated:
-
-* Deprecates the methods WPSEO_Utils::get_user_locale() and WPSEO_Utils::get_language().
-
-Other:
-
-* Adds a Courses Page showing an overview of the available online courses offered by Yoast Academy.
-
-= 9.4.0 =
-Release Date: January 8th, 2019
-
-Content analysis recalibration (beta):
-
-* Adds a toggle feature for subscribing to the recalibration beta under SEO -> General -> Features.
-* When the recalibration feature is enabled:
-  * The single title assessment is added. This assessment makes sure that you don't use superfluous H1s in your text.
-  * Assessments changes:
-    * Keyphrase density: changes scoring schema to account for the length of the keyphrase and changes feedback strings so that we give feedback about the number of occurrences rather than a percentage.
-    * Outbound links assessment: changes the scoring schema so that red bullet instead of an orange bullet is shown when you have no outbound links.
-    * Image alt attributes: if there are at least 5 images, checks whether the alt tags contain the keyphrase or synoynyms in 30-70% of all images. If there are less than 5 images, 1 image with the keyphrase or synonym in the alt tag is still scored as good.
-    * Keyphrase in title: function words preceding the exact match keyphrase are ignored when determining the position of the keyphrase in the title.
-    * Keyphrase length: makes the scoring scheme less strict for languages that don't have function word support, so that for these languages keyphrases with 1-6 words are scored as green, 7-9 as orange, and more than 9 as red.
-    * Keyphrase in subheading: only takes H2 and H3 level subheadings into account and changes the scoring schema so that 30%-75% of these subheadings need to include the keyphrase or its synonyms. In languages without function word support, a match is only counted if all the words from the keyphrase/synonym appear in the subheading.
-    * Text length: on taxonomy pages, the recommended minimum text length is increased from 150 to 250 words.
-  * Assessment removals:
-    * The assessment checking the length or your URL.
-    * The assessment checking whether your URL contains stopwords.
-
-Enhancements:
-
-* Improve accessibility of the analysis results.
-* Improve accessibility of the Title Separator setting.
-* Adds a new filter for adjacent-rel links: `wpseo_adjacent_rel_url`.
-
-Bugfixes:
-
-* Fixes a bug where special characters from certain word lists weren't correctly escaped when matched with a regex. This resulted in `eggs` being incorrectly matched as the transition word `e.g.`, for example.
-* Fixes a bug where the search appearance setting for a custom content type named `profile` would have a broken layout.
-* Fixes a bug where pagination elements were not shown in the Genesis theme.
+* Deprecates the following snippet variables: %%userid%%, %%currenttime%%, %%currentdate%%, %%currentday%%, %%currentmonth%%, %%currentyear%%.
 
 Other:
-
-* Uses method `is_simple_page` instead of `is_singular` in method robots. Props to: [stodorovic](https://github.com/stodorovic)
-* Adds method `is_woocommerce_active` and check is woocommerce activate before registering hooks. Props to [stodorovic](https://github.com/stodorovic)
-* Adds static variables to "cache" results of functions [`is_shop`](https://docs.woocommerce.com/wc-apidocs/function-is_shop.html) and [`wc_get_page_id`](https://docs.woocommerce.com/wc-apidocs/function-wc_get_page_id.html). Props to [stodorovic](https://github.com/stodorovic)
-* Verifies that variable `post` is an instance of `WP_Post` in `WPSEO_Admin_Bar_Menu ::get_singular_post()`. Props to [@yingles](https://github.com/yingles).
-* Improves strings to be more easily translated. Props to [pedro-mendonca](https://github.com/pedro-mendonca)
-* The browser console now shows more descriptive error messages when something went wrong during analyses in the web worker.
-* Avoids irrelevant warning and error in the WPEngine PHP Compatibility plugin.
+* Changes the timing on which the capability filter is run to better time when notifications should be initialized.
+* Adds X-Redirect-By header to all redirects, making the origin of redirects much easier to debug.
 
 = Earlier versions =
 
-For the changelog of earlier versions, please refer to [the Yoast SEO changelog on yoast.com](https://yoa.st/yoast-seo-changelog)
+For the changelog of earlier versions, please refer to https://yoa.st/yoast-seo-changelog

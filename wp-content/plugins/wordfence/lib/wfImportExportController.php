@@ -82,7 +82,7 @@ class wfImportExportController {
 					}
 					
 					$totalSet += count($toSet);
-					wfConfig::save(wfConfig::clean($toSet));
+					wfConfig::save($toSet);
 				}
 				
 				//Serialized Options

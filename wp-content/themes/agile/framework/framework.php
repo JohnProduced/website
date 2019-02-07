@@ -586,6 +586,10 @@ class MO_Framework {
             if (($layoutManager->is_portfolio_template() && $ajax_portfolio) || ($layoutManager->is_gallery_template() && $ajax_gallery))
                 wp_enqueue_script('jquery-infinitescroll', MO_SCRIPTS_LIB_URL . '/jquery.infinitescroll.min.js', array('jquery'), '2.0', true);
 
+            $disable_smooth_scroll = mo_get_theme_option('mo_disable_smooth_scroll');
+            if (empty($disable_smooth_scroll))
+                wp_enqueue_script('jquery-nicescroll', MO_SCRIPTS_LIB_URL . '/sscr.min.js', array('jquery'), '3.5', true);
+
             if (is_singular())
                 wp_enqueue_script("comment-reply");
 

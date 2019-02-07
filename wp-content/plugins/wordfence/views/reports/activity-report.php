@@ -19,15 +19,13 @@ if (!defined('WORDFENCE_VERSION')) { exit; }
 		</tr>
 	</thead>
 	<tbody>
-		<?php
-		if ($top_ips_blocked):
-			require(dirname(__FILE__) . '/../../lib/flags.php'); /** @var array $flags */
-			foreach ($top_ips_blocked as $row): ?>
+		<?php if ($top_ips_blocked): ?>
+			<?php foreach ($top_ips_blocked as $row): ?>
 				<tr class="<?php echo wfHelperString::cycle('odd', 'even') ?>">
 					<td class="wf-split-word"><code><?php echo wfUtils::inet_ntop($row->IP) ?></code></td>
 					<td>
 						<?php if ($row->countryCode): ?>
-							<span class="wf-flag <?php echo esc_attr('wf-flag-' . strtolower($row->countryCode)); ?>" title="<?php echo esc_attr($row->countryName); ?>"></span>
+							<img src="<?php echo wfUtils::getBaseURL() . 'images/flags/' . esc_attr(strtolower($row->countryCode)) ?>.png" class="wfFlag" height="11" width="16" alt="<?php echo esc_attr($row->countryName) ?>" title="<?php echo esc_attr($row->countryName) ?>">
 							&nbsp;
 							<?php echo esc_html($row->countryCode) ?>
 						<?php else: ?>
@@ -48,7 +46,7 @@ if (!defined('WORDFENCE_VERSION')) { exit; }
 </table>
 
 <p>
-	<a class="button button-primary" href="<?php echo wfUtils::wpAdminURL('admin.php?page=WordfenceWAF#top#blocking') ?>"><?php _e('Update Blocked IPs', 'wordfence'); ?></a>
+	<a class="button button-primary" href="<?php echo network_admin_url('admin.php?page=WordfenceWAF#top#blocking') ?>"><?php _e('Update Blocked IPs', 'wordfence'); ?></a>
 </p>
 
 <?php wfHelperString::cycle(); ?>
@@ -64,14 +62,12 @@ if (!defined('WORDFENCE_VERSION')) { exit; }
 		</tr>
 	</thead>
 	<tbody>
-		<?php
-		if ($top_countries_blocked):
-			require(dirname(__FILE__) . '/../../lib/flags.php'); /** @var array $flags */
-			foreach ($top_countries_blocked as $row): ?>
+		<?php if ($top_countries_blocked): ?>
+			<?php foreach ($top_countries_blocked as $row): ?>
 				<tr class="<?php echo wfHelperString::cycle('odd', 'even') ?>">
 					<td>
 						<?php if ($row->countryCode): ?>
-							<span class="wf-flag <?php echo esc_attr('wf-flag-' . strtolower($row->countryCode)); ?>" title="<?php echo esc_attr($row->countryName); ?>"></span>
+							<img src="<?php echo wfUtils::getBaseURL() . 'images/flags/' . strtolower($row->countryCode) ?>.png" class="wfFlag" height="11" width="16" alt="<?php echo esc_attr($row->countryName) ?>" title="<?php echo esc_attr($row->countryName) ?>">
 							&nbsp;
 							<?php echo esc_html($row->countryCode) ?>
 						<?php else: ?>
@@ -93,7 +89,7 @@ if (!defined('WORDFENCE_VERSION')) { exit; }
 </table>
 
 <p>
-	<a class="button button-primary" href="<?php echo wfUtils::wpAdminURL('admin.php?page=WordfenceWAF#top#blocking') ?>"><?php _e('Update Blocked Countries', 'wordfence'); ?></a>
+	<a class="button button-primary" href="<?php echo network_admin_url('admin.php?page=WordfenceWAF#top#blocking') ?>"><?php _e('Update Blocked Countries', 'wordfence'); ?></a>
 </p>
 
 <?php wfHelperString::cycle(); ?>
@@ -128,7 +124,7 @@ if (!defined('WORDFENCE_VERSION')) { exit; }
 </table>
 
 <p>
-	<a class="button button-primary" href="<?php echo wfUtils::wpAdminURL('admin.php?page=WordfenceWAF&subpage=waf_options#waf-options-bruteforce') ?>"><?php _e('Update Login Security Options', 'wordfence'); ?></a>
+	<a class="button button-primary" href="<?php echo network_admin_url('admin.php?page=WordfenceWAF&subpage=waf_options#waf-options-bruteforce') ?>"><?php _e('Update Login Security Options', 'wordfence'); ?></a>
 </p>
 
 <?php wfHelperString::cycle(); ?>
@@ -197,7 +193,7 @@ if (!defined('WORDFENCE_VERSION')) { exit; }
 <?php endif ?>
 
 <?php if ($updates_needed['core'] || $updates_needed['plugins'] || $updates_needed['themes']): ?>
-	<p><a class="button button-primary" href="<?php echo esc_attr(wfUtils::wpAdminURL('update-core.php')) ?>"><?php _e('Update Now', 'wordfence'); ?></a></p>
+	<p><a class="button button-primary" href="<?php echo esc_attr(network_admin_url('update-core.php')) ?>"><?php _e('Update Now', 'wordfence'); ?></a></p>
 <?php else: ?>
 	<p><?php _e('No updates are available at this time.', 'wordfence'); ?></p>
 <?php endif ?>

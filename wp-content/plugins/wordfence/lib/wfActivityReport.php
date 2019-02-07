@@ -1,5 +1,4 @@
 <?php
-if (defined('WORDFENCE_VERSION')) {
 
 class wfActivityReport {
 	const BLOCK_TYPE_COMPLEX = 'complex';
@@ -301,7 +300,8 @@ SQL
 		$table_wfBlockedIPLog = wfDB::networkTable('wfBlockedIPLog');
 		$results = $this->db->get_results($this->db->prepare(<<<SQL
 SELECT *, COUNT(IP) as totalIPs, SUM(blockCount) as totalBlockCount
-FROM (SELECT * FROM {$table_wfBlockedIPLog} WHERE unixday >= {$interval} GROUP BY IP) t
+FROM {$table_wfBlockedIPLog}
+WHERE unixday >= {$interval}
 GROUP BY countryCode
 ORDER BY totalBlockCount DESC
 LIMIT %d
@@ -414,6 +414,13 @@ DELETE FROM {$table_wfBlockedIPLog}
 WHERE unixday < FLOOR(UNIX_TIMESTAMP(DATE_SUB(NOW(), interval 1 month)) / 86400)
 SQL
 		);
+		
+		$table_wfBlockedCommentLog = wfDB::networkTable('wfBlockedCommentLog');
+		$this->db->query(<<<SQL
+DELETE FROM {$table_wfBlockedCommentLog}
+WHERE unixday < FLOOR(UNIX_TIMESTAMP(DATE_SUB(NOW(), interval 1 month)) / 86400)
+SQL
+		);
 	}
 
 	/**
@@ -449,6 +456,41 @@ SQL
 		$wpdb->query($wpdb->prepare(<<<SQL
 INSERT INTO $blocked_table (IP, countryCode, blockCount, unixday, blockType)
 VALUES (%s, %s, 1, $unixday_insert, %s)
+ON DUPLICATE KEY UPDATE blockCount = blockCount + 1
+SQL
+			, $ip_bin, $country, $type));
+	}
+	
+	/**
+	 * @param mixed $ip_address
+	 * @param int|null $unixday
+	 */
+	public static function logBlockedComment($ip_address, $type, $unixday = null) {
+		/** @var wpdb $wpdb */
+		global $wpdb;
+		
+		//Possible values for $type: anon, gsb, reputation
+		
+		if (wfUtils::isValidIP($ip_address)) {
+			$ip_bin = wfUtils::inet_pton($ip_address);
+		}
+		else {
+			$ip_bin = $ip_address;
+			$ip_address = wfUtils::inet_ntop($ip_bin);
+		}
+	  
+	 	$blocked_table = wfDB::networkTable('wfBlockedCommentLog');
+		
+		$unixday_insert = 'FLOOR(UNIX_TIMESTAMP() / 86400)';
+		if (is_int($unixday)) {
+			$unixday_insert = absint($unixday);
+		}
+		
+		$country = wfUtils::IP2Country($ip_address);
+		
+		$wpdb->query($wpdb->prepare(<<<SQL
+INSERT INTO {$blocked_table} (IP, countryCode, blockCount, unixday, blockType)
+VALUES (%s, %s, 1, {$unixday_insert}, %s)
 ON DUPLICATE KEY UPDATE blockCount = blockCount + 1
 SQL
 			, $ip_bin, $country, $type));
@@ -750,5 +792,4 @@ class wfActivityReportView extends wfView {
 		$country = wfUtils::countryCode2Name(wfUtils::IP2Country($readableIP));
 		return "{$readableIP} (" . ($country ? $country : 'Unknown') . ")"; 
 	}
-}
 }

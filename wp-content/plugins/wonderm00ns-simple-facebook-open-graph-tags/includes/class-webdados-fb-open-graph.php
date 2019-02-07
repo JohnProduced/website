@@ -41,7 +41,6 @@ class Webdados_FB {
 			'fb_image_use_content' => 0,
 			'fb_image_use_media' => 0,
 			'fb_image_use_default' => 1,
-			'fb_image_use_mshot' => 0,
 			'fb_adv_disable_image_size' => 0,
 			//OG
 			'fb_title_show' => 1,
@@ -139,7 +138,6 @@ class Webdados_FB {
 			'fb_image_use_content'				=>	'intval',
 			'fb_image_use_media'				=>	'intval',
 			'fb_image_use_default'				=>	'intval',
-			'fb_image_use_mshot'				=>	'intval',
 			'fb_adv_disable_image_size'			=>	'intval',
 			'fb_image_min_size'					=>	'intval',
 			'fb_show_wpseoyoast'				=>	'intval',

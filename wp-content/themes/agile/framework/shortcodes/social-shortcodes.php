@@ -80,19 +80,19 @@ function mo_social_list_shortcode($atts, $content = null, $code) {
     if ($facebook_url)
         $output .= '<li><a class="facebook" href="' . $facebook_url . '" target="_blank" title="' . __("Follow on Facebook", "mo_theme") . '"><i class="icon-facebook8"></i></a></li>';
     if ($twitter_url)
-        $output .= '<li><a class="twitter" href="' . $twitter_url . '" target="_blank" title="' . __("Subscribe to Twitter Feed", "mo_theme") . '"><i class="icon-twitter2"></i></a></li>';
+        $output .= '<li><a class="twitter" href="' . $twitter_url . '" target="_blank" title="' . __("Tweet at me bro", "mo_theme") . '"><i class="icon-twitter2"></i></a></li>';
     if ($flickr_url)
         $output .= '<li><a class="flickr" href="' . $flickr_url . '" target="_blank" title="' . __("View Flickr Portfolio", "mo_theme") . '"><i class="icon-flickr"></i></a></li>';
     if ($youtube_url)
         $output .= '<li><a class="youtube" href="' . $youtube_url . '" target="_blank" title="' . __("Subscribe to the YouTube channel", "mo_theme") . '"><i class="icon-youtube4"></i></a></li>';
     if ($linkedin_url)
-        $output .= '<li><a class="linkedin" href="' . $linkedin_url . '" target="_blank" title="' . __("View LinkedIn Profile", "mo_theme") . '"><i class="icon-linkedin4"></i></a></li>';
+        $output .= '<li><a class="linkedin" href="' . $linkedin_url . '" target="_blank" title="' . __("Connect on LinkedIn", "mo_theme") . '"><i class="icon-linkedin4"></i></a></li>';
     if ($googleplus_url)
         $output .= '<li><a class="googleplus" href="' . $googleplus_url . '" target="_blank" title="' . __("Follow on Google Plus", "mo_theme") . '"><i class="icon-google-plus2"></i></a></li>';
     if ($vimeo_url)
         $output .= '<li><a class="vimeo" href="' . $vimeo_url . '" target="_blank" title="' . __("Subscribe to the Vimeo Channel", "mo_theme") . '"><i class="icon-vimeo2"></i></a></li>';
     if ($instagram_url)
-        $output .= '<li><a class="instagram" href="' . $instagram_url . '" target="_blank" title="' . __("View Instagram Feed", "mo_theme") . '"><i class="icon-instagram5"></i></a></li>';
+        $output .= '<li><a class="instagram" href="' . $instagram_url . '" target="_blank" title="' . __("Check out these sweet pics", "mo_theme") . '"><i class="icon-instagram5"></i></a></li>';
     if ($behance_url)
         $output .= '<li><a class="behance" href="' . $behance_url . '" target="_blank" title="' . __("View Behance Portfolio", "mo_theme") . '"><i class="icon-behance"></i></a></li>';
     if ($pinterest_url)

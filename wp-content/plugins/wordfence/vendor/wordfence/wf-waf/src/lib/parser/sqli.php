@@ -1,7 +1,4 @@
 <?php
-if (defined('WFWAF_VERSION') && !defined('WFWAF_RUN_COMPLETE')) {
-
-require_once dirname(__FILE__) . '/lexer.php';
 
 class wfWAFSQLiParser extends wfWAFBaseParser {
 
@@ -2995,5 +2992,4 @@ class wfWAFLexerTokenMatcher {
 	public function setMatch($match) {
 		$this->match = $match;
 	}
-}
 }

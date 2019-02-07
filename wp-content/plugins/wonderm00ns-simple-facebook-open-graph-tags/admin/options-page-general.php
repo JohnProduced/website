@@ -150,14 +150,6 @@ global $webdados_fb;
 								5) <input type="checkbox" name="wonderm00n_open_graph_settings[fb_image_use_default]" id="fb_image_use_default" value="1" <?php echo (intval($options['fb_image_use_default'])==1 ? ' checked="checked"' : '' ); ?>/>
 								<small><?php _e( 'Default image specified above', 'wonderm00ns-simple-facebook-open-graph-tags' );?></small>
 							</div>
-							<!-- mShots not working on Facebook - Needs more testing -->
-							<!-- <div>
-								&nbsp; &nbsp; &nbsp;or
-							</div>
-							<div>
-								&nbsp; &nbsp; &nbsp;<input type="checkbox" name="wonderm00n_open_graph_settings[fb_image_use_mshot]" id="fb_image_use_mshot" value="1" <?php echo (intval($options['fb_image_use_mshot'])==1 ? ' checked="checked"' : '' ); ?>/>
-								<small><?php _e( 'Page screenshot (provided by WordPress.com mShots API)', 'wonderm00ns-simple-facebook-open-graph-tags' );?></small>
-							</div> -->
 						</td>
 					</tr>
 					<tr>

@@ -122,6 +122,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		$this->page_url = "&nonce={$this->nonce}&type={$this->page_type}#top#{$this->page_type}";
 
 		$this->populate_editable_post_types();
+
 	}
 
 	/**
@@ -206,6 +207,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		}
 	}
 
+
 	/**
 	 * Will shown the navigation for the table like pagenavigation and pagefilter;
 	 *
@@ -276,6 +278,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		return $subquery;
 	}
 
+
 	/**
 	 * @return array
 	 */
@@ -298,15 +301,15 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		);
 
 
-		$post_status             = filter_input( INPUT_GET, 'post_status' );
-		$current_link_attributes = empty( $post_status ) ? ' class="current" aria-current="page"' : '';
-		$localized_text          = sprintf(
+		$post_status    = filter_input( INPUT_GET, 'post_status' );
+		$class          = empty( $post_status ) ? ' class="current"' : '';
+		$localized_text = sprintf(
 			/* translators: %s expands to the number of posts in localized format. */
 			_nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_posts, 'posts', 'wordpress-seo' ),
 			number_format_i18n( $total_posts )
 		);
 
-		$status_links['all'] = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=bulk-editor' . $this->page_url ) ) . '"' . $current_link_attributes . '>' . $localized_text . '</a>';
+		$status_links['all'] = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=bulk-editor' . $this->page_url ) ) . '"' . $class . '>' . $localized_text . '</a>';
 
 		$post_stati = get_post_stati( array( 'show_in_admin_all_list' => true ), 'objects' );
 		if ( is_array( $post_stati ) && $post_stati !== array() ) {
@@ -328,15 +331,15 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 					continue;
 				}
 
-				$current_link_attributes = '';
+				$class = '';
 				if ( $status_name === $post_status ) {
-					$current_link_attributes = ' class="current" aria-current="page"';
+					$class = ' class="current"';
 				}
 
-				$status_links[ $status_name ] = '<a href="' . esc_url( add_query_arg( array( 'post_status' => $status_name ), admin_url( 'admin.php?page=wpseo_tools&tool=bulk-editor' . $this->page_url ) ) ) . '"' . $current_link_attributes . '>' . sprintf( translate_nooped_plural( $status->label_count, $total ), number_format_i18n( $total ) ) . '</a>';
+				$status_links[ $status_name ] = '<a href="' . esc_url( add_query_arg( array( 'post_status' => $status_name ), admin_url( 'admin.php?page=wpseo_tools&tool=bulk-editor' . $this->page_url ) ) ) . '"' . $class . '>' . sprintf( translate_nooped_plural( $status->label_count, $total ), number_format_i18n( $total ) ) . '</a>';
 			}
 		}
-		unset( $post_stati, $status, $status_name, $total, $current_link_attributes );
+		unset( $post_stati, $status, $status_name, $total, $class );
 
 		$trashed_posts = $wpdb->get_var(
 			"
@@ -345,9 +348,9 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 				"
 		);
 
-		$current_link_attributes = '';
+		$class = '';
 		if ( 'trash' === $post_status ) {
-			$current_link_attributes = 'class="current" aria-current="page"';
+			$class = 'class="current"';
 		}
 
 		$localized_text = sprintf(
@@ -356,10 +359,11 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 			number_format_i18n( $trashed_posts )
 		);
 
-		$status_links['trash'] = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=bulk-editor&post_status=trash' . $this->page_url ) ) . '"' . $current_link_attributes . '>' . $localized_text . '</a>';
+		$status_links['trash'] = '<a href="' . esc_url( admin_url( 'admin.php?page=wpseo_tools&tool=bulk-editor&post_status=trash' . $this->page_url ) ) . '"' . $class . '>' . $localized_text . '</a>';
 
 		return $status_links;
 	}
+
 
 	/**
 	 * @param string $which Table nav location (such as top).
@@ -484,6 +488,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		$_GET['post_status']          = $current_status;
 		$_GET['orderby']              = $current_order['orderby'];
 		$_GET['order']                = $current_order['order'];
+
 	}
 
 	/**
@@ -508,6 +513,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 		// Get the metadata for the current items ($this->items).
 		$this->get_meta_data();
+
 	}
 
 	/**
@@ -599,6 +605,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 			'per_page' => $per_page,
 			'offset'   => ( $paged - 1 ) * $per_page,
 		);
+
 	}
 
 	/**
@@ -838,6 +845,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		$return .= $this->row_actions( $actions );
 
 		return $return;
+
 	}
 
 	/**
@@ -934,6 +942,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 
 		// Little housekeeping.
 		unset( $post_ids, $meta_data );
+
 	}
 
 	/**
@@ -983,6 +992,7 @@ class WPSEO_Bulk_List_Table extends WP_List_Table {
 		foreach ( $meta_data as $row ) {
 			$this->meta_data[ $row->post_id ][ $row->meta_key ] = $row->meta_value;
 		}
+
 	}
 
 	/**
