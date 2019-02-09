@@ -38,6 +38,20 @@ class WPSEO_Twitter {
 	private $type;
 
 	/**
+	 * Card types currently allowed by Twitter.
+	 *
+	 * @link https://dev.twitter.com/cards/types
+	 *
+	 * @var array
+	 */
+	private $valid_types = array(
+		'summary',
+		'summary_large_image',
+		'app',
+		'player',
+	);
+
+	/**
 	 * Class constructor
 	 */
 	public function __construct() {
@@ -126,13 +140,7 @@ class WPSEO_Twitter {
 	 * @link https://dev.twitter.com/cards/types
 	 */
 	private function sanitize_card_type() {
-		if ( ! in_array( $this->type, array(
-			'summary',
-			'summary_large_image',
-			'app',
-			'player',
-		), true )
-		) {
+		if ( ! in_array( $this->type, $this->valid_types, true ) ) {
 			$this->type = 'summary';
 		}
 	}
@@ -178,6 +186,8 @@ class WPSEO_Twitter {
 			$meta_desc = $this->fallback_description();
 		}
 
+		$meta_desc = wpseo_replace_vars( $meta_desc, get_queried_object() );
+
 		/**
 		 * Filter: 'wpseo_twitter_description' - Allow changing the Twitter description as output in the Twitter card by Yoast SEO
 		 *
@@ -211,7 +221,6 @@ class WPSEO_Twitter {
 		return wp_strip_all_tags( get_the_excerpt() );
 	}
 
-
 	/**
 	 * Getting the description for the taxonomy
 	 *
@@ -229,7 +238,6 @@ class WPSEO_Twitter {
 		}
 
 		return wp_strip_all_tags( term_description() );
-
 	}
 
 	/**
@@ -256,6 +264,8 @@ class WPSEO_Twitter {
 		else {
 			$title = $this->fallback_title();
 		}
+
+		$title = wpseo_replace_vars( $title, get_queried_object() );
 
 		/**
 		 * Filter: 'wpseo_twitter_title' - Allow changing the Twitter title as output in the Twitter card by Yoast SEO
@@ -597,34 +607,28 @@ class WPSEO_Twitter {
 	}
 
 	/**
-	 * Retrieve the image from the content
+	 * Retrieve the image from the content.
 	 *
 	 * @param int $post_id The post id to extract the images from.
 	 *
-	 * @return bool
+	 * @return bool True when images output succeeded.
 	 */
 	private function image_from_content_output( $post_id ) {
-		/**
-		 * Filter: 'wpseo_pre_analysis_post_content' - Allow filtering the content before analysis
-		 *
-		 * @api string $post_content The Post content string
-		 *
-		 * @param object $post - The post object.
-		 */
-		$post    = get_post( $post_id );
-		$content = apply_filters( 'wpseo_pre_analysis_post_content', $post->post_content, $post );
+		$image_finder = new WPSEO_Content_Images();
+		$images       = $image_finder->get_images( $post_id );
 
-		if ( preg_match_all( '`<img [^>]+>`', $content, $matches ) ) {
-			foreach ( $matches[0] as $img ) {
-				if ( preg_match( '`src=(["\'])(.*?)\1`', $img, $match ) ) {
-					$this->image_output( $match[2] );
-
-					return true;
-				}
-			}
+		if ( ! is_array( $images ) || $images === array() ) {
+			return false;
 		}
 
-		return false;
+		$image_url = reset( $images );
+		if ( ! $image_url ) {
+			return false;
+		}
+
+		$this->image_output( $image_url );
+
+		return true;
 	}
 
 	/**

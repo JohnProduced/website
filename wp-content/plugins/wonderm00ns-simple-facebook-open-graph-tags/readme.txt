@@ -1,10 +1,10 @@
 === Open Graph for Facebook, Google+ and Twitter Card Tags ===
 Contributors: webdados, wonderm00n
 Donate link: http://bit.ly/donate_fb_opengraph
-Tags: facebook, open graph, open graph protocol, share, social, meta, rss, twitter card, twitter, schema, google+, g+, google, google plus, image, like, seo, search engine optimization, woocommerce, yoast seo, wordpress seo, woocommerce, subheading, php7
+Tags: facebook, open graph, open graph protocol, share, social, meta, rss, twitter card, twitter, schema, google+, g+, google, google plus, image, like, seo, search engine optimization, woocommerce, yoast seo, wordpress seo, woocommerce, subheading, php7, webdados
 Requires at least: 4.5
-Tested up to: 5.0-alpha-42610
-Stable tag: 2.2.4.2
+Tested up to: 5.0.3
+Stable tag: 2.2.5
 
 Inserts Facebook Open Graph, Google+/Schema.org, Twitter and SEO Meta Tags into your WordPress Website for more efficient sharing results.
 
@@ -156,6 +156,10 @@ We DO NOT provide email support for this plugin. If you send us an email asking 
 2. Or we can give you a quote on premium email/phone support if you prefer to
 
 == Changelog ==
+
+= 2.2.5 =
+* No `og:description` for password protected and private posts (Thanks for the heads up Benoît)
+* Tested with WordPress 5.0.3 and WooCommerce 3.5.3
 
 = 2.2.4.2 =
 * Small security fix
